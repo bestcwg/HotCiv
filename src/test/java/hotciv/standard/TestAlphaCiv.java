@@ -40,6 +40,8 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+  private City city;
+  private Position p;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
@@ -50,25 +52,24 @@ public class TestAlphaCiv {
   // FRS p. 455 states that 'Red is the first player to take a turn'.
   @Test
   public void shouldBeRedAsStartingPlayer() {
-    // TODO: reenable the assert below to get started...
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
   @Test
   public void shouldBeOceanAt1_0() {
-    Position p = new Position(1, 0);
+    p = new Position(1, 0);
     assertThat(game.getTileAt(p).getTypeString(), is("OCEAN"));
   }
 
   @Test
   public void shouldBeHillAt0_1() {
-    Position p = new Position(0, 1);
+    p = new Position(0, 1);
     assertThat(game.getTileAt(p).getTypeString(), is("HILL"));
   }
 
   @Test
   public void shouldBeMountainAt2_2() {
-    Position p = new Position(2, 2);
+    p = new Position(2, 2);
     assertThat(game.getTileAt(p).getTypeString(), is("MOUNTAIN"));
   }
 
@@ -85,5 +86,15 @@ public class TestAlphaCiv {
 
     Position d = new Position(16,16);
     assertThat(game.getTileAt(d).getTypeString(), is("PLAIN"));
+  }
+
+  @Test
+  public void shouldBeCityAt1_1() {
+    p = new Position(1,1);
+    assertThat(game.getCityAt(p), is(notNullValue()));
+  }
+  @Test
+  public void shouldBeRedCityAt1_1() {
+    p = new Position(1,1);
   }
 }
