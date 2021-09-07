@@ -1,0 +1,68 @@
+/* Build file HotCiv mandatory project in SWEA.
+
+  History:
+
+  Updating to Jacoco 0.8.7, Summer 2021
+
+  Updating to remove old dependency syntax and pull from MavenCentral,
+    update to Jacoco 0.8.6, Spring 2021
+
+  Converted to Gradle 6.5, Jacoco 0.8.5, and JUnit 5, Aug 2020
+
+  Converted to Gradle build system, Mar 2018
+
+   Adapted for the SWEA course, 
+     added the 'review' target, Jun 2017
+
+   Updated for hamcrest libraries, Oct 2015
+
+   This source code is from the book 
+     "Flexible, Reliable Software:
+       Using Patterns and Agile Development"
+     published 2010 by CRC Press.
+   Author: 
+     Henrik B Christensen 
+     Computer Science Department
+     Aarhus University
+   
+   This source code is provided WITHOUT ANY WARRANTY either 
+   expressed or implied. You may study, use, modify, and 
+   distribute it for non-commercial purposes. For any 
+   commercial use, see http://www.baerbak.com/
+   */
+
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+}
+    
+dependencies {
+    // Depend on JUnit 5. Require both API and Engine
+    testImplementation group: 'org.junit.jupiter',
+       name: 'junit-jupiter-api', version: '5.6.2'
+    testRuntimeOnly group: 'org.junit.jupiter',
+       name: 'junit-jupiter-engine', version: '5.6.2'
+
+    // Use the Hamcrest matcher library
+    testImplementation group: 'org.hamcrest',
+        name: 'hamcrest-library', version: '2.2'
+}
+
+// Tell to use JUnit as testing platform
+test {
+    useJUnitPlatform()
+}
+
+// Use gradle v 6
+wrapper {
+  gradleVersion = '6.8'
+}
+
+// Use latest Jacoco test coverage tool
+jacoco {
+  toolVersion = "0.8.7"
+}
