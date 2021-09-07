@@ -57,14 +57,33 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeOceanAt1_0() {
     Position p = new Position(1, 0);
-
     assertThat(game.getTileAt(p).getTypeString(), is("OCEAN"));
   }
 
   @Test
   public void shouldBeHillAt0_1() {
     Position p = new Position(0, 1);
-
     assertThat(game.getTileAt(p).getTypeString(), is("HILL"));
+  }
+
+  @Test
+  public void shouldBeMountainAt2_2() {
+    Position p = new Position(2, 2);
+    assertThat(game.getTileAt(p).getTypeString(), is("MOUNTAIN"));
+  }
+
+  @Test
+  public void shouldBePlainsThoughoutTheMap() {
+    Position p = new Position(0,0);
+    assertThat(game.getTileAt(p).getTypeString(), is("PLAIN"));
+
+    Position b = new Position(6,6);
+    assertThat(game.getTileAt(b).getTypeString(), is("PLAIN"));
+
+    Position c = new Position(8,4);
+    assertThat(game.getTileAt(c).getTypeString(), is("PLAIN"));
+
+    Position d = new Position(16,16);
+    assertThat(game.getTileAt(d).getTypeString(), is("PLAIN"));
   }
 }

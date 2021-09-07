@@ -2,8 +2,8 @@
 Red's city is at (1,1)
 [OK] there is ocean at (1,0)
 [OK] there is a hill at (0, 1)
-there is a mountain at (2,2)
-rest should be plains
+[OK] there is a mountain at (2,2)
+[OK] All other tiles should be plains
 units cannot move over mountain
 Red cannot move Blue's units
 cities produce 6 `production' after a round has ended
