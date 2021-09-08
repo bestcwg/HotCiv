@@ -98,14 +98,17 @@ public class GameImpl implements Game {
 
   public void createHashMapForUnits() {
     units = new HashMap<>();
-    Position redUnitPos = new Position(0,2);
-    Position blueUnitPos = new Position(3,2);
+    Position redArcherPos = new Position(0,2);
+    Position blueLegionPos = new Position(3,2);
+    Position redSettlerPos = new Position(4,3);
 
-    Unit redUnit = new UnitImpl(Player.RED, GameConstants.ARCHER);
-    Unit blueUnit = new UnitImpl(Player.BLUE, GameConstants.LEGION);
+    Unit redArcher = new UnitImpl(Player.RED, GameConstants.ARCHER);
+    Unit blueLegion = new UnitImpl(Player.BLUE, GameConstants.LEGION);
+    Unit redSettler = new UnitImpl(Player.RED, GameConstants.SETTLER);
 
-    units.put(redUnitPos, redUnit);
-    units.put(blueUnitPos, blueUnit);
+    units.put(redArcherPos, redArcher);
+    units.put(blueLegionPos, blueLegion);
+    units.put(redSettlerPos, redSettler);
   }
 
 }

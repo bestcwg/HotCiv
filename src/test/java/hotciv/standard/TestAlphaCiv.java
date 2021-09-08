@@ -179,6 +179,13 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  @Test
+  public void shouldBePlayerRedSettlerAt4_3() {
+    p = new Position(4,3);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+  }
+
 
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {

@@ -14,7 +14,7 @@
 [OK] should be able to differentiate unit owner
 [OK] unit at (3,2) is a legion
 [OK] unit at (3,2) is owned by player
-Red has a settler at (4,3)
+[OK] Red has a settler at (4,3)
 units cannot move over mountain
 Red cannot move Blue's units
 cities produce 6 `production' after a round has ended
