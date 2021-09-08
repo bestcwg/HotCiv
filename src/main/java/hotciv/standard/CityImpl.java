@@ -6,7 +6,7 @@ import hotciv.framework.Player;
 public class CityImpl implements City {
     @Override
     public Player getOwner() {
-        return null;
+        return Player.RED;
     }
 
     @Override
