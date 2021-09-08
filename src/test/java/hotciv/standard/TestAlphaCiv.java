@@ -146,6 +146,12 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(p), is(notNullValue()));
   }
 
+  @Test
+  public void shouldBeAnArcherAt0_2() {
+      p = new Position(0,2);
+      assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+  }
+
 
 
 

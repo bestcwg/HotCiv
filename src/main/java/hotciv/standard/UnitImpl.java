@@ -1,12 +1,13 @@
 package hotciv.standard;
 
+import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
     @Override
     public String getTypeString() {
-        return null;
+        return GameConstants.ARCHER;
     }
 
     @Override
