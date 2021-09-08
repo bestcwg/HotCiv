@@ -84,7 +84,7 @@ public class TestAlphaCiv {
     Position c = new Position(8,4);
     assertThat(game.getTileAt(c).getTypeString(), is(GameConstants.PLAINS));
 
-    Position d = new Position(16,16);
+    Position d = new Position(15,15);
     assertThat(game.getTileAt(d).getTypeString(), is(GameConstants.PLAINS));
   }
 

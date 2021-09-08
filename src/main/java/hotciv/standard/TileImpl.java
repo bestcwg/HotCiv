@@ -12,19 +12,22 @@ public class TileImpl implements Tile {
 
     public TileImpl(Position p) {
         this.place = p;
-        this.tiles = new HashMap<Position, String>();
-        createHash();
+        this.tiles = new HashMap<>();
+        for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
+            for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
+                tiles.put(new Position(i,j),GameConstants.PLAINS);
+            }
+        }
+        createHashSpecialTiles();
     }
 
     @Override
     public String getTypeString() {
-        if (tiles.containsKey(place)) {
-            return tiles.get(place).toString();
-        }
-        return GameConstants.PLAINS;
+        return tiles.get(place);
     }
+
     // spørg om dette er ok
-    public void createHash() {
+    public void createHashSpecialTiles() {
         Position oceanTile = new Position(1,0);
         Position hillTile = new Position(0,1);
         Position mountainTile = new Position(2,2);

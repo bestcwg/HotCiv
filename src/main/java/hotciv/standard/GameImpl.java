@@ -44,7 +44,7 @@ public class GameImpl implements Game {
   public Unit getUnitAt( Position p ) { return null; }
 
   public City getCityAt( Position p ) {
-    createHash();
+    createHashForCities();
     return cities.get(p);
   }
 
@@ -80,7 +80,7 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position p ) {}
 
-  public void createHash() {
+  public void createHashForCities() {
     cities = new HashMap<>();
     Position redCityPos = new Position(1,1);
     Position blueCityPos = new Position(1,4);
