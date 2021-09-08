@@ -35,6 +35,7 @@ public class GameImpl implements Game {
   private HashMap<Position, City> cities;
   private Player playerInTurn = Player.RED;
   private int age = -4000;
+  private int playerTurns;
 
   public Tile getTileAt( Position p ) {
     Tile t = new TileImpl(p);
@@ -66,8 +67,11 @@ public class GameImpl implements Game {
         playerInTurn = Player.RED;
         break;
     }
-
-    age += 100;
+    playerTurns++;
+    if (playerTurns == 2) {
+      age += 100;
+      playerTurns = 0;
+    }
   }
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}

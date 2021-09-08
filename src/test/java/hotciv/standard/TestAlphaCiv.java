@@ -121,6 +121,7 @@ public class TestAlphaCiv {
   public void shouldIncrementTimeBy100AfterRoundEnd() {
     assertThat(game.getAge(), is(-4000));
     game.endOfTurn();
+    game.endOfTurn();
     assertThat(game.getAge(), is(-3900));
   }
 }
