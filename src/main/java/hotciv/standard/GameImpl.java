@@ -34,13 +34,20 @@ import java.util.HashMap;
 public class GameImpl implements Game {
   private HashMap<Position, City> cities;
   private HashMap<Position, Unit> units;
+  private HashMap<Position, Tile> tiles;
   private Player playerInTurn = Player.RED;
   private int age = -4000;
   private int playerTurns;
 
   public Tile getTileAt( Position p ) {
-    Tile tile = new TileImpl(p);
-    return tile;
+    tiles = new HashMap<>();
+    for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
+      for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
+        tiles.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
+      }
+    }
+    createHashMapForSpecialTiles();
+    return tiles.get(p);
   }
   public Unit getUnitAt( Position p ) {
     createHashMapForUnits();
@@ -48,7 +55,7 @@ public class GameImpl implements Game {
   }
 
   public City getCityAt( Position p ) {
-    createHashForCities();
+    createHashMapForCities();
     return cities.get(p);
   }
 
@@ -85,16 +92,13 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position p ) {}
 
-  public void createHashForCities() {
+  public void createHashMapForCities() {
     cities = new HashMap<>();
     Position redCityPos = new Position(1,1);
     Position blueCityPos = new Position(1,4);
 
-    City redCity = new CityImpl(Player.RED);
-    City blueCity = new CityImpl(Player.BLUE);
-
-    cities.put(redCityPos, redCity);
-    cities.put(blueCityPos, blueCity);
+    cities.put(redCityPos, new CityImpl(Player.RED));
+    cities.put(blueCityPos, new CityImpl(Player.BLUE));
   }
 
   public void createHashMapForUnits() {
@@ -103,12 +107,18 @@ public class GameImpl implements Game {
     Position blueLegionPos = new Position(3,2);
     Position redSettlerPos = new Position(4,3);
 
-    Unit redArcher = new UnitImpl(Player.RED, GameConstants.ARCHER);
-    Unit blueLegion = new UnitImpl(Player.BLUE, GameConstants.LEGION);
-    Unit redSettler = new UnitImpl(Player.RED, GameConstants.SETTLER);
+    units.put(redArcherPos, new UnitImpl(Player.RED, GameConstants.ARCHER));
+    units.put(blueLegionPos, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+    units.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
+  }
 
-    units.put(redArcherPos, redArcher);
-    units.put(blueLegionPos, blueLegion);
-    units.put(redSettlerPos, redSettler);
+  public void createHashMapForSpecialTiles() {
+    Position oceanTile = new Position(1,0);
+    Position hillTile = new Position(0,1);
+    Position mountainTile = new Position(2,2);
+
+    tiles.put(oceanTile, new TileImpl(GameConstants.OCEANS));
+    tiles.put(hillTile, new TileImpl(GameConstants.HILLS));
+    tiles.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
   }
 }

@@ -10,14 +10,15 @@
 [OK] there is a unit at (0,2)
 [OK] unit at (0,2) is archer
 [OK] unit at (0,2) is owned by player red
-[OK ]Should be able to differentiate unit type
+[OK] Should be able to differentiate unit type
 [OK] should be able to differentiate unit owner
 [OK] unit at (3,2) is a legion
 [OK] unit at (3,2) is owned by player
 [OK] Red has a settler at (4,3)
-units cannot move over mountain
+[OK] units cannot move over mountain
+unit can move from (3,2) to (4,2)
 Red cannot move Blue's units
-cities produce 6 `production' after a round has ended
+[OK] cities produce 6 `production' after a round has ended
 [OK] cities' population size is always 1
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years

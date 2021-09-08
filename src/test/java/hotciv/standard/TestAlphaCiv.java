@@ -193,6 +193,12 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
   }
 
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOverMountains() {
+    p = new Position(3,2);
+    Position mountain = new Position(2,2);
+    assertThat(game.moveUnit(p, mountain), is(false));
+  }
 
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
