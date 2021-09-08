@@ -42,6 +42,7 @@ public class TestAlphaCiv {
   private Game game;
   private City city;
   private Position p;
+  private Unit unit;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
@@ -158,7 +159,11 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
   }
 
-
+  @Test
+  public void shouldBeAbleToDifferentiateBetweenUnitOwner() {
+    unit = new UnitImpl(Player.BLUE);
+    assertThat(unit.getOwner(), is(Player.BLUE));
+  }
 
 
 

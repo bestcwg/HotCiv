@@ -1,10 +1,16 @@
 package hotciv.standard;
 
+import hotciv.framework.Game;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
+    private Player owner;
+
+    public UnitImpl(Player owner) {
+        this.owner = owner;
+    }
 
     @Override
     public String getTypeString() {
@@ -13,7 +19,7 @@ public class UnitImpl implements Unit {
 
     @Override
     public Player getOwner() {
-        return Player.RED;
+        return owner;
     }
 
     @Override
