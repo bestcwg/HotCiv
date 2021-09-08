@@ -112,4 +112,9 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
   }
 
+  @Test
+  public void shouldBeYear4000BCAtGameStart() {
+    assertThat(game.getAge(), is(4000));
+  }
+
 }
