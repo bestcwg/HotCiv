@@ -107,6 +107,13 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void shouldBePopulationOf1InCityAlways() {
+    City city = new CityImpl(Player.RED);
+
+    assertThat(city.getSize(),is(1));
+  }
+
+  @Test
   public void shouldBeBlueTurnAfterRedTurn() {
     doXEndOfTurn(1);
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
@@ -132,11 +139,17 @@ public class TestAlphaCiv {
     assertThat(game.getWinner(), is(Player.RED));
   }
 
+
+
+
+
+
+
+
+
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
       game.endOfTurn();
     }
   }
-
-
 }

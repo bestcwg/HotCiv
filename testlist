@@ -10,7 +10,7 @@ There should be a world map of mostly plains
 units cannot move over mountain
 Red cannot move Blue's units
 cities produce 6 `production' after a round has ended
-cities' population size is always 1
+[OK] cities' population size is always 1
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
 [OK] A round should be after every player has taken a turn
