@@ -34,6 +34,7 @@ import java.util.HashMap;
 public class GameImpl implements Game {
   private HashMap<Position, City> cities;
   private Player playerInTurn = Player.RED;
+  private int age = -4000;
 
   public Tile getTileAt( Position p ) {
     Tile t = new TileImpl(p);
@@ -50,7 +51,7 @@ public class GameImpl implements Game {
 
   public Player getWinner() { return null; }
 
-  public int getAge() { return -4000; }
+  public int getAge() { return age; }
 
   public boolean moveUnit( Position from, Position to ) {
     return false;
@@ -65,6 +66,8 @@ public class GameImpl implements Game {
         playerInTurn = Player.RED;
         break;
     }
+
+    age += 100;
   }
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}

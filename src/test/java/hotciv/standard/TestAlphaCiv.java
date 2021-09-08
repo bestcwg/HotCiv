@@ -117,4 +117,10 @@ public class TestAlphaCiv {
     assertThat(game.getAge(), is(-4000));
   }
 
+  @Test
+  public void shouldIncrementTimeBy100AfterRoundEnd() {
+    assertThat(game.getAge(), is(-4000));
+    game.endOfTurn();
+    assertThat(game.getAge(), is(-3900));
+  }
 }
