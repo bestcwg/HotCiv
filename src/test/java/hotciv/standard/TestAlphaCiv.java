@@ -108,7 +108,7 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeBlueTurnAfterRedTurn() {
-    game.endOfTurn();
+    doXEndOfTurn(1);
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
   }
 
@@ -120,8 +120,13 @@ public class TestAlphaCiv {
   @Test
   public void shouldIncrementTimeBy100AfterRoundEnd() {
     assertThat(game.getAge(), is(-4000));
-    game.endOfTurn();
-    game.endOfTurn();
+    doXEndOfTurn(2);
     assertThat(game.getAge(), is(-3900));
+  }
+
+  public void doXEndOfTurn(int x) {
+    for (int i = 1; i <= x; i++) {
+      game.endOfTurn();
+    }
   }
 }
