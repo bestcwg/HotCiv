@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -30,6 +32,8 @@ import hotciv.framework.*;
 */
 
 public class GameImpl implements Game {
+  private HashMap<Position, City> cities;
+
   public Tile getTileAt( Position p ) {
     Tile t = new TileImpl(p);
     return t;
@@ -37,8 +41,8 @@ public class GameImpl implements Game {
   public Unit getUnitAt( Position p ) { return null; }
 
   public City getCityAt( Position p ) {
-    City c = new CityImpl();
-    return c;
+    createHash();
+    return cities.get(p);
   }
 
   public Player getPlayerInTurn() { return Player.RED; }
@@ -58,4 +62,17 @@ public class GameImpl implements Game {
   public void changeProductionInCityAt( Position p, String unitType ) {}
 
   public void performUnitActionAt( Position p ) {}
+
+  public void createHash() {
+    cities = new HashMap<>();
+    Position redCityPos = new Position(1,1);
+    Position blueCityPos = new Position(1,4);
+
+    City redCity = new CityImpl(Player.RED);
+    City blueCity = new CityImpl(Player.BLUE);
+
+    cities.put(redCityPos, redCity);
+    cities.put(blueCityPos, blueCity);
+  }
+
 }

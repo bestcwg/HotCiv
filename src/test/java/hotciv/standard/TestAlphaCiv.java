@@ -99,6 +99,12 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(p), is(notNullValue()));
     assertThat(game.getCityAt(p).getOwner(), is(Player.RED));
   }
+  @Test
+  public void shouldBeBlueCityAt1_4() {
+    p = new Position(1,4);
+    assertThat(game.getCityAt(p), is(notNullValue()));
+    assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
+  }
 
 
 }

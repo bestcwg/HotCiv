@@ -12,11 +12,11 @@ public class TileImpl implements Tile {
     public TileImpl(Position p) {
         this.place = p;
         this.tiles = new HashMap<Position, String>();
+        createHash();
     }
 
     @Override
     public String getTypeString() {
-        createHash();
         if (tiles.containsKey(place)) {
             return tiles.get(place).toString();
         }
