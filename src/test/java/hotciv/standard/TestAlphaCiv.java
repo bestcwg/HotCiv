@@ -124,9 +124,19 @@ public class TestAlphaCiv {
     assertThat(game.getAge(), is(-3900));
   }
 
+  @Test
+  public void shouldBeRedAsWinnerInYear3000BC() {
+    assertThat(game.getAge(), is(-4000));
+    doXEndOfTurn(20);
+    assertThat(game.getAge(), is(-3000));
+    assertThat(game.getWinner(), is(Player.RED));
+  }
+
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
       game.endOfTurn();
     }
   }
+
+
 }

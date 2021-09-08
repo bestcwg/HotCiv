@@ -15,7 +15,7 @@ cities' population size is always 1
 [OK] After round end time should pass by 100 years
 [OK] A round should be after every player has taken a turn
 [OK] Starting year should be 4000 BC
-After 5 rounds, the year should be 3500 BC
-Red wins in year 3000 BC
+[OK] After 5 rounds, the year should be 3500 BC
+[OK] Red wins in year 3000 BC
 Red's unit attack and destroy Blue's unit
 etc.
