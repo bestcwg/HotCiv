@@ -99,10 +99,10 @@ public class GameImpl implements Game {
   public void createHashMapForUnits() {
     units = new HashMap<>();
     Position redUnitPos = new Position(0,2);
-    Position blueUnitPos = new Position(2,3);
+    Position blueUnitPos = new Position(3,2);
 
-    Unit redUnit = new UnitImpl(Player.RED);
-    Unit blueUnit = new UnitImpl(Player.BLUE);
+    Unit redUnit = new UnitImpl(Player.RED, GameConstants.ARCHER);
+    Unit blueUnit = new UnitImpl(Player.BLUE, GameConstants.LEGION);
 
     units.put(redUnitPos, redUnit);
     units.put(blueUnitPos, blueUnit);

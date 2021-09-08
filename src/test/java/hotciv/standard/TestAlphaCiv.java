@@ -161,14 +161,22 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAbleToDifferentiateBetweenUnitOwner() {
-    unit = new UnitImpl(Player.BLUE);
+    unit = new UnitImpl(Player.BLUE, GameConstants.LEGION);
     assertThat(unit.getOwner(), is(Player.BLUE));
   }
 
   @Test
-  public void shouldBeBluePlayersUnitAt2_3() {
-    p = new Position(2,3);
+  public void shouldBeBluePlayersUnitAt3_2() {
+    p = new Position(3,2);
     assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void shouldBeAbleToDifferentiateUnits() {
+    p = new Position(3,2);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
+    p = new Position(0,2);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
 

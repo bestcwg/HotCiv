@@ -7,15 +7,15 @@ import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
     private Player owner;
+    private String unitType;
 
-    public UnitImpl(Player owner) {
+    public UnitImpl(Player owner, String unitType) {
         this.owner = owner;
+        this.unitType = unitType;
     }
 
     @Override
-    public String getTypeString() {
-        return GameConstants.ARCHER;
-    }
+    public String getTypeString() { return unitType; }
 
     @Override
     public Player getOwner() {

@@ -10,10 +10,11 @@
 [OK] there is a unit at (0,2)
 [OK] unit at (0,2) is archer
 [OK] unit at (0,2) is owned by player red
-Should be able to differentiate unit type
+[OK ]Should be able to differentiate unit type
 [OK] should be able to differentiate unit owner
-unit at (2,3) is a legion
-[OK] unit at (2,3) is owned by player blue
+[OK] unit at (3,2) is a legion
+[OK] unit at (3,2) is owned by player
+Red has a settler at (4,3)
 units cannot move over mountain
 Red cannot move Blue's units
 cities produce 6 `production' after a round has ended
@@ -24,5 +25,6 @@ cities produce 6 `production' after a round has ended
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC
 [OK] Red wins in year 3000 BC
+Attacking unit always win
 Red's unit attack and destroy Blue's unit
 etc.
