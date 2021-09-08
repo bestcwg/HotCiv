@@ -5,6 +5,7 @@ import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
+
     @Override
     public String getTypeString() {
         return GameConstants.ARCHER;
@@ -12,7 +13,7 @@ public class UnitImpl implements Unit {
 
     @Override
     public Player getOwner() {
-        return null;
+        return Player.RED;
     }
 
     @Override

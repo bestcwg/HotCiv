@@ -4,14 +4,14 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
-    private Player player;
-    public CityImpl(Player player) {
-        this.player = player;
+    private Player owner;
+    public CityImpl(Player owner) {
+        this.owner = owner;
     }
 
     @Override
     public Player getOwner() {
-        return player;
+        return owner;
     }
 
     @Override

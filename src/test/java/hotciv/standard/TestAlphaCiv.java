@@ -152,7 +152,11 @@ public class TestAlphaCiv {
       assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
-
+  @Test
+  public void shouldBeRedPlayersUnitAt0_2() {
+    p = new Position(0,2);
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+  }
 
 
 
