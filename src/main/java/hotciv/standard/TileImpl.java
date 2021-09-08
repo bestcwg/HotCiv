@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
 import hotciv.framework.Tile;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class TileImpl implements Tile {
         if (tiles.containsKey(place)) {
             return tiles.get(place).toString();
         }
-        return "PLAIN";
+        return GameConstants.PLAINS;
     }
     // spørg om dette er ok
     public void createHash() {
@@ -28,8 +29,8 @@ public class TileImpl implements Tile {
         Position hillTile = new Position(0,1);
         Position mountainTile = new Position(2,2);
 
-        tiles.put(oceanTile, "OCEAN");
-        tiles.put(hillTile, "HILL");
-        tiles.put(mountainTile, "MOUNTAIN");
+        tiles.put(oceanTile, GameConstants.OCEANS);
+        tiles.put(hillTile, GameConstants.HILLS);
+        tiles.put(mountainTile, GameConstants.MOUNTAINS);
     }
 }

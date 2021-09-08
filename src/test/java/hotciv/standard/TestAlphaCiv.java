@@ -58,34 +58,34 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeOceanAt1_0() {
     p = new Position(1, 0);
-    assertThat(game.getTileAt(p).getTypeString(), is("OCEAN"));
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.OCEANS));
   }
 
   @Test
   public void shouldBeHillAt0_1() {
     p = new Position(0, 1);
-    assertThat(game.getTileAt(p).getTypeString(), is("HILL"));
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.HILLS));
   }
 
   @Test
   public void shouldBeMountainAt2_2() {
     p = new Position(2, 2);
-    assertThat(game.getTileAt(p).getTypeString(), is("MOUNTAIN"));
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.MOUNTAINS));
   }
 
   @Test
   public void shouldBePlainsThoughoutTheMap() {
     Position p = new Position(0,0);
-    assertThat(game.getTileAt(p).getTypeString(), is("PLAIN"));
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.PLAINS));
 
     Position b = new Position(6,6);
-    assertThat(game.getTileAt(b).getTypeString(), is("PLAIN"));
+    assertThat(game.getTileAt(b).getTypeString(), is(GameConstants.PLAINS));
 
     Position c = new Position(8,4);
-    assertThat(game.getTileAt(c).getTypeString(), is("PLAIN"));
+    assertThat(game.getTileAt(c).getTypeString(), is(GameConstants.PLAINS));
 
     Position d = new Position(16,16);
-    assertThat(game.getTileAt(d).getTypeString(), is("PLAIN"));
+    assertThat(game.getTileAt(d).getTypeString(), is(GameConstants.PLAINS));
   }
 
   @Test
