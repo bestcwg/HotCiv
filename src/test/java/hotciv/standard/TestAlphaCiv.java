@@ -139,7 +139,12 @@ public class TestAlphaCiv {
     assertThat(game.getWinner(), is(Player.RED));
   }
 
+  @Test
+  public void shouldBeUnitAt0_2() {
+    p = new Position(0,2);
 
+    assertThat(game.getUnitAt(p), is(notNullValue()));
+  }
 
 
 

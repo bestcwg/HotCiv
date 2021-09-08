@@ -7,6 +7,9 @@
 [OK] there is a mountain at (2,2)
 [OK] All other tiles should be plains
 [OK] There should be a world map 16X16 of mostly plains
+[OK] there is a unit at (0,2)
+unit at (0,2) is archer
+unit at (0,2) is owned by player red
 units cannot move over mountain
 Red cannot move Blue's units
 cities produce 6 `production' after a round has ended

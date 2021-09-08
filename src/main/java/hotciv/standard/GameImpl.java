@@ -41,7 +41,7 @@ public class GameImpl implements Game {
     Tile t = new TileImpl(p);
     return t;
   }
-  public Unit getUnitAt( Position p ) { return null; }
+  public Unit getUnitAt( Position p ) { return new UnitImpl(); }
 
   public City getCityAt( Position p ) {
     createHashForCities();
