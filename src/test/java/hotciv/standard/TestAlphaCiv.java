@@ -114,7 +114,7 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeYear4000BCAtGameStart() {
-    assertThat(game.getAge(), is(4000));
+    assertThat(game.getAge(), is(-4000));
   }
 
 }

@@ -12,8 +12,8 @@ Red cannot move Blue's units
 cities produce 6 `production' after a round has ended
 cities' population size is always 1
 [OK] after Red it is Blue that is in turn
-After round end time should pass
-Starting year should be 4000 BC
+After round end time should pass by 100 years
+[OK] Starting year should be 4000 BC
 After 5 rounds, the year should be 3500 BC
 Red wins in year 3000 BC
 Red's unit attack and destroy Blue's unit
