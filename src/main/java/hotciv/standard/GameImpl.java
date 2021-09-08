@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 public class GameImpl implements Game {
   private HashMap<Position, City> cities;
+  private Player playerInTurn = Player.RED;
 
   public Tile getTileAt( Position p ) {
     Tile t = new TileImpl(p);
@@ -45,7 +46,7 @@ public class GameImpl implements Game {
     return cities.get(p);
   }
 
-  public Player getPlayerInTurn() { return Player.RED; }
+  public Player getPlayerInTurn() { return playerInTurn; }
 
   public Player getWinner() { return null; }
 
@@ -55,7 +56,16 @@ public class GameImpl implements Game {
     return false;
   }
 
-  public void endOfTurn() {}
+  public void endOfTurn() {
+    switch (playerInTurn) {
+      case RED:
+        playerInTurn = Player.BLUE;
+        break;
+      case BLUE:
+        playerInTurn = Player.RED;
+        break;
+    }
+  }
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
 

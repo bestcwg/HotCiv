@@ -106,5 +106,10 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
   }
 
+  @Test
+  public void shouldBeBlueTurnAfterRedTurn() {
+    game.endOfTurn();
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+  }
 
 }
