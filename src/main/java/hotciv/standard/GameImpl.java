@@ -73,6 +73,7 @@ public class GameImpl implements Game {
     }
     playerTurns++;
     if (playerTurns == 2) {
+
       age += 100;
       playerTurns = 0;
     }
@@ -110,5 +111,4 @@ public class GameImpl implements Game {
     units.put(blueLegionPos, blueLegion);
     units.put(redSettlerPos, redSettler);
   }
-
 }

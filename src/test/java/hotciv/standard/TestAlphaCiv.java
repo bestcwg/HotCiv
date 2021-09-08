@@ -141,6 +141,13 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void shouldGain6ProductionAfterEachRound() {
+    p = new Position(1,1);
+    doXEndOfTurn(2);
+    assertThat(game.getCityAt(p).getTreasury(),is(6));
+  }
+
+  @Test
   public void shouldBeUnitAt0_2() {
     p = new Position(0,2);
 
