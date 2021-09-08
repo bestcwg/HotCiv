@@ -33,15 +33,19 @@ import java.util.HashMap;
 
 public class GameImpl implements Game {
   private HashMap<Position, City> cities;
+  private HashMap<Position, Unit> units;
   private Player playerInTurn = Player.RED;
   private int age = -4000;
   private int playerTurns;
 
   public Tile getTileAt( Position p ) {
-    Tile t = new TileImpl(p);
-    return t;
+    Tile tile = new TileImpl(p);
+    return tile;
   }
-  public Unit getUnitAt( Position p ) { return new UnitImpl(Player.RED);}
+  public Unit getUnitAt( Position p ) {
+    createHashMapForUnits();
+    return units.get(p);
+  }
 
   public City getCityAt( Position p ) {
     createHashForCities();
@@ -80,12 +84,6 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position p ) {}
 
-
-  /*public Unit createUnit()  {
-    return new UnitImpl();
-  }*/
-
-
   public void createHashForCities() {
     cities = new HashMap<>();
     Position redCityPos = new Position(1,1);
@@ -96,6 +94,18 @@ public class GameImpl implements Game {
 
     cities.put(redCityPos, redCity);
     cities.put(blueCityPos, blueCity);
+  }
+
+  public void createHashMapForUnits() {
+    units = new HashMap<>();
+    Position redUnitPos = new Position(0,2);
+    Position blueUnitPos = new Position(2,3);
+
+    Unit redUnit = new UnitImpl(Player.RED);
+    Unit blueUnit = new UnitImpl(Player.BLUE);
+
+    units.put(redUnitPos, redUnit);
+    units.put(blueUnitPos, blueUnit);
   }
 
 }

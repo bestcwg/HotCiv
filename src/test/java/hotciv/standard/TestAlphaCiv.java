@@ -165,6 +165,11 @@ public class TestAlphaCiv {
     assertThat(unit.getOwner(), is(Player.BLUE));
   }
 
+  @Test
+  public void shouldBeBluePlayersUnitAt2_3() {
+    p = new Position(2,3);
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+  }
 
 
   public void doXEndOfTurn(int x) {
