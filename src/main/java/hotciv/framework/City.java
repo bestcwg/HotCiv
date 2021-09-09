@@ -61,10 +61,4 @@ public interface City {
    * for valid return values.
    */
   String getWorkforceFocus();
-
-  /** A Mutator method added by us.
-   * Its goal is to increase the treasury of the city,
-   * with the given variable passed to it
-   */
-  void addTreasury(int production);
 }

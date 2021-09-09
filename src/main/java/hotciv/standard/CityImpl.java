@@ -39,7 +39,6 @@ public class CityImpl implements City {
     public String getWorkforceFocus() {
         return null;
     }
-
-    @Override
+    
     public void addTreasury(int production) { this.treasury += production;}
 }

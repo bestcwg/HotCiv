@@ -35,7 +35,7 @@ import java.util.Map;
 public class GameImpl implements Game {
   private HashMap<Position, City> cities;
   private HashMap<Position, Unit> units;
-  private HashMap<Position, Tile> tiles;
+  private HashMap<Position, Tile> worldMap;
   private Player playerInTurn = Player.RED;
   private int age = -4000;
   private int playerTurns;
@@ -45,13 +45,13 @@ public class GameImpl implements Game {
    * Instantiate the world map, and create necessary hashmaps
    */
   public GameImpl() {
-    tiles = new HashMap<>();
+    worldMap = new HashMap<>();
     cities = new HashMap<>();
     units = new HashMap<>();
 
     for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
       for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
-        tiles.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
+        worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
       }
     }
     createHashMapForCities();
@@ -64,7 +64,7 @@ public class GameImpl implements Game {
    * @param p the position in the world that must be returned.
    * @return the type of tile (Plains,Ocean,Hill,Mountain)
    */
-  public Tile getTileAt(Position p ) { return tiles.get(p); }
+  public Tile getTileAt(Position p ) { return worldMap.get(p); }
 
   /**
    * A method for getting a unit object at a given position
@@ -178,9 +178,9 @@ public class GameImpl implements Game {
     Position hillTile = new Position(0,1);
     Position mountainTile = new Position(2,2);
 
-    tiles.put(oceanTile, new TileImpl(GameConstants.OCEANS));
-    tiles.put(hillTile, new TileImpl(GameConstants.HILLS));
-    tiles.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
+    worldMap.put(oceanTile, new TileImpl(GameConstants.OCEANS));
+    worldMap.put(hillTile, new TileImpl(GameConstants.HILLS));
+    worldMap.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
   }
 
   /**
@@ -188,8 +188,9 @@ public class GameImpl implements Game {
    * and increase the treasury of the cities in the game
    */
   public void endOfRound() {
-    for (Map.Entry<Position,City> city : cities.entrySet()) {
-      city.getValue().addTreasury(6);
+    for (Map.Entry<Position,City> c : cities.entrySet()) {
+      CityImpl city = (CityImpl) c.getValue();
+      city.addTreasury(6);
     }
     age += 100;
     playerTurns = 0;
