@@ -68,15 +68,16 @@ public class GameImpl implements Game {
   public int getAge() { return age; }
 
   public boolean moveUnit( Position from, Position to ) {
-    if (getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
-      return false;
-    }
-    if (units.containsKey(from)) {
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
+      if (getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
+        return false;
+      }
       Unit unit = getUnitAt(from);
       units.put(to,unit);
       units.remove(from);
+      return true;
     }
-    return true;
+    return false;
   }
 
   public void endOfTurn() {

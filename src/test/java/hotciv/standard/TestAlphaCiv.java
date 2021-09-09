@@ -42,6 +42,7 @@ public class TestAlphaCiv {
   private Game game;
   private City city;
   private Position p;
+  private Position newPos;
   private Unit unit;
 
   /** Fixture for alphaciv testing. */
@@ -160,8 +161,8 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAnArcherAt0_2() {
-      p = new Position(0,2);
-      assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    p = new Position(0,2);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
@@ -206,12 +207,32 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAbleToMoveUnitFrom3_2To4_2() {
+    doXEndOfTurn(1);
     p = new Position(3,2);
-    Position newPos = new Position(4,2);
+    newPos = new Position(4,2);
     assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.LEGION));
     assertThat(game.moveUnit(p, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
     assertThat(game.getUnitAt(p), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBeImpossibleForRedToMoveBlueUnits() {
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    p = new Position(3,2);
+    newPos = new Position(4,2);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.moveUnit(p, newPos), is(false));
+    assertThat(game.getUnitAt(newPos), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBeAbleToMoveRedUnitsInRedsTurn() {
+    p = new Position(0,2);
+    newPos = new Position(1,2);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   public void doXEndOfTurn(int x) {
