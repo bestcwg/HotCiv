@@ -107,14 +107,14 @@ public class GameImpl implements Game {
 
   public void createHashMapForCities() {
     Position redCityPos = new Position(1,1);
-    Position blueCityPos = new Position(1,4);
+    Position blueCityPos = new Position(4,1);
 
     cities.put(redCityPos, new CityImpl(Player.RED));
     cities.put(blueCityPos, new CityImpl(Player.BLUE));
   }
 
   public void createHashMapForUnits() {
-    Position redArcherPos = new Position(0,2);
+    Position redArcherPos = new Position(2,0);
     Position blueLegionPos = new Position(3,2);
     Position redSettlerPos = new Position(4,3);
 

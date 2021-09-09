@@ -1,7 +1,7 @@
 [OK] Red is the first player in turn
 [OK] There should be a city at (1,1)
 [OK] Red's city is at (1,1)
-[OK] There should be a blue city (1,4)
+[OK] There should be a blue city (4,1)
 [OK] there is ocean at (1,0)
 [OK] there is a hill at (0, 1)
 [OK] there is a mountain at (2,2)
@@ -19,8 +19,6 @@
 [OK] unit can move from (3,2) to (4,2)
 [OK] Red cannot move Blue's units
 [OK] cities produce 6 `production' after a round has ended
-[OK] cities treasure grows/produces 6 production after each round
-
 [OK] cities' population size is always 1
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
@@ -28,6 +26,8 @@
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC
 [OK] Red wins in year 3000 BC
+
+ cities treasure grows/produces 6 production after each round
 Attacking unit always win
 Red's unit attack and destroy Blue's unit
 etc.

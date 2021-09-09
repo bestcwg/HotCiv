@@ -76,7 +76,7 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBePlainsThoughoutTheMap() {
+  public void shouldBePlainsThroughoutTheMap() {
     Position p = new Position(0,0);
     assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.PLAINS));
 
@@ -102,8 +102,8 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(p).getOwner(), is(Player.RED));
   }
   @Test
-  public void shouldBeBlueCityAt1_4() {
-    p = new Position(1,4);
+  public void shouldBeBlueCityAt4_1() {
+    p = new Position(4,1);
     assertThat(game.getCityAt(p), is(notNullValue()));
     assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
   }
@@ -148,26 +148,26 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(p).getTreasury(), is(6));
     doXEndOfTurn(2);
     assertThat(game.getCityAt(p).getTreasury(), is(12));
-    p = new Position(1,4);
+    p = new Position(4,1);
     assertThat(game.getCityAt(p).getTreasury(), is(12));
   }
 
   @Test
-  public void shouldBeUnitAt0_2() {
-    p = new Position(0,2);
+  public void shouldBeUnitAt2_0() {
+    p = new Position(2,0);
 
     assertThat(game.getUnitAt(p), is(notNullValue()));
   }
 
   @Test
-  public void shouldBeAnArcherAt0_2() {
-    p = new Position(0,2);
+  public void shouldBeAnArcherAt2_0() {
+    p = new Position(2,0);
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
-  public void shouldBeRedPlayersUnitAt0_2() {
-    p = new Position(0,2);
+  public void shouldBeRedPlayersUnitAt2_0() {
+    p = new Position(2,0);
     assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
   }
 
@@ -187,7 +187,7 @@ public class TestAlphaCiv {
   public void shouldBeAbleToDifferentiateUnits() {
     p = new Position(3,2);
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
-    p = new Position(0,2);
+    p = new Position(2,0);
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
   }
 
@@ -228,8 +228,8 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAbleToMoveRedUnitsInRedsTurn() {
-    p = new Position(0,2);
-    newPos = new Position(1,2);
+    p = new Position(2,0);
+    newPos = new Position(2,1);
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.moveUnit(p, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
