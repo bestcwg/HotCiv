@@ -204,6 +204,16 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(p, mountain), is(false));
   }
 
+  @Test
+  public void shouldBeAbleToMoveUnitFrom3_2To4_2() {
+    p = new Position(3,2);
+    Position newPos = new Position(4,2);
+    assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.LEGION));
+    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(p), is(nullValue()));
+  }
+
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
       game.endOfTurn();

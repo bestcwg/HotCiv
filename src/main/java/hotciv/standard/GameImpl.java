@@ -42,6 +42,9 @@ public class GameImpl implements Game {
 
   public GameImpl() {
     tiles = new HashMap<>();
+    cities = new HashMap<>();
+    units = new HashMap<>();
+
     for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
       for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
         tiles.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
@@ -65,7 +68,15 @@ public class GameImpl implements Game {
   public int getAge() { return age; }
 
   public boolean moveUnit( Position from, Position to ) {
-    return false;
+    if (getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
+      return false;
+    }
+    if (units.containsKey(from)) {
+      Unit unit = getUnitAt(from);
+      units.put(to,unit);
+      units.remove(from);
+    }
+    return true;
   }
 
   public void endOfTurn() {
@@ -94,7 +105,6 @@ public class GameImpl implements Game {
   public void performUnitActionAt( Position p ) {}
 
   public void createHashMapForCities() {
-    cities = new HashMap<>();
     Position redCityPos = new Position(1,1);
     Position blueCityPos = new Position(1,4);
 
@@ -103,7 +113,6 @@ public class GameImpl implements Game {
   }
 
   public void createHashMapForUnits() {
-    units = new HashMap<>();
     Position redArcherPos = new Position(0,2);
     Position blueLegionPos = new Position(3,2);
     Position redSettlerPos = new Position(4,3);
