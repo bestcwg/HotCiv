@@ -26,8 +26,9 @@
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC
 [OK] Red wins in year 3000 BC
+[OK] cities treasure grows/produces 6 production after each round
 
- cities treasure grows/produces 6 production after each round
+
 Attacking unit always win
 Red's unit attack and destroy Blue's unit
 etc.

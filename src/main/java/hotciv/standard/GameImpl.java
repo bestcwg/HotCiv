@@ -40,6 +40,10 @@ public class GameImpl implements Game {
   private int age = -4000;
   private int playerTurns;
 
+  /**
+   * Constructor for the GameImplementation class
+   * Instantiate the world map, and create necessary hashmaps
+   */
   public GameImpl() {
     tiles = new HashMap<>();
     cities = new HashMap<>();
@@ -55,18 +59,54 @@ public class GameImpl implements Game {
     createHashMapForUnits();
   }
 
+  /**
+   * A method for getting a tile object at a given position
+   * @param p the position in the world that must be returned.
+   * @return the type of tile (Plains,Ocean,Hill,Mountain)
+   */
   public Tile getTileAt(Position p ) { return tiles.get(p); }
 
+  /**
+   * A method for getting a unit object at a given position
+   * @param p the position in the world.
+   * @return the unit at the given position
+   */
   public Unit getUnitAt( Position p ) { return units.get(p); }
 
+  /**
+   * A method for getting a city object at a given position
+   * @param p the position in the world.
+   * @return the city at the given position
+   */
   public City getCityAt( Position p ) { return cities.get(p); }
 
+  /**
+   * A method for getting the player in turn
+   * @return the player Enum who is currently having their turn
+   */
   public Player getPlayerInTurn() { return playerInTurn; }
 
+  /**
+   * A method for getting the winner of a given game
+   * @return a player Enum of the winning player
+   */
   public Player getWinner() { return Player.RED; }
 
+  /**
+   * A method for getting the year the game is currently in
+   * @return an int representation of the given year, a negative for BC
+   * And positive for AD
+   */
   public int getAge() { return age; }
 
+  /**
+   * A method for moving a unit around the map
+   * It validates that the player in turn is moving a unit of their colour
+   * and that the move is valid (Do not move over mountain)
+   * @param from the position that the unit has now
+   * @param to the position the unit should move to
+   * @return a boolean value, false if the move failed and true if it succeed
+   */
   public boolean moveUnit( Position from, Position to ) {
     if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
       if (getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
@@ -80,6 +120,11 @@ public class GameImpl implements Game {
     return false;
   }
 
+  /**
+   * A method for ending the turn of a player
+   * A switch case that alternates and assigns player in turn
+   * calls endOfRound() method after each player has a turn
+   */
   public void endOfTurn() {
     switch (playerInTurn) {
       case RED:
@@ -91,11 +136,7 @@ public class GameImpl implements Game {
     }
     playerTurns++;
     if (playerTurns == 2) {
-      for (Map.Entry<Position,City> city : cities.entrySet()) {
-        city.getValue().addTreasury(6);
-      }
-      age += 100;
-      playerTurns = 0;
+      endOfRound();
     }
   }
 
@@ -105,6 +146,9 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position p ) {}
 
+  /**
+   * A helper method for creating a hashmap of cities
+   */
   public void createHashMapForCities() {
     Position redCityPos = new Position(1,1);
     Position blueCityPos = new Position(4,1);
@@ -113,6 +157,9 @@ public class GameImpl implements Game {
     cities.put(blueCityPos, new CityImpl(Player.BLUE));
   }
 
+  /**
+   * A helper method for creating a hashmap of units
+   */
   public void createHashMapForUnits() {
     Position redArcherPos = new Position(2,0);
     Position blueLegionPos = new Position(3,2);
@@ -123,6 +170,9 @@ public class GameImpl implements Game {
     units.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
   }
 
+  /**
+   * A helper method for creating a hashmap of tiles
+   */
   public void createHashMapForSpecialTiles() {
     Position oceanTile = new Position(1,0);
     Position hillTile = new Position(0,1);
@@ -131,5 +181,17 @@ public class GameImpl implements Game {
     tiles.put(oceanTile, new TileImpl(GameConstants.OCEANS));
     tiles.put(hillTile, new TileImpl(GameConstants.HILLS));
     tiles.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
+  }
+
+  /**
+   * A method that ends the round, it will progress the age of the game
+   * and increase the treasury of the cities in the game
+   */
+  public void endOfRound() {
+    for (Map.Entry<Position,City> city : cities.entrySet()) {
+      city.getValue().addTreasury(6);
+    }
+    age += 100;
+    playerTurns = 0;
   }
 }

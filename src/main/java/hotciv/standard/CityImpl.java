@@ -7,6 +7,10 @@ public class CityImpl implements City {
     private Player owner;
     private int treasury;
 
+    /**
+     * Constructor for the city implementation
+     * @param owner the player Enum who owns the city
+     */
     public CityImpl(Player owner) {
         this.owner = owner;
     }
