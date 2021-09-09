@@ -39,6 +39,10 @@ public class CityImpl implements City {
     public String getWorkforceFocus() {
         return null;
     }
-    
+
+    /**
+     * Adds production to treasury in a City
+     * @param production amount added to city
+     */
     public void addTreasury(int production) { this.treasury += production;}
 }
