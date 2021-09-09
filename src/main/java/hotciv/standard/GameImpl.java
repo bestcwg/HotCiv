@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /** Skeleton implementation of HotCiv.
  
@@ -39,25 +40,23 @@ public class GameImpl implements Game {
   private int age = -4000;
   private int playerTurns;
 
-  public Tile getTileAt( Position p ) {
+  public GameImpl() {
     tiles = new HashMap<>();
     for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
       for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
         tiles.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
       }
     }
+    createHashMapForCities();
     createHashMapForSpecialTiles();
-    return tiles.get(p);
-  }
-  public Unit getUnitAt( Position p ) {
     createHashMapForUnits();
-    return units.get(p);
   }
 
-  public City getCityAt( Position p ) {
-    createHashMapForCities();
-    return cities.get(p);
-  }
+  public Tile getTileAt(Position p ) { return tiles.get(p); }
+
+  public Unit getUnitAt( Position p ) { return units.get(p); }
+
+  public City getCityAt( Position p ) { return cities.get(p); }
 
   public Player getPlayerInTurn() { return playerInTurn; }
 
@@ -80,7 +79,9 @@ public class GameImpl implements Game {
     }
     playerTurns++;
     if (playerTurns == 2) {
-
+      for (Map.Entry<Position,City> city : cities.entrySet()) {
+        city.getValue().addTreasury(6);
+      }
       age += 100;
       playerTurns = 0;
     }

@@ -141,10 +141,12 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldGain6ProductionAfterEachRound() {
+  public void shouldIncreaseTreasuryBy6AfterEachRound() {
     p = new Position(1,1);
     doXEndOfTurn(2);
-    assertThat(game.getCityAt(p).getTreasury(),is(6));
+    assertThat(game.getCityAt(p).getTreasury(), is(6));
+    doXEndOfTurn(2);
+    assertThat(game.getCityAt(p).getTreasury(), is(12));
   }
 
   @Test

@@ -19,6 +19,8 @@
 unit can move from (3,2) to (4,2)
 Red cannot move Blue's units
 [OK] cities produce 6 `production' after a round has ended
+[OK] cities treasure grows/produces 6 production after each round
+
 [OK] cities' population size is always 1
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
