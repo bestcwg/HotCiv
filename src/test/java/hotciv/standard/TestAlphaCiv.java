@@ -272,9 +272,11 @@ public class TestAlphaCiv {
   @Test
   public void shouldNotBeAbleToMoveUnitsOverMountains() {
     // Given a game
-    // When trying to move a unit over a mountain
+    // When trying to move a blue unit in blue players turn over a mountain
     p = new Position(3,2);
     Position mountain = new Position(2,2);
+    game.endOfTurn();
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
     // Then the move should fail
     assertThat(game.moveUnit(p, mountain), is(false));
   }

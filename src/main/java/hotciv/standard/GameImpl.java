@@ -90,7 +90,12 @@ public class GameImpl implements Game {
    * A method for getting the winner of a given game
    * @return a player Enum of the winning player
    */
-  public Player getWinner() { return Player.RED; }
+  public Player getWinner() {
+    if (getAge() == -3000) {
+      return Player.RED;
+    }
+    return null;
+  }
 
   /**
    * A method for getting the year the game is currently in
@@ -109,7 +114,7 @@ public class GameImpl implements Game {
    */
   public boolean moveUnit( Position from, Position to ) {
     if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
-      if (getTileAt(to).getTypeString() == GameConstants.MOUNTAINS) {
+      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
         return false;
       }
       Unit unit = getUnitAt(from);
