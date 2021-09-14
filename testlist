@@ -29,7 +29,7 @@
 
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
-[OK] A round should be after every player has taken a turn
+[OK] A round should end after every player has taken a turn
 
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC

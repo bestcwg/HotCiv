@@ -319,12 +319,13 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeNoMoreThanOneUnitOfSameOwnerOnTile() {
-
+    // Given a game
+    // When red player moves unit to another of reds unit
+    // Then the move should not succeed
     assertThat(game.moveUnit(archerPos, settlerPos), is(false));
     assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
   }
-
 
   @Test
   public void shouldBeAttackingUnitThatWins() {
