@@ -327,7 +327,6 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
   }
 
-
   @Test
   public void shouldBeAttackingUnitThatWins() {
     // Given a game
