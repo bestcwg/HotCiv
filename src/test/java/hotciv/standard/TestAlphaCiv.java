@@ -181,6 +181,7 @@ public class TestAlphaCiv {
     // Given a game
     // When the age reaches 3000 BC
     assertThat(game.getAge(), is(-4000));
+    assertThat(game.getWinner(), is(nullValue()));
     doXEndOfTurn(20);
     // Then player red should win
     assertThat(game.getAge(), is(-3000));

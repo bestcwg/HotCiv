@@ -36,7 +36,8 @@ public class GameImpl implements Game {
   private HashMap<Position, City> cities;
   private HashMap<Position, Unit> units;
   private HashMap<Position, Tile> worldMap;
-  private Player playerInTurn = Player.RED;
+  private Player playerInTurn;
+  private Player winner;
   private int age = -4000;
   private int playerTurns;
 
@@ -45,6 +46,8 @@ public class GameImpl implements Game {
    * Instantiate the world map, and create necessary hashmaps
    */
   public GameImpl() {
+    playerInTurn = Player.RED;
+
     worldMap = new HashMap<>();
     cities = new HashMap<>();
     units = new HashMap<>();
@@ -91,10 +94,7 @@ public class GameImpl implements Game {
    * @return a player Enum of the winning player
    */
   public Player getWinner() {
-    if (getAge() == -3000) {
-      return Player.RED;
-    }
-    return null;
+    return winner;
   }
 
   /**
@@ -199,5 +199,8 @@ public class GameImpl implements Game {
     }
     age += 100;
     playerTurns = 0;
+    if (getAge() == -3000) {
+      winner = Player.RED;
+    }
   }
 }
