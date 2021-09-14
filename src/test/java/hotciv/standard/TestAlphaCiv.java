@@ -321,6 +321,15 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  @Test
+  public void shouldBeNoMoreThanOneUnitOnTile() {
+    p = new Position(2,0);
+    newPos = new Position(3,2);
+
+    assertThat(game.moveUnit(p, newPos), is(false));
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
+  }
   /**
    * A helper method for passing turns to avoid code dublication,
    * and ease of use in test driven development

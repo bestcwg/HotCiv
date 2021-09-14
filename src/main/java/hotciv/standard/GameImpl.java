@@ -117,6 +117,9 @@ public class GameImpl implements Game {
       if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
         return false;
       }
+      if (units.containsKey(to)) {
+        return false;
+      }
       Unit unit = getUnitAt(from);
       units.put(to,unit);
       units.remove(from);

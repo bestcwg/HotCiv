@@ -29,6 +29,10 @@
 [OK] cities treasure grows/produces 6 production after each round
 
 
+
 Attacking unit always win
+    [OK] Multiple units cannot be on the same tile
+    If a unit moves to another units tile it attacks
+
 Red's unit attack and destroy Blue's unit
 etc.
