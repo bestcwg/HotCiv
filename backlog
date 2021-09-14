@@ -1,0 +1,9 @@
+Features we are still missing:
+    Iteration 1:
+        - Attacking
+            - Attacking unit always win
+        - Unit production
+            - City produces unit selected for production, if enough production is in treasury
+            - The unit when produces is placed on the city tile
+            - If the place on the city tile is already occupied, place the unit adjacent tile to the north of the city
+              moving clockwise, which is not occupied

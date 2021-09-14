@@ -40,6 +40,10 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+  private City city;
+  private Position p;
+  private Position newPos;
+  private Unit unit;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
@@ -50,33 +54,281 @@ public class TestAlphaCiv {
   // FRS p. 455 states that 'Red is the first player to take a turn'.
   @Test
   public void shouldBeRedAsStartingPlayer() {
-    // TODO: reenable the assert below to get started...
-    // assertThat(game.getPlayerInTurn(), is(Player.RED));
+    // Given a game
+    // When the game start
+    // Then it is red players turn
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
-  /** REMOVE ME. Not a test of HotCiv, just an example of the
-      matchers that the hamcrest library has... */
   @Test
-  public void shouldDefinetelyBeRemoved() {
-    // Matching null and not null values
-    // 'is' require an exact match
-    String s = null;
-    assertThat(s, is(nullValue()));
-    s = "Ok";
-    assertThat(s, is(notNullValue()));
-    assertThat(s, is("Ok"));
+  public void shouldBeOceanAt1_0() {
+    // Given a game
+    // When entering position 1,0
+    p = new Position(1, 0);
+    // Then the tile at the location is an ocean
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.OCEANS));
+  }
 
-    // If you only validate substrings, use containsString
-    assertThat("This is a dummy test", containsString("dummy"));
+  @Test
+  public void shouldBeHillAt0_1() {
+    // Given a game
+    // When entering position 0,2
+    p = new Position(0, 1);
+    // Then the tile at the location is a hill
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.HILLS));
+  }
 
-    // Match contents of Lists
-    List<String> l = new ArrayList<String>();
-    l.add("Bimse");
-    l.add("Bumse");
-    // Note - ordering is ignored when matching using hasItems
-    assertThat(l, hasItems(new String[] {"Bumse","Bimse"}));
+  @Test
+  public void shouldBeMountainAt2_2() {
+    // Given a game
+    // When entering position 2,2
+    p = new Position(2, 2);
+    // Then the tile at the location is a mountain
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.MOUNTAINS));
+  }
 
-    // Matchers may be combined, like is-not
-    assertThat(l.get(0), is(not("Bumse")));
+  @Test
+  public void shouldBePlainsThroughoutTheMap() {
+    // Given a game
+    // When entering position 0,0
+    Position p = new Position(0,0);
+    // Then the tile at the location is a plain
+    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.PLAINS));
+
+    // When entering position 6,6
+    Position b = new Position(6,6);
+    // Then the tile at the location is a plain
+    assertThat(game.getTileAt(b).getTypeString(), is(GameConstants.PLAINS));
+
+    // When entering position 8,4
+    Position c = new Position(8,4);
+    // Then the tile at the location is a plain
+    assertThat(game.getTileAt(c).getTypeString(), is(GameConstants.PLAINS));
+
+    // When entering position 15,15
+    Position d = new Position(15,15);
+    // Then the tile at the location is a plain
+    assertThat(game.getTileAt(d).getTypeString(), is(GameConstants.PLAINS));
+  }
+
+  @Test
+  public void shouldBeCityAt1_1() {
+    // Given a game
+    // When entering position 1,1
+    p = new Position(1,1);
+    // Then at that location there should be a city
+    assertThat(game.getCityAt(p), is(notNullValue()));
+  }
+
+  @Test
+  public void shouldBeRedCityAt1_1() {
+    // Given a game
+    // When entering position 1,1
+    p = new Position(1,1);
+    // Then the city at that location should be owned by red
+    assertThat(game.getCityAt(p), is(notNullValue()));
+    assertThat(game.getCityAt(p).getOwner(), is(Player.RED));
+  }
+
+  @Test
+  public void shouldBeBlueCityAt4_1() {
+    // Given a game
+    // When entering position 4,1
+    p = new Position(4,1);
+    // Then the city at that location should be owned by blue
+    assertThat(game.getCityAt(p), is(notNullValue()));
+    assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void shouldBePopulationOf1InCityAlways() {
+    // Given a game
+    // When entering a city object
+    City city = new CityImpl(Player.RED);
+    // Then the size should be 1
+    assertThat(city.getSize(),is(1));
+  }
+
+  @Test
+  public void shouldBeBlueTurnAfterRedTurn() {
+    // Given a game
+    // When the turns end
+    doXEndOfTurn(1);
+    // Then it should be blue players turn
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+  }
+
+  @Test
+  public void shouldBeYear4000BCAtGameStart() {
+    // Given a game
+    // When the game starts
+    // Then the age should be 4000BC (-4000)
+    assertThat(game.getAge(), is(-4000));
+  }
+
+  @Test
+  public void shouldIncrementTimeBy100AfterRoundEnd() {
+    // Given a game
+    // When the round ends (2 turns)
+    assertThat(game.getAge(), is(-4000));
+    doXEndOfTurn(2);
+    // Then the age should progress 100 years
+    assertThat(game.getAge(), is(-3900));
+  }
+
+  @Test
+  public void shouldBeRedAsWinnerInYear3000BC() {
+    // Given a game
+    // When the age reaches 3000 BC
+    assertThat(game.getAge(), is(-4000));
+    assertThat(game.getWinner(), is(nullValue()));
+    doXEndOfTurn(20);
+    // Then player red should win
+    assertThat(game.getAge(), is(-3000));
+    assertThat(game.getWinner(), is(Player.RED));
+  }
+
+  @Test
+  public void shouldIncreaseTreasuryBy6InEachCityAfterEachRound() {
+    // Given a game
+    // When the round ends
+    p = new Position(1,1);
+    doXEndOfTurn(2);
+    // Then the treasury of each city should increase by 6
+    assertThat(game.getCityAt(p).getTreasury(), is(6));
+    doXEndOfTurn(2);
+    assertThat(game.getCityAt(p).getTreasury(), is(12));
+
+    // Check for blue city as well
+    p = new Position(4,1);
+    assertThat(game.getCityAt(p).getTreasury(), is(12));
+  }
+
+  @Test
+  public void shouldBeUnitAt2_0() {
+    // Given a game
+    // When entering position 2,0
+    p = new Position(2,0);
+    // Then a unit should be at that tile
+    assertThat(game.getUnitAt(p), is(notNullValue()));
+  }
+
+  @Test
+  public void shouldBeAnArcherAt2_0() {
+    // Given a game
+    // When entering position 2,0
+    p = new Position(2,0);
+    // The Unit at this position is a archer
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBeRedPlayersUnitAt2_0() {
+    // Given a game
+    // When entering position 2,0
+    p = new Position(2,0);
+    // Then the unit at this position is owned by player red
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+  }
+
+  @Test
+  public void shouldBeAbleToDifferentiateBetweenUnitOwner() {
+    // Given a game
+    // When there is units of both sides
+    unit = new UnitImpl(Player.BLUE, GameConstants.LEGION);
+    // Then the game can differentiate
+    assertThat(unit.getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void shouldBeBluePlayersUnitAt3_2() {
+    // Given a Game
+    // When entering position 3,2
+    p = new Position(3,2);
+    // Then the unit at this location is blue
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+  }
+
+  @Test
+  public void shouldBeAbleToDifferentiateUnits() {
+    // Given a game
+    // When there is multiple unit classes
+    p = new Position(3,2);
+    // Then the game can differentiate between them
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
+    p = new Position(2,0);
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBePlayerRedSettlerAt4_3() {
+    // Given a game
+    // When entering a position 4,3
+    p = new Position(4,3);
+    // Then the unit at the location is a red settler
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+  }
+
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOverMountains() {
+    // Given a game
+    // When trying to move a blue unit in blue players turn over a mountain
+    p = new Position(3,2);
+    Position mountain = new Position(2,2);
+    game.endOfTurn();
+    assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    // Then the move should fail
+    assertThat(game.moveUnit(p, mountain), is(false));
+  }
+
+  @Test
+  public void shouldBeAbleToMoveUnitFrom3_2To4_2() {
+    // Given a game
+    // When moving a unit with a legal move
+    doXEndOfTurn(1);
+    p = new Position(3,2);
+    newPos = new Position(4,2);
+    // Then the move should succeed
+    assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.LEGION));
+    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(p), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBeImpossibleForRedToMoveBlueUnits() {
+    // Given a game
+    // When it is reds turn
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+    p = new Position(3,2);
+    newPos = new Position(4,2);
+    // Then a move of a blue unit should fail
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.moveUnit(p, newPos), is(false));
+    assertThat(game.getUnitAt(newPos), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBeAbleToMoveRedUnitsInRedsTurn() {
+    // Given a game
+    // When it is reds turn
+    p = new Position(2,0);
+    newPos = new Position(2,1);
+    // Then a move of a red unit should succeed
+    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  /**
+   * A helper method for passing turns to avoid code dublication,
+   * and ease of use in test driven development
+   * @param x is the amout of turns that should be ended
+   */
+  public void doXEndOfTurn(int x) {
+    for (int i = 1; i <= x; i++) {
+      game.endOfTurn();
+    }
   }
 }
