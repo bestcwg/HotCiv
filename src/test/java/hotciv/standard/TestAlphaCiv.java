@@ -323,9 +323,11 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeNoMoreThanOneUnitOnTile() {
+    // Given a game
+    // When it is reds turn and want to move a unit to tile with another unit
     p = new Position(2,0);
     newPos = new Position(3,2);
-
+    // Then the move should not succed
     assertThat(game.moveUnit(p, newPos), is(false));
     assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
