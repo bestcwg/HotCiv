@@ -1,38 +1,51 @@
 [OK] Red is the first player in turn
-[OK] There should be a city at (1,1)
-[OK] Red's city is at (1,1)
+
+[OK] There should be a red city at (1,1)
+    [OK] There should be a city at (1,1)
+    [OK] Red's city is at (1,1)
+
 [OK] There should be a blue city (4,1)
-[OK] there is ocean at (1,0)
-[OK] there is a hill at (0, 1)
-[OK] there is a mountain at (2,2)
-[OK] All other tiles should be plains
-[OK] There should be a world map 16X16 of mostly plains
-[OK] there is a unit at (0,2)
-[OK] unit at (0,2) is archer
-[OK] unit at (0,2) is owned by player red
+
+[OK] Populate the world
+    [OK] there is ocean at (1,0)
+    [OK] there is a hill at (0, 1)
+    [OK] there is a mountain at (2,2)
+    [OK] All other tiles should be plains
+    [OK] There should be a world map 16X16 of mostly plains
+
+[OK] There should be a red archer at (2,0)
+    [OK] there is a unit at (2,0)
+    [OK] unit at (2,0) is archer
+    [OK] unit at (2,0) is owned by player red
+
 [OK] Should be able to differentiate unit type
 [OK] should be able to differentiate unit owner
-[OK] unit at (3,2) is a legion
-[OK] unit at (3,2) is owned by player
+
+[OK]There should be a blue legion at (3,2)
+    [OK] unit at (3,2) is a legion
+    [OK] unit at (3,2) is owned by blue player
+
 [OK] Red has a settler at (4,3)
-[OK] units cannot move over mountain
-[OK] unit can move from (3,2) to (4,2)
-[OK] Red cannot move Blue's units
-[OK] cities produce 6 `production' after a round has ended
-[OK] cities' population size is always 1
+
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
 [OK] A round should be after every player has taken a turn
+
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC
 [OK] Red wins in year 3000 BC
+
 [OK] cities treasure grows/produces 6 production after each round
+[OK] cities produce 6 `production' after a round has ended
+[OK] cities' population size is always 1
 
-
+[OK] units cannot move over mountain
+[OK] unit can move from (3,2) to (4,2)
+[OK] Red cannot move Blue's units
 
 [OK] Attacking unit always win
     [OK] Multiple units of same owner cannot be on the same tile
     [OK] If a unit of a different owner moves to another units tile it attacks
+    [OK] Red's unit attack and destroy Blue's unit
 
-Red's unit attack and destroy Blue's unit
 etc.
