@@ -50,6 +50,8 @@
 
 units should be produced when enough production is accumulated in the city
     cities can choose what to produce
+        [OK] red city can choose archer as work focus
+        red city can choose legion as work focus
     city produce unit
     the city produce unit at the city tile
         if city tile is occupied use neighbor tile, starting north, going clockwise

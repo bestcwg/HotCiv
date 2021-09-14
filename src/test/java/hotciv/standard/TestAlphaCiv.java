@@ -337,6 +337,14 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  @Test
+  public void shouldBeAbleToChooseArcherAsProductionFocus() {
+    // Given a game
+    // When red city choose production focus as archer
+    // Then red city work force focus is archer
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.ARCHER));
+  }
+
   /**
    * A helper method for passing turns to avoid code dublication,
    * and ease of use in test driven development
