@@ -30,9 +30,11 @@
 
 
 
-Attacking unit always win
-    [OK] Multiple units cannot be on the same tile
-    If a unit moves to another units tile it attacks
+[OK] Attacking unit always win
+    [OK] Multiple units of same owner cannot be on the same tile
+    [OK] If a unit of a different owner moves to another units tile it attacks
 
 Red's unit attack and destroy Blue's unit
 etc.
+
+(spørg ta om vi skal teste for rød og blå)
