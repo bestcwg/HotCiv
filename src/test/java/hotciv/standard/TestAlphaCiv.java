@@ -41,14 +41,25 @@ import java.util.*;
 public class TestAlphaCiv {
   private Game game;
   private City city;
+  private Unit unit;
+
+  private Position archerPos;
+  private Position legionPos;
+  private Position settlerPos;
+  private Position redCityPos;
+  private Position blueCityPos;
   private Position p;
   private Position newPos;
-  private Unit unit;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
     game = new GameImpl();
+    archerPos = new Position(2,0); // The archers' owner is red
+    legionPos = new Position(3,2); // The Legions' owner is blue
+    settlerPos = new Position(4,3); // The settler' owner is red
+    redCityPos = new Position(1,1);
+    blueCityPos = new Position(4,1);
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -115,29 +126,26 @@ public class TestAlphaCiv {
   public void shouldBeCityAt1_1() {
     // Given a game
     // When entering position 1,1
-    p = new Position(1,1);
     // Then at that location there should be a city
-    assertThat(game.getCityAt(p), is(notNullValue()));
+    assertThat(game.getCityAt(redCityPos), is(notNullValue()));
   }
 
   @Test
   public void shouldBeRedCityAt1_1() {
     // Given a game
     // When entering position 1,1
-    p = new Position(1,1);
     // Then the city at that location should be owned by red
-    assertThat(game.getCityAt(p), is(notNullValue()));
-    assertThat(game.getCityAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getCityAt(redCityPos), is(notNullValue()));
+    assertThat(game.getCityAt(redCityPos).getOwner(), is(Player.RED));
   }
 
   @Test
   public void shouldBeBlueCityAt4_1() {
     // Given a game
     // When entering position 4,1
-    p = new Position(4,1);
     // Then the city at that location should be owned by blue
-    assertThat(game.getCityAt(p), is(notNullValue()));
-    assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
+    assertThat(game.getCityAt(blueCityPos), is(notNullValue()));
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.BLUE));
   }
 
   @Test
@@ -192,16 +200,14 @@ public class TestAlphaCiv {
   public void shouldIncreaseTreasuryBy6InEachCityAfterEachRound() {
     // Given a game
     // When the round ends
-    p = new Position(1,1);
     doXEndOfTurn(2);
     // Then the treasury of each city should increase by 6
-    assertThat(game.getCityAt(p).getTreasury(), is(6));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(6));
     doXEndOfTurn(2);
-    assertThat(game.getCityAt(p).getTreasury(), is(12));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
 
     // Check for blue city as well
-    p = new Position(4,1);
-    assertThat(game.getCityAt(p).getTreasury(), is(12));
+    assertThat(game.getCityAt(blueCityPos).getTreasury(), is(12));
   }
 
   @Test
@@ -217,18 +223,16 @@ public class TestAlphaCiv {
   public void shouldBeAnArcherAt2_0() {
     // Given a game
     // When entering position 2,0
-    p = new Position(2,0);
-    // The Unit at this position is a archer
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    // The Unit at this position is an archer
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
   public void shouldBeRedPlayersUnitAt2_0() {
     // Given a game
     // When entering position 2,0
-    p = new Position(2,0);
     // Then the unit at this position is owned by player red
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(archerPos).getOwner(), is(Player.RED));
   }
 
   @Test
@@ -244,42 +248,37 @@ public class TestAlphaCiv {
   public void shouldBeBluePlayersUnitAt3_2() {
     // Given a Game
     // When entering position 3,2
-    p = new Position(3,2);
     // Then the unit at this location is blue
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+    assertThat(game.getUnitAt(legionPos).getOwner(), is(Player.BLUE));
   }
 
   @Test
   public void shouldBeAbleToDifferentiateUnits() {
     // Given a game
     // When there is multiple unit classes
-    p = new Position(3,2);
     // Then the game can differentiate between them
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
-    p = new Position(2,0);
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
   public void shouldBePlayerRedSettlerAt4_3() {
     // Given a game
     // When entering a position 4,3
-    p = new Position(4,3);
     // Then the unit at the location is a red settler
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getOwner(), is(Player.RED));
   }
 
   @Test
   public void shouldNotBeAbleToMoveUnitsOverMountains() {
     // Given a game
     // When trying to move a blue unit in blue players turn over a mountain
-    p = new Position(3,2);
     Position mountain = new Position(2,2);
     game.endOfTurn();
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
     // Then the move should fail
-    assertThat(game.moveUnit(p, mountain), is(false));
+    assertThat(game.moveUnit(legionPos, mountain), is(false));
   }
 
   @Test
@@ -287,13 +286,12 @@ public class TestAlphaCiv {
     // Given a game
     // When moving a unit with a legal move
     doXEndOfTurn(1);
-    p = new Position(3,2);
     newPos = new Position(4,2);
     // Then the move should succeed
-    assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.LEGION));
-    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(legionPos).getTypeString(),is(GameConstants.LEGION));
+    assertThat(game.moveUnit(legionPos, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
-    assertThat(game.getUnitAt(p), is(nullValue()));
+    assertThat(game.getUnitAt(legionPos), is(nullValue()));
   }
 
   @Test
@@ -301,11 +299,10 @@ public class TestAlphaCiv {
     // Given a game
     // When it is reds turn
     assertThat(game.getPlayerInTurn(), is(Player.RED));
-    p = new Position(3,2);
     newPos = new Position(4,2);
     // Then a move of a blue unit should fail
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
-    assertThat(game.moveUnit(p, newPos), is(false));
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.moveUnit(legionPos, newPos), is(false));
     assertThat(game.getUnitAt(newPos), is(nullValue()));
   }
 
@@ -313,23 +310,32 @@ public class TestAlphaCiv {
   public void shouldBeAbleToMoveRedUnitsInRedsTurn() {
     // Given a game
     // When it is reds turn
-    p = new Position(2,0);
     newPos = new Position(2,1);
     // Then a move of a red unit should succeed
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
-    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.moveUnit(archerPos, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
-  public void shouldBeNoMoreThanOneUnitOnTile() {
-    p = new Position(2,0);
-    newPos = new Position(3,2);
+  public void shouldBeNoMoreThanOneUnitOfSameOwnerOnTile() {
 
-    assertThat(game.moveUnit(p, newPos), is(false));
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
-    assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.moveUnit(archerPos, settlerPos), is(false));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
   }
+
+
+  @Test
+  public void shouldBeAttackingUnitThatWins() {
+    // Given a game
+    // When a red unit moves to (and attacks) a blue unit
+    // Then the red unit wins and occupies the tile
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    game.moveUnit(archerPos,legionPos);
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
   /**
    * A helper method for passing turns to avoid code dublication,
    * and ease of use in test driven development

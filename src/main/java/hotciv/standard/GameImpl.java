@@ -118,11 +118,18 @@ public class GameImpl implements Game {
         return false;
       }
       if (units.containsKey(to)) {
-        return false;
+        // if loop for handling moving units to different tiles
+        if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
+          // to make sure two units with the same owner cannot stand on the same tile
+          return false;
+        }
+        // For when a unit is attacking another unit
+        units.remove(to);
+        moveUnitFrom_To(from,to);
+        return true;
       }
-      Unit unit = getUnitAt(from);
-      units.put(to,unit);
-      units.remove(from);
+      // for when a unit is moving to an empty tile
+      moveUnitFrom_To(from, to);
       return true;
     }
     return false;
@@ -205,5 +212,17 @@ public class GameImpl implements Game {
     if (getAge() == -3000) {
       winner = Player.RED;
     }
+  }
+
+  /**
+   * A helper method that moves a unit to a new position and
+   * removes the old pos from the hashmap of units
+   * @param from where the unit is
+   * @param to where the unit is going
+   */
+  public void moveUnitFrom_To(Position from, Position to) {
+    Unit unit = getUnitAt(from);
+    units.put(to,unit);
+    units.remove(from);
   }
 }
