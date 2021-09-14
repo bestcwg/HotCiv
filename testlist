@@ -48,4 +48,10 @@
     [OK] If a unit of a different owner moves to another units tile it attacks
     [OK] Red's unit attack and destroy Blue's unit
 
+units should be produced when enough production is accumulated in the city
+    cities can choose what to produce
+    city produce unit
+    the city produce unit at the city tile
+        if city tile is occupied use neighbor tile, starting north, going clockwise
+
 etc.
