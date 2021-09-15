@@ -49,12 +49,12 @@
     [OK] Red's unit attack and destroy Blue's unit
 
 [OK] units should be produced when enough production is accumulated in the city
-     cities can choose what to produce
-        [OK] red city can choose archer as production
-        [OK] red city can choose legion production
-        [OK] red city can choose settler production
-        [OK] in reds turn cannot choose production in blues city
-        [OK] blue city can choose an unit production
+     [OK]cities can choose what to produce
+         [OK] red city can choose archer as production
+         [OK] red city can choose legion production
+         [OK] red city can choose settler production
+         [OK] in reds turn cannot choose production in blues city
+         [OK] blue city can choose an unit production
     [OK] city can produce unit
     [OK] After a city produces a unit, treasury is updated by 10
     [OK] the city produce unit at the city tile
