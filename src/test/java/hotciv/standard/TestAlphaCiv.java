@@ -1,7 +1,6 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-import hotciv.utility.*;
 
 import org.junit.jupiter.api.*;
 
@@ -402,9 +401,50 @@ public class TestAlphaCiv {
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     doXEndOfTurn(4);
-    // Then a unit should be created and treasury should by subtracted by 10
+    // Then a unit should be created and treasury should be subtracted by 10
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(2));
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldPlaceUnitAroundCityNeighborhoodIfLastSpotIsOccupied() {
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    Position northOfRedCityPos = new Position(0,1);
+    Position northEastOfRedCityPos = new Position(0,2);
+    Position eastOfRedCityPos = new Position(1,2);
+    Position southEastOfRedCityPos = new Position(2,2);
+    Position southOfRedCityPos = new Position(2,1);
+    Position southWestOfRedCityPos = new Position(2,0);
+    Position westOfRedCityPos = new Position(1,0);
+    Position northWestOfRedCityPos = new Position(0,0);
+
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northEastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(eastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(southEastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(southOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(southWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(westOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   /**

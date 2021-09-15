@@ -35,7 +35,7 @@ public class Utility {
         List<Position> list = new ArrayList<>();
         // Define the 'delta' to add to the row for the 8 positions
         int[] rowDelta = new int[] {-1, -1, 0, +1, +1, +1, 0, -1};
-        // Define the 'delta' to add to the colum for the 8 positions
+        // Define the 'delta' to add to the column for the 8 positions
         int[] columnDelta = new int[] {0, +1, +1, +1, 0, -1, -1, -1};
 
         for (int index = 0; index < rowDelta.length; index++) {
