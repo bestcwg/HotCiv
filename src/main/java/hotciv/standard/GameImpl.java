@@ -157,7 +157,12 @@ public class GameImpl implements Game {
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
 
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    if(cities.containsKey(p) && (unitType.equals(GameConstants.ARCHER) || unitType.equals(GameConstants.LEGION))) {
+      CityImpl city = (CityImpl) cities.get(p);
+      city.changeProduction(unitType);
+    }
+  }
 
   public void performUnitActionAt( Position p ) {}
 

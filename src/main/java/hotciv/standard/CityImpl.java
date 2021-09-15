@@ -6,6 +6,7 @@ import hotciv.framework.Player;
 
 public class CityImpl implements City {
     private Player owner;
+    private String production;
     private int treasury;
 
     /**
@@ -33,7 +34,7 @@ public class CityImpl implements City {
 
     @Override
     public String getProduction() {
-        return GameConstants.ARCHER;
+        return production;
     }
 
     @Override
@@ -46,4 +47,13 @@ public class CityImpl implements City {
      * @param production amount added to city
      */
     public void addTreasury(int production) { this.treasury += production;}
+
+    /**
+     * A method for chancing the production of a city
+     * @param unitType A string representation of the GameConstant unit type
+     * (Archer, Legion, Settler)
+     */
+    public void changeProduction(String unitType) {
+        this.production = unitType;
+    }
 }
