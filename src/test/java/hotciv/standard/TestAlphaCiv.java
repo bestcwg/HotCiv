@@ -338,7 +338,7 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeAbleToChooseArcherAsProduction() {
+  public void shouldBeAbleToChooseArcherAsProductionInRedCity() {
     // Given a game
     // When red city chooses archer as production
     // Then the red city will produce an archer
@@ -347,7 +347,7 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeAbleToChooseLegionAsProduction() {
+  public void shouldBeAbleToChooseLegionAsProductionInRedCity() {
     // Given a game
     // When red city chooses legion as production
     // Then the red city will produce a legion
@@ -356,12 +356,21 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeAbleToChooseSettlerAsProduction() {
+  public void shouldBeAbleToChooseSettlerAsProductionInRedCity() {
     // Given a game
     // When red city chooses settler as production
     // Then the red city will produce a settler
     game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
     assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.SETTLER));
+  }
+
+  @Test
+  public void shouldNotBeAbleToChooseBlueCityProductionInRedsTurn() {
+    // Given a game
+    // When red players turn chooses blue city production
+    // Then red player will not be able to change production
+    game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
   }
 
   /**
