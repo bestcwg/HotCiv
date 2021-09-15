@@ -373,6 +373,16 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
   }
 
+  @Test
+  public void shouldBeAbleForBlueToChooseProductionInTheirTurn() {
+    // Given a game
+    doXEndOfTurn(1);
+    // When in blue players turn, and choose production is called
+    // Then blue city should produce the production
+    game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.LEGION));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
