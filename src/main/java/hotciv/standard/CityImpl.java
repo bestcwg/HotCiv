@@ -33,12 +33,12 @@ public class CityImpl implements City {
 
     @Override
     public String getProduction() {
-        return null;
+        return GameConstants.ARCHER;
     }
 
     @Override
     public String getWorkforceFocus() {
-        return GameConstants.ARCHER;
+        return null;
     }
 
     /**

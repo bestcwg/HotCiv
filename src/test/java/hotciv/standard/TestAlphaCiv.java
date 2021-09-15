@@ -340,9 +340,10 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeAbleToChooseArcherAsProductionFocus() {
     // Given a game
-    // When red city choose production focus as archer
-    // Then red city work force focus is archer
-    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.ARCHER));
+    // When red city choose production as archer
+    // Then red city production is archer
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.ARCHER));
   }
 
   /**
