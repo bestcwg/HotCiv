@@ -211,9 +211,12 @@ public class GameImpl implements Game {
   public void endOfRound() {
     for (Map.Entry<Position,City> c : cities.entrySet()) {
       CityImpl city = (CityImpl) c.getValue();
-      city.addTreasury(6);
+      city.changeTreasury(6);
       if(city.getTreasury() >= 10) {
-        units.put(c.getKey(), new UnitImpl(city.getOwner(), city.getProduction()));
+        if(city.getProduction() != null) {
+          units.put(c.getKey(), new UnitImpl(city.getOwner(), city.getProduction()));
+          city.changeTreasury(-10);
+        }
       }
     }
     age += 100;

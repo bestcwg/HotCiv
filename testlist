@@ -56,7 +56,7 @@ units should be produced when enough production is accumulated in the city
         [OK] in reds turn cannot choose production in blues city
         [OK] blue city can choose an unit production
     [OK] city can produce unit
-    After a city produces a unit, treasury is updated
+    [OK] After a city produces a unit, treasury is updated by 10
     the city produce unit at the city tile
         if city tile is occupied use neighbor tile, starting north, going clockwise
 

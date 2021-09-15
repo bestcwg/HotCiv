@@ -45,7 +45,7 @@ public class CityImpl implements City {
      * Adds production to treasury in a City
      * @param production amount added to city
      */
-    public void addTreasury(int production) { this.treasury += production;}
+    public void changeTreasury(int production) { this.treasury += production;}
 
     /**
      * A method for chancing the production of a city

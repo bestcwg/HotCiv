@@ -384,14 +384,25 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeAbleToProduceAUnitWhenTresuryIs10() {
+  public void shouldBeAbleToProduceAUnitWhenTreasuryIs10() {
     // Given a game
     // When production hits 10
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     doXEndOfTurn(4);
     // Then a unit should be created
-    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBeSubtracting10FromTreasuryAfterCityProduceUnit() {
+    // Given a game
+    // When unit is produced by city
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    // Then a unit should be created and treasury should by subtracted by 10
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(2));
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
