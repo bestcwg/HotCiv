@@ -341,7 +341,7 @@ public class TestAlphaCiv {
   public void shouldBeAbleToChooseArcherAsProduction() {
     // Given a game
     // When red city chooses archer as production
-    //    // Then the red city will produce a archer
+    // Then the red city will produce an archer
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.ARCHER));
   }
@@ -355,10 +355,19 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.LEGION));
   }
 
+  @Test
+  public void shouldBeAbleToChooseSettlerAsProduction() {
+    // Given a game
+    // When red city chooses settler as production
+    // Then the red city will produce a settler
+    game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.SETTLER));
+  }
+
   /**
-   * A helper method for passing turns to avoid code dublication,
+   * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
-   * @param x is the amout of turns that should be ended
+   * @param x is the amount of turns that should be ended
    */
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
