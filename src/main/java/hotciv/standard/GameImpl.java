@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.utility.*;
 
 import java.util.*;
 
@@ -109,7 +110,7 @@ public class GameImpl implements Game {
    * and that the move is valid (Do not move over mountain)
    * @param from the position that the unit has now
    * @param to the position the unit should move to
-   * @return a boolean value, false if the move failed and true if it succeed
+   * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
     if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
@@ -141,12 +142,8 @@ public class GameImpl implements Game {
    */
   public void endOfTurn() {
     switch (playerInTurn) {
-      case RED:
-        playerInTurn = Player.BLUE;
-        break;
-      case BLUE:
-        playerInTurn = Player.RED;
-        break;
+      case RED -> playerInTurn = Player.BLUE;
+      case BLUE -> playerInTurn = Player.RED;
     }
     playerTurns++;
     if (playerTurns == 2) {
