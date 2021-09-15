@@ -52,7 +52,7 @@ units should be produced when enough production is accumulated in the city
     cities can choose what to produce
         [OK] red city can choose archer as production
         [OK] red city can choose legion production
-        red city can choose settler production
+        [OK] red city can choose settler production
         blue city can choose an unit production
     city produce unit
     the city produce unit at the city tile
