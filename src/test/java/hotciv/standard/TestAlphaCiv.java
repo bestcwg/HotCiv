@@ -383,6 +383,18 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.LEGION));
   }
 
+  @Test
+  public void shouldBeAbleToProduceAUnitWhenTresuryIs10() {
+    // Given a game
+    // When production hits 10
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    // Then a unit should be created
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
