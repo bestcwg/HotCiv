@@ -48,8 +48,8 @@
     [OK] If a unit of a different owner moves to another units tile it attacks
     [OK] Red's unit attack and destroy Blue's unit
 
-units should be produced when enough production is accumulated in the city
-    cities can choose what to produce
+[OK] units should be produced when enough production is accumulated in the city
+     cities can choose what to produce
         [OK] red city can choose archer as production
         [OK] red city can choose legion production
         [OK] red city can choose settler production
