@@ -58,6 +58,6 @@ units should be produced when enough production is accumulated in the city
     [OK] city can produce unit
     [OK] After a city produces a unit, treasury is updated by 10
     [OK] the city produce unit at the city tile
-        if city tile is occupied use neighbor tile, starting north, going clockwise
+        [OK ]if city tile is occupied use neighbor tile, starting north, going clockwise
 
 etc.
