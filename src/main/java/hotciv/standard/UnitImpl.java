@@ -10,6 +10,7 @@ public class UnitImpl implements Unit {
     private String unitType;
     private int attackingStrength;
     private int defensiveStrength;
+    private int moveCount;
 
     /**
      * Constructor for the unit implementation
@@ -19,6 +20,7 @@ public class UnitImpl implements Unit {
     public UnitImpl(Player owner, String unitType) {
         this.owner = owner;
         this.unitType = unitType;
+        moveCount = 1;
         switch (unitType) {
             case GameConstants.ARCHER:
                 attackingStrength = 2;
@@ -31,6 +33,7 @@ public class UnitImpl implements Unit {
             case GameConstants.SETTLER:
                 attackingStrength = 0;
                 defensiveStrength = 3;
+                break;
         }
     }
 
@@ -44,7 +47,7 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getMoveCount() {
-        return 1;
+        return moveCount;
     }
 
     @Override
@@ -57,4 +60,7 @@ public class UnitImpl implements Unit {
         return attackingStrength;
     }
 
+    private void resetMoveCount() {
+        moveCount = 1;
+    }
 }
