@@ -26,6 +26,11 @@ public class UnitImpl implements Unit {
                 break;
             case GameConstants.LEGION:
                 attackingStrength = 4;
+                defensiveStrength = 2;
+                break;
+            case GameConstants.SETTLER:
+                attackingStrength = 0;
+                defensiveStrength = 3;
         }
     }
 

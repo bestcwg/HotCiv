@@ -65,13 +65,13 @@
     [OK] Legion unit cost 15 production to produce
     [OK] Settler unit cost 30 production to produce
 
-Units has attack and defence number
+[OK]Units has attack and defence number
     [OK]Archer has 2 attack
     [OK]Archer has 3 defence
     [OK]Legion has 4 attack
-    Legion has 2 defence
-    Settler has 0 attack
-    Settler has 3 defence
+    [OK]Legion has 2 defence
+    [OK]Settler has 0 attack
+    [OK]Settler has 3 defence
 
 City choose workforce to be "gathering food" or "production"
 
