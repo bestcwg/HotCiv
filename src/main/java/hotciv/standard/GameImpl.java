@@ -220,31 +220,40 @@ public class GameImpl implements Game {
    * and increase the treasury of the cities in the game
    */
   public void endOfRound() {
-    // loop through all the cities in the cities hashmap
-    for (Map.Entry<Position,City> c : cities.entrySet()) {
+    // Reset move count for all units
+    for (Map.Entry<Position, Unit> u : units.entrySet()) {
+      UnitImpl unit = (UnitImpl) u.getValue();
+      unit.resetMoveCounter();
+    }
+    // loop through all the cities in the cities hashmap for unit production
+    for (Map.Entry<Position, City> c : cities.entrySet()) {
       // typecast to CityImpl to make sure we can access changeTreasury to add production
       CityImpl city = (CityImpl) c.getValue();
       city.changeTreasury(6);
-      // if the treasury of a city is above 10, its should produce a unit
-      // reduce the city's treasure with the amount of production needed for the unit
       // a measure to make sure tests don't fail if a production isn't set
       if(city.getProduction() != null) {
         switch (city.getProduction()) {
           case GameConstants.ARCHER:
+            // Check if the treasury of the city is enough to produces the city production focus
             if (city.getTreasury() >= 10) {
+              // reduce the city's treasure with the amount of production needed for the unit
               city.changeTreasury(-10);
               createUnit(c.getKey(), city);
             }
             break;
           case GameConstants.LEGION:
+            // Check if the treasury of the city is enough to produces the city production focus
             if (city.getTreasury() >= 15) {
+              // reduce the city's treasure with the amount of production needed for the unit
               city.changeTreasury(-15);
               createUnit(c.getKey(), city);
             }
             break;
           case GameConstants.SETTLER:
+            // Check if the treasury of the city is enough to produces the city production focus
             if (city.getTreasury() >= 30) {
               city.changeTreasury(-30);
+              // reduce the city's treasure with the amount of production needed for the unit
               createUnit(c.getKey(), city);
             }
         }

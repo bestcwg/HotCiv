@@ -56,4 +56,5 @@ public class UnitImpl implements Unit {
     public int getAttackingStrength() {
         return attackingStrength;
     }
+
 }
