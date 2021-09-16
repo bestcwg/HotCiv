@@ -296,7 +296,9 @@ public class GameImpl implements Game {
       if (getUnitAt(c) == null) {
         units.put(c, new UnitImpl(city.getOwner(), city.getProduction()));
         // Otherwise, run through the neighborhood to find a legal spot to place the unit
-      } else if (getUnitAt(p) == null) {
+      } else if (getUnitAt(p) == null &&
+              !getTileAt(p).getTypeString().equals(GameConstants.MOUNTAINS)
+              && !getTileAt(p).getTypeString().equals(GameConstants.OCEANS)) {
         units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
       }
     }

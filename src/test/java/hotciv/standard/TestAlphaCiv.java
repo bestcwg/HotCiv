@@ -500,7 +500,6 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(settlerPos).getDefensiveStrength(), is(3));
   }
 
-
   @Test
   public void shouldPlaceUnitAroundCityNeighborhoodIfLastSpotIsOccupied() {
     // Given a game
@@ -530,16 +529,10 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(eastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
 
     doXEndOfTurn(4);
-    assertThat(game.getUnitAt(southEastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
-
-    doXEndOfTurn(4);
     assertThat(game.getUnitAt(southOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
 
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(southWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
-
-    doXEndOfTurn(4);
-    assertThat(game.getUnitAt(westOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
 
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(northWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
@@ -608,6 +601,14 @@ public class TestAlphaCiv {
     // Then the move should fail
     assertThat(game.moveUnit(newPos, new Position(4,0)), is(false));
     assertThat(game.getUnitAt(new Position(4,0)), is(nullValue()));
+  }
+
+  @Test
+  public void shouldNotBeAbleToSpawnAUnitFromACityOnAMountainTile() {
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    doXEndOfTurn(40);
+    assertThat(game.getUnitAt(new Position(2,2)), is(nullValue()));
+
   }
 
   /**
