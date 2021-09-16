@@ -8,15 +8,34 @@ import hotciv.framework.Unit;
 public class UnitImpl implements Unit {
     private Player owner;
     private String unitType;
+    private int attackingStrength;
+    private int defensiveStrength;
+    private int moveCount;
 
     /**
-     * Constructor for the unit implementation
+     * Constructor for the unit implementation, set up the units attacking and defensive strength
+     * bases on the unit type passed
      * @param owner the player who owns the unit
      * @param unitType the type of unit (Archer,Legion,Settler)
      */
     public UnitImpl(Player owner, String unitType) {
         this.owner = owner;
         this.unitType = unitType;
+        moveCount = 1;
+        switch (unitType) {
+            case GameConstants.ARCHER:
+                attackingStrength = 2;
+                defensiveStrength = 3;
+                break;
+            case GameConstants.LEGION:
+                attackingStrength = 4;
+                defensiveStrength = 2;
+                break;
+            case GameConstants.SETTLER:
+                attackingStrength = 0;
+                defensiveStrength = 3;
+                break;
+        }
     }
 
     @Override
@@ -29,16 +48,30 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getMoveCount() {
-        return 0;
+        return moveCount;
     }
 
     @Override
     public int getDefensiveStrength() {
-        return 0;
+        return defensiveStrength;
     }
 
     @Override
     public int getAttackingStrength() {
-        return 0;
+        return attackingStrength;
+    }
+
+    /**
+     * A method for resetting the move count to 1
+     */
+    public void resetMoveCount() {
+        moveCount = 1;
+    }
+
+    /**
+     * A method for retracting the move count of a unit after it has moved
+     */
+    public void retractMoveCount() {
+        moveCount -= 1;
     }
 }

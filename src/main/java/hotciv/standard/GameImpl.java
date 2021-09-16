@@ -1,9 +1,9 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.utility.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** Skeleton implementation of HotCiv.
  
@@ -38,15 +38,16 @@ public class GameImpl implements Game {
   private HashMap<Position, Tile> worldMap;
   private Player playerInTurn;
   private Player winner;
-  private int age = -4000;
+  private int age;
   private int playerTurns;
 
   /**
    * Constructor for the GameImplementation class
-   * Instantiate the world map, and create necessary hashmaps
+   * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
   public GameImpl() {
     playerInTurn = Player.RED;
+    age = -4000;
 
     worldMap = new HashMap<>();
     cities = new HashMap<>();
@@ -110,17 +111,41 @@ public class GameImpl implements Game {
    * and that the move is valid (Do not move over mountain)
    * @param from the position that the unit has now
    * @param to the position the unit should move to
-   * @return a boolean value, false if the move failed and true if it succeed
+   * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
-      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
+    // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1) {
+      // check that the unit is not moving over a mountain or ocean
+      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
       }
-      Unit unit = getUnitAt(from);
-      units.put(to,unit);
-      units.remove(from);
-      return true;
+      // makes sure units only move 1 tile at a time
+      if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
+        if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
+          // for handling what to do if unit is a to position
+          if (units.containsKey(to)) {
+            // if it is the players unit dont move to pos, as player cant have two units on same pos
+            if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
+              return false;
+            }
+            // if it is enemy unit, remove that unit
+            units.remove(to);
+          }
+
+          // if there is a city that the player doesnt own, capture it
+          if (cities.containsKey(to)) {
+            if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
+              CityImpl city = (CityImpl) getCityAt(to);
+              city.changeOwner(getUnitAt(from).getOwner());
+            }
+          }
+
+          // if position to is empty, just move unit to tile
+          moveUnitFrom_To(from,to);
+          return true;
+        }
+      }
     }
     return false;
   }
@@ -145,9 +170,35 @@ public class GameImpl implements Game {
     }
   }
 
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
+  /**
+   * A method for changing the work force focus in the city
+   * @param p the position of the city whose focus
+   * should be changed.
+   * @param balance a string defining the focus of the work
+   * force in a city. Valid values are at least
+   * GameConstants.productionFocus
+   */
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {
+    if(getPlayerInTurn() == cities.get(p).getOwner()) {
+      CityImpl city = (CityImpl) cities.get(p);
+      city.changeWorkForceFocus(balance);
+    }
+  }
 
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  /**
+   * A Method for changing the production in a city
+   * @param p the position of the city
+   * @param unitType a string defining the type of unit that the city should produce
+   *                 valid units are GameConstants ARCHER,LEGION,SETTLER
+   */
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    if(getPlayerInTurn() == getCityAt(p).getOwner()) {
+      if (cities.containsKey(p) && (unitType.equals(GameConstants.ARCHER) || unitType.equals(GameConstants.LEGION) || unitType.equals(GameConstants.SETTLER))) {
+        CityImpl city = (CityImpl) getCityAt(p);
+        city.changeProduction(unitType);
+      }
+    }
+  }
 
   public void performUnitActionAt( Position p ) {}
 
@@ -189,18 +240,90 @@ public class GameImpl implements Game {
   }
 
   /**
-   * A method that ends the round, it will progress the age of the game
-   * and increase the treasury of the cities in the game
+   * A method that ends the round
+   * When a round ends, the move count of units are reset, the cities add and produce their production
+   * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
    */
   public void endOfRound() {
-    for (Map.Entry<Position,City> c : cities.entrySet()) {
-      CityImpl city = (CityImpl) c.getValue();
-      city.addTreasury(6);
+    // Reset move count for all units
+    for (Map.Entry<Position, Unit> u : units.entrySet()) {
+      UnitImpl unit = (UnitImpl) u.getValue();
+      unit.resetMoveCount();
     }
+    // loop through all the cities in the cities hashmap for unit production
+    for (Map.Entry<Position, City> c : cities.entrySet()) {
+      // typecast to CityImpl to make sure we can access changeTreasury to add production
+      CityImpl city = (CityImpl) c.getValue();
+      city.changeTreasury(6);
+      // a measure to make sure tests don't fail if a production isn't set
+      if(city.getProduction() != null) {
+        switch (city.getProduction()) {
+          case GameConstants.ARCHER:
+            // Check if the treasury of the city is enough to produces the city production focus
+            if (city.getTreasury() >= 10) {
+              // reduce the city's treasure with the amount of production needed for the unit
+              city.changeTreasury(-10);
+              createUnit(c.getKey(), city);
+            }
+            break;
+          case GameConstants.LEGION:
+            // Check if the treasury of the city is enough to produces the city production focus
+            if (city.getTreasury() >= 15) {
+              // reduce the city's treasure with the amount of production needed for the unit
+              city.changeTreasury(-15);
+              createUnit(c.getKey(), city);
+            }
+            break;
+          case GameConstants.SETTLER:
+            // Check if the treasury of the city is enough to produces the city production focus
+            if (city.getTreasury() >= 30) {
+              city.changeTreasury(-30);
+              // reduce the city's treasure with the amount of production needed for the unit
+              createUnit(c.getKey(), city);
+            }
+        }
+      }
+    }
+    // increment the age
     age += 100;
     playerTurns = 0;
     if (getAge() == -3000) {
       winner = Player.RED;
     }
+  }
+
+  /**
+   * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
+   * @param c the position of the city
+   * @param city and the actual city object
+   */
+  private void createUnit(Position c, City city) {
+    // loop though the neighborhood of a city using the provided utility class
+    for (Position p : Utility.get8neighborhoodOf(c)) {
+      // if there is no unit at the city center place a unit here
+      if (getUnitAt(c) == null) {
+        units.put(c, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
+        // Otherwise, run through the neighborhood to find a legal spot to place the unit
+      } else if (getUnitAt(p) == null &&
+              !getTileAt(p).getTypeString().equals(GameConstants.MOUNTAINS)
+              && !getTileAt(p).getTypeString().equals(GameConstants.OCEANS)) {
+        units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
+      }
+    }
+  }
+
+  /**
+   * A helper method that moves a unit to a new position and
+   * removes the old pos from the hashmap of units
+   * @param from where the unit is
+   * @param to where the unit is going
+   */
+  public void moveUnitFrom_To(Position from, Position to) {
+    UnitImpl unit = (UnitImpl) getUnitAt(from);
+    units.put(to,unit);
+    units.remove(from);
+    unit.retractMoveCount();
   }
 }

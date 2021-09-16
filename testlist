@@ -1,34 +1,98 @@
 [OK] Red is the first player in turn
-[OK] There should be a city at (1,1)
-[OK] Red's city is at (1,1)
+
+[OK] There should be a red city at (1,1)
+    [OK] There should be a city at (1,1)
+    [OK] Red's city is at (1,1)
+
 [OK] There should be a blue city (4,1)
-[OK] there is ocean at (1,0)
-[OK] there is a hill at (0, 1)
-[OK] there is a mountain at (2,2)
-[OK] All other tiles should be plains
-[OK] There should be a world map 16X16 of mostly plains
-[OK] there is a unit at (0,2)
-[OK] unit at (0,2) is archer
-[OK] unit at (0,2) is owned by player red
+
+[OK] Populate the world
+    [OK] there is ocean at (1,0)
+    [OK] there is a hill at (0, 1)
+    [OK] there is a mountain at (2,2)
+    [OK] All other tiles should be plains
+    [OK] There should be a world map 16X16 of mostly plains
+
+[OK] There should be a red archer at (2,0)
+    [OK] there is a unit at (2,0)
+    [OK] unit at (2,0) is archer
+    [OK] unit at (2,0) is owned by player red
+
 [OK] Should be able to differentiate unit type
 [OK] should be able to differentiate unit owner
-[OK] unit at (3,2) is a legion
-[OK] unit at (3,2) is owned by player
+
+[OK]There should be a blue legion at (3,2)
+    [OK] unit at (3,2) is a legion
+    [OK] unit at (3,2) is owned by blue player
+
 [OK] Red has a settler at (4,3)
-[OK] units cannot move over mountain
-[OK] unit can move from (3,2) to (4,2)
-[OK] Red cannot move Blue's units
-[OK] cities produce 6 `production' after a round has ended
-[OK] cities' population size is always 1
+
 [OK] after Red it is Blue that is in turn
 [OK] After round end time should pass by 100 years
-[OK] A round should be after every player has taken a turn
+[OK] A round should end after every player has taken a turn
+
 [OK] Starting year should be 4000 BC
 [OK] After 5 rounds, the year should be 3500 BC
 [OK] Red wins in year 3000 BC
+
 [OK] cities treasure grows/produces 6 production after each round
+[OK] cities produce 6 `production' after a round has ended
+[OK] cities' population size is always 1
+
+[OK] units cannot move over mountain
+[OK] unit can move from (3,2) to (4,2)
+[OK] Red cannot move Blue's units
+[OK] units cannot move on ocean
+[OK] units can move no more than one tile
+
+[OK] Attacking unit always win
+    [OK] Multiple units of same owner cannot be on the same tile
+    [OK] If a unit of a different owner moves to another units tile it attacks
+    [OK] Red's unit attack and destroy Blue's unit
+
+[OK] units should be produced when enough production is accumulated in the city
+     [OK]cities can choose what to produce
+         [OK] red city can choose archer as production
+         [OK] red city can choose legion production
+         [OK] red city can choose settler production
+         [OK] in reds turn cannot choose production in blues city
+         [OK] blue city can choose an unit production
+    [OK] city can produce unit
+    [OK] After a city produces a unit, treasury is updated by 10
+    [OK] the city produce unit at the city tile
+        [OK ]if city tile is occupied use neighbor tile, starting north, going clockwise
+    [OK] Archer unit cost 10 production to produce
+    [OK] Legion unit cost 15 production to produce
+    [OK] Settler unit cost 30 production to produce
+
+[OK]Units has attack and defence number
+    [OK]Archer has 2 attack
+    [OK]Archer has 3 defence
+    [OK]Legion has 4 attack
+    [OK]Legion has 2 defence
+    [OK]Settler has 0 attack
+    [OK]Settler has 3 defence
+
+[OK] City choose workforce to be "gathering food" or "production"
+    [OK] should be able to choose workforce as production in city
+
+[OK] Unit move count should be updated with a move
+[OK] Units cannot move if their move count is 0
+
+Units cannot move outside the game world
+
+[OK] Tiles have a production value
+    [OK] Mountains have 0 food 1 production
+    [OK] Hills have 0 food 2 production
+    [OK] Ocean have 1 food  production
+    [OK] Forrest have 0 food 3 production
+    [OK] Plains have 3 food 0 production
+
+[OK] If a unit attacks a city, the city is captured
+
+[OK]Make sure a city doesn't spawn a unit on a impassible tile
+    [OK] do not spawn on mountain
+    [OK] do not spawn on ocean
 
 
-Attacking unit always win
-Red's unit attack and destroy Blue's unit
 etc.

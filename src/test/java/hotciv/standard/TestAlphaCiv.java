@@ -41,14 +41,25 @@ import java.util.*;
 public class TestAlphaCiv {
   private Game game;
   private City city;
+  private Unit unit;
+
+  private Position archerPos;
+  private Position legionPos;
+  private Position settlerPos;
+  private Position redCityPos;
+  private Position blueCityPos;
   private Position p;
   private Position newPos;
-  private Unit unit;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
     game = new GameImpl();
+    archerPos = new Position(2,0); // The archers' owner is red
+    legionPos = new Position(3,2); // The Legions' owner is blue
+    settlerPos = new Position(4,3); // The settler' owner is red
+    redCityPos = new Position(1,1);
+    blueCityPos = new Position(4,1);
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -115,29 +126,26 @@ public class TestAlphaCiv {
   public void shouldBeCityAt1_1() {
     // Given a game
     // When entering position 1,1
-    p = new Position(1,1);
     // Then at that location there should be a city
-    assertThat(game.getCityAt(p), is(notNullValue()));
+    assertThat(game.getCityAt(redCityPos), is(notNullValue()));
   }
 
   @Test
   public void shouldBeRedCityAt1_1() {
     // Given a game
     // When entering position 1,1
-    p = new Position(1,1);
     // Then the city at that location should be owned by red
-    assertThat(game.getCityAt(p), is(notNullValue()));
-    assertThat(game.getCityAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getCityAt(redCityPos), is(notNullValue()));
+    assertThat(game.getCityAt(redCityPos).getOwner(), is(Player.RED));
   }
 
   @Test
   public void shouldBeBlueCityAt4_1() {
     // Given a game
     // When entering position 4,1
-    p = new Position(4,1);
     // Then the city at that location should be owned by blue
-    assertThat(game.getCityAt(p), is(notNullValue()));
-    assertThat(game.getCityAt(p).getOwner(), is(Player.BLUE));
+    assertThat(game.getCityAt(blueCityPos), is(notNullValue()));
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.BLUE));
   }
 
   @Test
@@ -192,16 +200,14 @@ public class TestAlphaCiv {
   public void shouldIncreaseTreasuryBy6InEachCityAfterEachRound() {
     // Given a game
     // When the round ends
-    p = new Position(1,1);
     doXEndOfTurn(2);
     // Then the treasury of each city should increase by 6
-    assertThat(game.getCityAt(p).getTreasury(), is(6));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(6));
     doXEndOfTurn(2);
-    assertThat(game.getCityAt(p).getTreasury(), is(12));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
 
     // Check for blue city as well
-    p = new Position(4,1);
-    assertThat(game.getCityAt(p).getTreasury(), is(12));
+    assertThat(game.getCityAt(blueCityPos).getTreasury(), is(12));
   }
 
   @Test
@@ -217,18 +223,16 @@ public class TestAlphaCiv {
   public void shouldBeAnArcherAt2_0() {
     // Given a game
     // When entering position 2,0
-    p = new Position(2,0);
-    // The Unit at this position is a archer
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    // The Unit at this position is an archer
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
   public void shouldBeRedPlayersUnitAt2_0() {
     // Given a game
     // When entering position 2,0
-    p = new Position(2,0);
     // Then the unit at this position is owned by player red
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(archerPos).getOwner(), is(Player.RED));
   }
 
   @Test
@@ -244,42 +248,37 @@ public class TestAlphaCiv {
   public void shouldBeBluePlayersUnitAt3_2() {
     // Given a Game
     // When entering position 3,2
-    p = new Position(3,2);
     // Then the unit at this location is blue
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+    assertThat(game.getUnitAt(legionPos).getOwner(), is(Player.BLUE));
   }
 
   @Test
   public void shouldBeAbleToDifferentiateUnits() {
     // Given a game
     // When there is multiple unit classes
-    p = new Position(3,2);
     // Then the game can differentiate between them
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
-    p = new Position(2,0);
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   @Test
   public void shouldBePlayerRedSettlerAt4_3() {
     // Given a game
     // When entering a position 4,3
-    p = new Position(4,3);
     // Then the unit at the location is a red settler
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
-    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getOwner(), is(Player.RED));
   }
 
   @Test
   public void shouldNotBeAbleToMoveUnitsOverMountains() {
     // Given a game
     // When trying to move a blue unit in blue players turn over a mountain
-    p = new Position(3,2);
     Position mountain = new Position(2,2);
     game.endOfTurn();
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
     // Then the move should fail
-    assertThat(game.moveUnit(p, mountain), is(false));
+    assertThat(game.moveUnit(legionPos, mountain), is(false));
   }
 
   @Test
@@ -287,13 +286,12 @@ public class TestAlphaCiv {
     // Given a game
     // When moving a unit with a legal move
     doXEndOfTurn(1);
-    p = new Position(3,2);
     newPos = new Position(4,2);
     // Then the move should succeed
-    assertThat(game.getUnitAt(p).getTypeString(),is(GameConstants.LEGION));
-    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(legionPos).getTypeString(),is(GameConstants.LEGION));
+    assertThat(game.moveUnit(legionPos, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
-    assertThat(game.getUnitAt(p), is(nullValue()));
+    assertThat(game.getUnitAt(legionPos), is(nullValue()));
   }
 
   @Test
@@ -301,11 +299,10 @@ public class TestAlphaCiv {
     // Given a game
     // When it is reds turn
     assertThat(game.getPlayerInTurn(), is(Player.RED));
-    p = new Position(3,2);
     newPos = new Position(4,2);
     // Then a move of a blue unit should fail
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
-    assertThat(game.moveUnit(p, newPos), is(false));
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.moveUnit(legionPos, newPos), is(false));
     assertThat(game.getUnitAt(newPos), is(nullValue()));
   }
 
@@ -313,18 +310,389 @@ public class TestAlphaCiv {
   public void shouldBeAbleToMoveRedUnitsInRedsTurn() {
     // Given a game
     // When it is reds turn
-    p = new Position(2,0);
     newPos = new Position(2,1);
     // Then a move of a red unit should succeed
-    assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
-    assertThat(game.moveUnit(p, newPos), is(true));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.moveUnit(archerPos, newPos), is(true));
     assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  @Test
+  public void shouldBeNoMoreThanOneUnitOfSameOwnerOnTile() {
+    // Given a game
+    // When red player moves unit to another of reds unit
+    // Then the move should not succeed
+    assertThat(game.moveUnit(archerPos, settlerPos), is(false));
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+  }
+
+  @Test
+  public void shouldBeAttackingUnitThatWins() {
+    // Given a game
+    // When a red unit moves to (and attacks) a blue unit
+    // Then the red unit wins and occupies the tile
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    game.moveUnit(archerPos,new Position(2,1));
+    doXEndOfTurn(2);
+    game.moveUnit(new Position(2,1),legionPos);
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBeAbleToChooseArcherAsProductionInRedCity() {
+    // Given a game
+    // When red city chooses archer as production
+    // Then the red city will produce an archer
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBeAbleToChooseLegionAsProductionInRedCity() {
+    // Given a game
+    // When red city chooses legion as production
+    // Then the red city will produce a legion
+    game.changeProductionInCityAt(redCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.LEGION));
+  }
+
+  @Test
+  public void shouldBeAbleToChooseSettlerAsProductionInRedCity() {
+    // Given a game
+    // When red city chooses settler as production
+    // Then the red city will produce a settler
+    game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.SETTLER));
+  }
+
+  @Test
+  public void shouldNotBeAbleToChooseBlueCityProductionInRedsTurn() {
+    // Given a game
+    // When red players turn chooses blue city production
+    // Then red player will not be able to change production
+    game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBeAbleForBlueToChooseProductionInTheirTurn() {
+    // Given a game
+    doXEndOfTurn(1);
+    // When in blue players turn, and choose production is called
+    // Then blue city should produce the production
+    game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.LEGION));
+  }
+
+  @Test
+  public void shouldBeAbleToProduceAUnitWhenTreasuryIs10() {
+    // Given a game
+    // When production hits 10
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    // Then a unit should be created
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBeSubtracting10FromTreasuryAfterCityProduceUnit() {
+    // Given a game
+    // When unit is produced by a city
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    // Then a unit should be created and treasury should be subtracted by 10
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(2));
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldBe10ProductionToProduceAnArcher() {
+    // Given a Game
+    // When an archer is produced by a city
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+    doXEndOfTurn(4);
+    // then it should cost 10 production
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(4));
+  }
+
+  @Test
+  public void shouldBe15ProductionToProduceALegion() {
+    // Given a game
+    // When a legion is produced by a city
+    game.changeProductionInCityAt(redCityPos, GameConstants.LEGION);
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    doXEndOfTurn(4);
+    // Then the production cost is 15
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(9));
+  }
+
+  @Test
+  public void shouldBe30ProductionToProduceASettler() {
+    // Given a game
+    // When a settler is produced by a city
+    game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    doXEndOfTurn(6);
+    // Then it should cost 30 production
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfArcher() {
+    // Given a game
+    // When an archer is created
+    // Then it should have an attacking strength of 2
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getAttackingStrength(), is(2));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfArcher() {
+    // Given a game
+    // When an archer is created
+    // Then it should have an defensive strength of 3
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getDefensiveStrength(), is(3));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfLegion() {
+    // Given a game
+    // When a legion is created
+    // Then it should have an attacking strength of 4
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(legionPos).getAttackingStrength(), is(4));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfLegion() {
+    // Given a game
+    // When a legion is created
+    // Then it should have a defensive strength of 2
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(legionPos).getDefensiveStrength(), is(2));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfSettler() {
+    // Given a game
+    // When a settler is created
+    // Then it should have an attacking strength of 0
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getAttackingStrength(), is(0));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfSettler() {
+    // Given a game
+    // When a settler is created
+    // Then it should have a defensive strength of 2
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getDefensiveStrength(), is(3));
+  }
+
+  @Test
+  public void shouldPlaceUnitAroundCityNeighborhoodIfLastSpotIsOccupied() {
+    // Given a game
+    // When a unit is produced
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    Position northOfRedCityPos = new Position(0,1);
+    Position northEastOfRedCityPos = new Position(0,2);
+    Position eastOfRedCityPos = new Position(1,2);
+    Position southOfRedCityPos = new Position(2,1);
+    Position southWestOfRedCityPos = new Position(2,0);
+    Position northWestOfRedCityPos = new Position(0,0);
+
+    // Then it should be created in or around the city
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northEastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(eastOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(southOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(southWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(northWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  @Test
+  public void shouldNotBeAbleToMoveUnitsMoreThanOneTile() {
+    // Given a game
+    // When unit tries to move more than one tile at a time
+    // Then unit do not move
+    assertThat(game.moveUnit(archerPos, new Position(2,3)), is(false));
+    assertThat(game.moveUnit(archerPos, new Position(4,0)), is(false));
+  }
+
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOverOceans() {
+    // Given a game
+    // When trying to move a unit over an ocean
+    // Then the move should fail
+    assertThat(game.moveUnit(archerPos, new Position(1, 0)), is(false));
+  }
+
+  @Test
+  public void shouldBeAbleToChangeWorkForceInCityToProduction() {
+    // Given a game
+    // when changing work for focus in red city to production
+    // Then it should change work force focus in that city to productionFocus
+    game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.productionFocus);
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.productionFocus));
+  }
+
+  @Test
+  public void shouldBeAbleToChangeWorkForceInCityToGatheringFood() {
+    // Given a game
+    // When changing work force focus in city to gathering food
+    // Then it should change it to foodFocus
+    game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.foodFocus);
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
+    // Testing for blue city as well
+    doXEndOfTurn(1);
+    game.changeWorkForceFocusInCityAt(blueCityPos, GameConstants.foodFocus);
+    assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
+  }
+
+  @Test
+  public void shouldResetMoveCountForUnitsAfterRoundEnd() {
+    // Given a game
+    // When a round has ended
+    newPos = new Position(3,0);
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+    game.moveUnit(archerPos, newPos);
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(0));
+    doXEndOfTurn(2);
+    // Then a units move count should be reset
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(1));
+  }
+
+  @Test
+  public void shouldNotBeAbleToMoveAUnitIfMoveCountIs0() {
+    // Given a game
+    // When a unit who has already moved is trying to move
+    newPos = new Position(3,0);
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+    game.moveUnit(archerPos, newPos);
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(0));
+    // Then the move should fail
+    assertThat(game.moveUnit(newPos, new Position(4,0)), is(false));
+    assertThat(game.getUnitAt(new Position(4,0)), is(nullValue()));
+  }
+
+  @Test
+  public void shouldNotBeAbleToSpawnAUnitFromACityOnAMountainTile() {
+    // Given a game
+    // When a city produces a unit
+    // Then i should not spawn on a mountain tile
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    doXEndOfTurn(40);
+    assertThat(game.getUnitAt(new Position(2,2)), is(nullValue()));
+  }
+
+  @Test
+  public void shouldBe1ProductionAnd0FoodForMountainTile(){
+    // Given a mountain object
+    // When its implemented
+    // Then it should have a food production of 0 and production of 1
+    TileImpl mountain = new TileImpl(GameConstants.MOUNTAINS);
+    assertThat(mountain.getProductionProduction(), is(1));
+    assertThat(mountain.getFoodProduction(), is(0));
+  }
+
+  @Test
+  public void shouldBe2ProductionAnd0FoodForHillTile(){
+    // Given a hill object
+    // When its implemented
+    // Then it should have a food production of 0 and production of 3
+    TileImpl hill = new TileImpl(GameConstants.HILLS);
+    assertThat(hill.getProductionProduction(), is(2));
+    assertThat(hill.getFoodProduction(), is(0));
+  }
+
+  @Test
+  public void shouldBe3ProductionAnd0FoodForForrestTile(){
+    // Given a forrest object
+    // When its implemented
+    // Then it should have a food production of 0 and production of 3
+    TileImpl forrest = new TileImpl(GameConstants.FOREST);
+    assertThat(forrest.getProductionProduction(), is(3));
+    assertThat(forrest.getFoodProduction(), is(0));
+  }
+
+  @Test
+  public void shouldBe0ProductionAnd1FoodForOceanTile(){
+    // Given an ocean object
+    // When its implemented
+    // Then it should have a food production of 1 and production of 0
+    TileImpl ocean = new TileImpl(GameConstants.OCEANS);
+    assertThat(ocean.getProductionProduction(), is(0));
+    assertThat(ocean.getFoodProduction(), is(1));
+  }
+
+  @Test
+  public void shouldBe0ProductionAnd3FoodForPlainTile(){
+    // Given a plains object
+    // When its implemented
+    // Then it should have a food production of 3 and production of 0
+    TileImpl plains = new TileImpl(GameConstants.PLAINS);
+    assertThat(plains.getProductionProduction(), is(0));
+    assertThat(plains.getFoodProduction(), is(3));
+  }
+
+  @Test
+  public void shouldChangeBlueCityOwnerToRedIfCaptureByRedUnit() {
+    // Given a game
+    // When red unit move into blue city
+    game.moveUnit(archerPos, new Position(3,0));
+    doXEndOfTurn(2);
+    game.moveUnit(new Position(3,0), new Position(4,0));
+    doXEndOfTurn(2);
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.BLUE));
+    game.moveUnit(new Position(4,0), blueCityPos);
+    // Then red player captures the city and makes it owned by red player
+    assertThat(game.getUnitAt(blueCityPos).getOwner(), is(Player.RED));
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.RED));
+  }
+
+  @Test
+  public void shouldNotBeAbleToMoveUnitOnOtherUnitWithSameOwner() {
+    // Given a game
+    // When red player move red unit on another red unit
+    game.moveUnit(archerPos, new Position(3,1));
+    game.moveUnit(settlerPos, new Position(3,2));
+    doXEndOfTurn(2);
+    // Then move should fail
+    assertThat(game.moveUnit(new Position(3,1), new Position(3,2)), is(false));
+  }
+
   /**
-   * A helper method for passing turns to avoid code dublication,
+   * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
-   * @param x is the amout of turns that should be ended
+   * @param x is the amount of turns that should be ended
    */
   public void doXEndOfTurn(int x) {
     for (int i = 1; i <= x; i++) {
