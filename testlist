@@ -42,8 +42,8 @@
 [OK] units cannot move over mountain
 [OK] unit can move from (3,2) to (4,2)
 [OK] Red cannot move Blue's units
-units cannot move on ocean
-units can move no more than one tile
+[OK] units cannot move on ocean
+[OK] units can move no more than one tile
 
 [OK] Attacking unit always win
     [OK] Multiple units of same owner cannot be on the same tile
