@@ -603,6 +603,9 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldNotBeAbleToSpawnAUnitFromACityOnAMountainTile() {
+    // Given a game
+    // When a city produces a unit
+    // Then i should not spawn on a mountain tile
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     doXEndOfTurn(40);
     assertThat(game.getUnitAt(new Position(2,2)), is(nullValue()));
