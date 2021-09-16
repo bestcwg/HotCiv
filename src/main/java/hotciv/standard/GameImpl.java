@@ -136,7 +136,7 @@ public class GameImpl implements Game {
           // if there is a city that the player doesnt own, capture it
           if (cities.containsKey(to)) {
             if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
-              CityImpl city = (CityImpl) cities.get(to);
+              CityImpl city = (CityImpl) getCityAt(to);
               city.changeOwner(getUnitAt(from).getOwner());
             }
           }
@@ -192,9 +192,9 @@ public class GameImpl implements Game {
    *                 valid units are GameConstants ARCHER,LEGION,SETTLER
    */
   public void changeProductionInCityAt( Position p, String unitType ) {
-    if(getPlayerInTurn() == cities.get(p).getOwner()) {
+    if(getPlayerInTurn() == getCityAt(p).getOwner()) {
       if (cities.containsKey(p) && (unitType.equals(GameConstants.ARCHER) || unitType.equals(GameConstants.LEGION) || unitType.equals(GameConstants.SETTLER))) {
-        CityImpl city = (CityImpl) cities.get(p);
+        CityImpl city = (CityImpl) getCityAt(p);
         city.changeProduction(unitType);
       }
     }
