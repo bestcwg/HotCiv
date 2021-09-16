@@ -510,10 +510,8 @@ public class TestAlphaCiv {
     Position northOfRedCityPos = new Position(0,1);
     Position northEastOfRedCityPos = new Position(0,2);
     Position eastOfRedCityPos = new Position(1,2);
-    Position southEastOfRedCityPos = new Position(2,2);
     Position southOfRedCityPos = new Position(2,1);
     Position southWestOfRedCityPos = new Position(2,0);
-    Position westOfRedCityPos = new Position(1,0);
     Position northWestOfRedCityPos = new Position(0,0);
 
     // Then it should be created in or around the city
@@ -607,6 +605,9 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldNotBeAbleToSpawnAUnitFromACityOnAMountainTile() {
+    // Given a game
+    // When a city produces a unit
+    // Then i should not spawn on a mountain tile
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     doXEndOfTurn(40);
     assertThat(game.getUnitAt(new Position(2,2)), is(nullValue()));
