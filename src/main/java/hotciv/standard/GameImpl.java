@@ -38,15 +38,16 @@ public class GameImpl implements Game {
   private HashMap<Position, Tile> worldMap;
   private Player playerInTurn;
   private Player winner;
-  private int age = -4000;
+  private int age;
   private int playerTurns;
 
   /**
    * Constructor for the GameImplementation class
-   * Instantiate starting player, the world map, and create necessary hashmaps
+   * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
   public GameImpl() {
     playerInTurn = Player.RED;
+    age = -4000;
 
     worldMap = new HashMap<>();
     cities = new HashMap<>();
