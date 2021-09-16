@@ -80,8 +80,15 @@
 [OK] Units cannot move if their move count is 0
 
 Units cannot move outside the game world
-Tiles have a production value
+[OK] Tiles have a production value
+    [OK] Mountains have 0 food 1 production
+    [OK] Hills have 0 food 2 production
+    [OK] Ocean have 1 food  production
+    [OK] Forrest have 0 food 3 production
+    [OK] Plains have 3 food 0 production
+
 If a unit attacks a city, the city is captured
+
 [OK]Make sure a city doesn't spawn a unit on a impassible tile
     [OK] do not spawn on mountain
     [OK] do not spawn on ocean
