@@ -142,8 +142,12 @@ public class GameImpl implements Game {
    */
   public void endOfTurn() {
     switch (playerInTurn) {
-      case RED -> playerInTurn = Player.BLUE;
-      case BLUE -> playerInTurn = Player.RED;
+      case RED:
+        playerInTurn = Player.BLUE;
+        break;
+      case BLUE:
+        playerInTurn = Player.RED;
+        break;
     }
     playerTurns++;
     if (playerTurns == 2) {

@@ -42,6 +42,8 @@
 [OK] units cannot move over mountain
 [OK] unit can move from (3,2) to (4,2)
 [OK] Red cannot move Blue's units
+units cannot move on ocean
+units can move no more than one tile
 
 [OK] Attacking unit always win
     [OK] Multiple units of same owner cannot be on the same tile
@@ -59,5 +61,15 @@
     [OK] After a city produces a unit, treasury is updated by 10
     [OK] the city produce unit at the city tile
         [OK ]if city tile is occupied use neighbor tile, starting north, going clockwise
+    Archer unit cost 10 production to produce
+    Legion unit cost 15 production to produce
+    Settler unit cost 30 production to produce
+
+Units has attack and defence number
+    Archer has 3 defence and 2 attack
+    Legion has 2 defence and 4 attack
+    Settler has 3 defence and 0 attack
+
+City choose workforce to be "gathering food" or "production"
 
 etc.
