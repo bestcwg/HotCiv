@@ -426,6 +426,17 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(9));
   }
 
+  @Test
+  public void shouldBe30ProductionToProduceASettler() {
+    game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos), is(nullValue()));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    doXEndOfTurn(6);
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
+  }
+
 
 
   @Test

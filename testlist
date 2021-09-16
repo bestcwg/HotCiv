@@ -63,7 +63,7 @@
         [OK ]if city tile is occupied use neighbor tile, starting north, going clockwise
     [OK] Archer unit cost 10 production to produce
     [OK] Legion unit cost 15 production to produce
-    Settler unit cost 30 production to produce
+    [OK] Settler unit cost 30 production to produce
 
 Units has attack and defence number
     Archer has 3 defence and 2 attack
