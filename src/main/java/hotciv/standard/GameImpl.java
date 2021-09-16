@@ -295,11 +295,13 @@ public class GameImpl implements Game {
       // if there is no unit at the city center place a unit here
       if (getUnitAt(c) == null) {
         units.put(c, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
         // Otherwise, run through the neighborhood to find a legal spot to place the unit
       } else if (getUnitAt(p) == null &&
               !getTileAt(p).getTypeString().equals(GameConstants.MOUNTAINS)
               && !getTileAt(p).getTypeString().equals(GameConstants.OCEANS)) {
         units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
       }
     }
   }
