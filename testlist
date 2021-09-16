@@ -88,7 +88,7 @@ Units cannot move outside the game world
     [OK] Forrest have 0 food 3 production
     [OK] Plains have 3 food 0 production
 
-If a unit attacks a city, the city is captured
+[OK] If a unit attacks a city, the city is captured
 
 [OK]Make sure a city doesn't spawn a unit on a impassible tile
     [OK] do not spawn on mountain
