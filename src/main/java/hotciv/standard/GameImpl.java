@@ -225,21 +225,25 @@ public class GameImpl implements Game {
       // a measure to make sure tests don't fail if a production isn't set
       if(city.getProduction() != null) {
         switch (city.getProduction()) {
-            case GameConstants.ARCHER:
-              if (city.getTreasury() >= 10) {
+          case GameConstants.ARCHER:
+            if (city.getTreasury() >= 10) {
               city.changeTreasury(-10);
               createUnit(c.getKey(), city);
-              }
-              break;
-
-              case GameConstants.LEGION:
-              if (city.getTreasury() >= 15) {
-                city.changeTreasury(-15);
-                createUnit(c.getKey(), city);
-              }
-              break;
-          }
+            }
+            break;
+          case GameConstants.LEGION:
+            if (city.getTreasury() >= 15) {
+              city.changeTreasury(-15);
+              createUnit(c.getKey(), city);
+            }
+            break;
+          case GameConstants.SETTLER:
+            if (city.getTreasury() >= 30) {
+              city.changeTreasury(-30);
+              createUnit(c.getKey(), city);
+            }
         }
+      }
     }
     // increment the age
     age += 100;
