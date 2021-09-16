@@ -678,6 +678,17 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.RED));
   }
 
+  @Test
+  public void shouldNotBeAbleToMoveUnitOnOtherUnitWithSameOwner() {
+    // Given a game
+    // When red player move red unit on another red unit
+    game.moveUnit(archerPos, new Position(3,1));
+    game.moveUnit(settlerPos, new Position(3,2));
+    doXEndOfTurn(2);
+    // Then move should fail
+    assertThat(game.moveUnit(new Position(3,1), new Position(3,2)), is(false));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
