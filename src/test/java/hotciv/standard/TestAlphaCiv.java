@@ -437,6 +437,12 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
   }
 
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfArcher() {
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getAttackingStrength(), is(2));
+  }
+
 
 
   @Test

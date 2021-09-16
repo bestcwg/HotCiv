@@ -8,6 +8,7 @@ import hotciv.framework.Unit;
 public class UnitImpl implements Unit {
     private Player owner;
     private String unitType;
+    private int attackingStrength;
 
     /**
      * Constructor for the unit implementation
@@ -17,6 +18,10 @@ public class UnitImpl implements Unit {
     public UnitImpl(Player owner, String unitType) {
         this.owner = owner;
         this.unitType = unitType;
+        switch (unitType) {
+            case GameConstants.ARCHER:
+                attackingStrength = 2;
+        }
     }
 
     @Override
@@ -39,6 +44,6 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getAttackingStrength() {
-        return 0;
+        return attackingStrength;
     }
 }
