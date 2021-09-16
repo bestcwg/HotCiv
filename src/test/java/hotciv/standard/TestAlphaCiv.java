@@ -486,6 +486,12 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(archerPos, new Position(1, 0)), is(false));
   }
 
+  @Test
+  public void shouldBeAbleToSetWorkForceInCityToProduction() {
+    game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.productionFocus);
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.productionFocus));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
