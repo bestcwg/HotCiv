@@ -76,4 +76,7 @@
 [OK] City choose workforce to be "gathering food" or "production"
     [OK] should be able to choose workforce as production in city
 
+[OK] Unit move count should be updated with a move
+Units cannot move if their move count is 0
+
 etc.

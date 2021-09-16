@@ -13,7 +13,8 @@ public class UnitImpl implements Unit {
     private int moveCount;
 
     /**
-     * Constructor for the unit implementation
+     * Constructor for the unit implementation, set up the units attacking and defensive strength
+     * bases on the unit type passed
      * @param owner the player who owns the unit
      * @param unitType the type of unit (Archer,Legion,Settler)
      */
@@ -60,7 +61,17 @@ public class UnitImpl implements Unit {
         return attackingStrength;
     }
 
-    private void resetMoveCount() {
+    /**
+     * A method for resetting the move count to 1
+     */
+    public void resetMoveCount() {
         moveCount = 1;
+    }
+
+    /**
+     * A method for retracting the move count of a unit after it has moved
+     */
+    public void retractMoveCount() {
+        moveCount -= 1;
     }
 }

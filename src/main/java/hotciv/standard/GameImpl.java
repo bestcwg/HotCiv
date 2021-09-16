@@ -4,7 +4,6 @@ import hotciv.framework.*;
 import hotciv.utility.*;
 
 import java.util.*;
-import java.lang.Math.*;
 
 /** Skeleton implementation of HotCiv.
  
@@ -114,7 +113,9 @@ public class GameImpl implements Game {
    * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
+    // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn && getUnitAt(from).getMoveCount() >= 1) {
+      // check that the unit is not moving over a mountain
       if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
       }
@@ -130,6 +131,7 @@ public class GameImpl implements Game {
         return true;
       }
       // for when a unit is moving to an empty tile
+      // makes sure the unit cannot move more than one tile, can move diagonally
       if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
         if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
           moveUnitFrom_To(from, to);
@@ -160,6 +162,14 @@ public class GameImpl implements Game {
     }
   }
 
+  /**
+   * A method for changing the work force focus in the city
+   * @param p the position of the city whose focus
+   * should be changed.
+   * @param balance a string defining the focus of the work
+   * force in a city. Valid values are at least
+   * GameConstants.productionFocus
+   */
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {
     if(getPlayerInTurn() == cities.get(p).getOwner()) {
       CityImpl city = (CityImpl) cities.get(p);
@@ -167,6 +177,12 @@ public class GameImpl implements Game {
     }
   }
 
+  /**
+   * A Method for changing the production in a city
+   * @param p the position of the city
+   * @param unitType a string defining the type of unit that the city should produce
+   *                 valid units are GameConstants ARCHER,LEGION,SETTLER
+   */
   public void changeProductionInCityAt( Position p, String unitType ) {
     if(getPlayerInTurn() == cities.get(p).getOwner()) {
       if (cities.containsKey(p) && (unitType.equals(GameConstants.ARCHER) || unitType.equals(GameConstants.LEGION) || unitType.equals(GameConstants.SETTLER))) {
@@ -216,14 +232,15 @@ public class GameImpl implements Game {
   }
 
   /**
-   * A method that ends the round, it will progress the age of the game
-   * and increase the treasury of the cities in the game
+   * A method that ends the round
+   * When a round ends, the move count of units are reset, the cities add and produce their production
+   * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
    */
   public void endOfRound() {
     // Reset move count for all units
     for (Map.Entry<Position, Unit> u : units.entrySet()) {
       UnitImpl unit = (UnitImpl) u.getValue();
-      unit.resetMoveCounter();
+      unit.resetMoveCount();
     }
     // loop through all the cities in the cities hashmap for unit production
     for (Map.Entry<Position, City> c : cities.entrySet()) {
@@ -267,6 +284,11 @@ public class GameImpl implements Game {
     }
   }
 
+  /**
+   * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
+   * @param c the position of the city
+   * @param city and the actual city object
+   */
   private void createUnit(Position c, City city) {
     // loop though the neighborhood of a city using the provided utility class
     for (Position p : Utility.get8neighborhoodOf(c)) {
@@ -287,8 +309,9 @@ public class GameImpl implements Game {
    * @param to where the unit is going
    */
   public void moveUnitFrom_To(Position from, Position to) {
-    Unit unit = getUnitAt(from);
+    UnitImpl unit = (UnitImpl) getUnitAt(from);
     units.put(to,unit);
     units.remove(from);
+    unit.retractMoveCount();
   }
 }

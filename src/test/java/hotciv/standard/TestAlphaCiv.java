@@ -397,7 +397,7 @@ public class TestAlphaCiv {
   @Test
   public void shouldBeSubtracting10FromTreasuryAfterCityProduceUnit() {
     // Given a game
-    // When unit is produced by city
+    // When unit is produced by a city
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     doXEndOfTurn(4);
@@ -408,67 +408,94 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBe10ProductionToProduceAnArcher() {
+    // Given a Game
+    // When an archer is produced by a city
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
     doXEndOfTurn(4);
+    // then it should cost 10 production
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(4));
   }
 
   @Test
   public void shouldBe15ProductionToProduceALegion() {
+    // Given a game
+    // When a legion is produced by a city
     game.changeProductionInCityAt(redCityPos, GameConstants.LEGION);
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
     doXEndOfTurn(4);
+    // Then the production cost is 15
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.LEGION));
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(9));
   }
 
   @Test
   public void shouldBe30ProductionToProduceASettler() {
+    // Given a game
+    // When a settler is produced by a city
     game.changeProductionInCityAt(redCityPos, GameConstants.SETTLER);
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
     doXEndOfTurn(6);
+    // Then it should cost 30 production
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.SETTLER));
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
   }
 
   @Test
   public void shouldBeAbleToSeeAttackingStrengthOfArcher() {
+    // Given a game
+    // When an archer is created
+    // Then it should have an attacking strength of 2
     assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.getUnitAt(archerPos).getAttackingStrength(), is(2));
   }
 
   @Test
   public void shouldBeAbleToSeeDefensiveStrengthOfArcher() {
+    // Given a game
+    // When an archer is created
+    // Then it should have an defensive strength of 3
     assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.getUnitAt(archerPos).getDefensiveStrength(), is(3));
   }
 
   @Test
   public void shouldBeAbleToSeeAttackingStrengthOfLegion() {
+    // Given a game
+    // When a legion is created
+    // Then it should have an attacking strength of 4
     assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
     assertThat(game.getUnitAt(legionPos).getAttackingStrength(), is(4));
   }
 
   @Test
   public void shouldBeAbleToSeeDefensiveStrengthOfLegion() {
+    // Given a game
+    // When a legion is created
+    // Then it should have a defensive strength of 2
     assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
     assertThat(game.getUnitAt(legionPos).getDefensiveStrength(), is(2));
   }
 
   @Test
   public void shouldBeAbleToSeeAttackingStrengthOfSettler() {
+    // Given a game
+    // When a settler is created
+    // Then it should have an attacking strength of 0
     assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
     assertThat(game.getUnitAt(settlerPos).getAttackingStrength(), is(0));
   }
 
   @Test
   public void shouldBeAbleToSeeDefensiveStrengthOfSettler() {
+    // Given a game
+    // When a settler is created
+    // Then it should have a defensive strength of 2
     assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
     assertThat(game.getUnitAt(settlerPos).getDefensiveStrength(), is(3));
   }
@@ -476,6 +503,8 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldPlaceUnitAroundCityNeighborhoodIfLastSpotIsOccupied() {
+    // Given a game
+    // When a unit is produced
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     Position northOfRedCityPos = new Position(0,1);
     Position northEastOfRedCityPos = new Position(0,2);
@@ -486,6 +515,7 @@ public class TestAlphaCiv {
     Position westOfRedCityPos = new Position(1,0);
     Position northWestOfRedCityPos = new Position(0,0);
 
+    // Then it should be created in or around the city
     assertThat(game.getUnitAt(redCityPos), is(nullValue()));
     doXEndOfTurn(4);
     assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
@@ -548,7 +578,7 @@ public class TestAlphaCiv {
     // Then it should change it to foodFocus
     game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.foodFocus);
     assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
-    // Testing for blue city aswell
+    // Testing for blue city as well
     doXEndOfTurn(1);
     game.changeWorkForceFocusInCityAt(blueCityPos, GameConstants.foodFocus);
     assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
@@ -556,12 +586,30 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldResetMoveCountForUnitsAfterRoundEnd() {
+    // Given a game
+    // When a round has ended
+    newPos = new Position(3,0);
     assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
-    game.moveUnit(archerPos, new Position(3,0));
-    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(0));
+    game.moveUnit(archerPos, newPos);
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(0));
     doXEndOfTurn(2);
-    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+    // Then a units move count should be reset
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(1));
   }
+
+  @Test
+  public void shouldNotBeAbleToMoveAUnitIfMoveCountIs0() {
+    // Given a game
+    // When a unit who has already moved is trying to move
+    newPos = new Position(3,0);
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+    game.moveUnit(archerPos, newPos);
+    assertThat(game.getUnitAt(newPos).getMoveCount(), is(0));
+    // Then the move should fail
+    assertThat(game.moveUnit(newPos, new Position(4,0)), is(false));
+    assertThat(game.getUnitAt(new Position(4,0)), is(nullValue()));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
