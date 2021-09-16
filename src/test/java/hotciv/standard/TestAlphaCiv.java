@@ -520,7 +520,6 @@ public class TestAlphaCiv {
     // Given a game
     // When unit tries to move more than one tile at a time
     // Then unit do not move
-    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
     assertThat(game.moveUnit(archerPos, new Position(2,3)), is(false));
     assertThat(game.moveUnit(archerPos, new Position(4,0)), is(false));
   }
@@ -555,6 +554,14 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
   }
 
+  @Test
+  public void shouldResetMoveCountForUnitsAfterRoundEnd() {
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+    game.moveUnit(archerPos, new Position(3,0));
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(0));
+    doXEndOfTurn(2);
+    assertThat(game.getUnitAt(archerPos).getMoveCount(), is(1));
+  }
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
