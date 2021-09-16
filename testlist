@@ -62,7 +62,7 @@ units can move no more than one tile
     [OK] the city produce unit at the city tile
         [OK ]if city tile is occupied use neighbor tile, starting north, going clockwise
     [OK] Archer unit cost 10 production to produce
-    Legion unit cost 15 production to produce
+    [OK] Legion unit cost 15 production to produce
     Settler unit cost 30 production to produce
 
 Units has attack and defence number

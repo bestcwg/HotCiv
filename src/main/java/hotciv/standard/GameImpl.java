@@ -216,29 +216,44 @@ public class GameImpl implements Game {
       CityImpl city = (CityImpl) c.getValue();
       city.changeTreasury(6);
       // if the treasury of a city is above 10, its should produce a unit
-      if(city.getTreasury() >= 10) {
-        // a measure to make sure tests don't fail if a production isn't set
-        if(city.getProduction() != null) {
-          // loop though the neighborhood of a city using the provided utility class
-          for (Position p : Utility.get8neighborhoodOf(c.getKey())) {
-            // if there is no unit at the city center place a unit here
-            if (getUnitAt(c.getKey()) == null) {
-              units.put(c.getKey(), new UnitImpl(city.getOwner(), city.getProduction()));
-            // Otherwise, run through the neighborhood to find a legal spot to place the unit
-            } else if (getUnitAt(p) == null) {
-              units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
-            }
+      // reduce the city's treasure with the amount of production needed for the unit
+      // a measure to make sure tests don't fail if a production isn't set
+      if(city.getProduction() != null) {
+        switch (city.getProduction()) {
+            case GameConstants.ARCHER:
+              if (city.getTreasury() >= 10) {
+              city.changeTreasury(-10);
+              createUnit(c.getKey(), city);
+              }
+              break;
+
+              case GameConstants.LEGION:
+              if (city.getTreasury() >= 15) {
+                city.changeTreasury(-15);
+                createUnit(c.getKey(), city);
+              }
+              break;
           }
-          // reduce the city's treasure with the amount of production needed for the unit
-          city.changeTreasury(-10);
         }
-      }
     }
     // increment the age
     age += 100;
     playerTurns = 0;
     if (getAge() == -3000) {
       winner = Player.RED;
+    }
+  }
+
+  private void createUnit(Position c, City city) {
+    // loop though the neighborhood of a city using the provided utility class
+    for (Position p : Utility.get8neighborhoodOf(c)) {
+      // if there is no unit at the city center place a unit here
+      if (getUnitAt(c) == null) {
+        units.put(c, new UnitImpl(city.getOwner(), city.getProduction()));
+        // Otherwise, run through the neighborhood to find a legal spot to place the unit
+      } else if (getUnitAt(p) == null) {
+        units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
+      }
     }
   }
 
