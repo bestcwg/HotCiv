@@ -115,7 +115,7 @@ public class GameImpl implements Game {
    */
   public boolean moveUnit( Position from, Position to ) {
     if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn) {
-      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS)) {
+      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
       }
       if (units.containsKey(to)) {

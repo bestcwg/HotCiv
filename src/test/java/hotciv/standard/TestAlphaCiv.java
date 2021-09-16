@@ -467,6 +467,14 @@ public class TestAlphaCiv {
     assertThat(game.moveUnit(archerPos, new Position(4,0)), is(false));
   }
 
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOverOceans() {
+    // Given a game
+    // When trying to move a unit over an ocean
+    // Then the move should fail
+    assertThat(game.moveUnit(archerPos, new Position(1, 0)), is(false));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
