@@ -43,7 +43,7 @@ public class GameImpl implements Game {
 
   /**
    * Constructor for the GameImplementation class
-   * Instantiate the world map, and create necessary hashmaps
+   * Instantiate starting player, the world map, and create necessary hashmaps
    */
   public GameImpl() {
     playerInTurn = Player.RED;
