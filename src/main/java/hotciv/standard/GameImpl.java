@@ -4,6 +4,7 @@ import hotciv.framework.*;
 import hotciv.utility.*;
 
 import java.util.*;
+import java.lang.Math.*;
 
 /** Skeleton implementation of HotCiv.
  
@@ -129,8 +130,12 @@ public class GameImpl implements Game {
         return true;
       }
       // for when a unit is moving to an empty tile
-      moveUnitFrom_To(from, to);
-      return true;
+      if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
+        if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
+          moveUnitFrom_To(from, to);
+          return true;
+        }
+      }
     }
     return false;
   }

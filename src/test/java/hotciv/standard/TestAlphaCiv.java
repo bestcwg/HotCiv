@@ -447,6 +447,15 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(northWestOfRedCityPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  @Test
+  public void shouldNotBeAbleToMoveUnitsMoreThanOneTile() {
+    // Given a game
+    // When unit tries to move more than one tile at a time
+    // Then unit do not move
+    assertThat(game.moveUnit(archerPos, new Position(2,3)), is(false));
+    assertThat(game.moveUnit(archerPos, new Position(4,0)), is(false));
+  }
+
   /**
    * A helper method for passing turns to avoid code duplication,
    * and ease of use in test driven development
