@@ -160,7 +160,12 @@ public class GameImpl implements Game {
     }
   }
 
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {
+    if(getPlayerInTurn() == cities.get(p).getOwner()) {
+      CityImpl city = (CityImpl) cities.get(p);
+      city.changeWorkForceFocus(balance);
+    }
+  }
 
   public void changeProductionInCityAt( Position p, String unitType ) {
     if(getPlayerInTurn() == cities.get(p).getOwner()) {

@@ -498,9 +498,25 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeAbleToSetWorkForceInCityToProduction() {
+  public void shouldBeAbleToChangeWorkForceInCityToProduction() {
+    // Given a game
+    // when changing work for focus in red city to production
+    // Then it should change work force focus in that city to productionFocus
     game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.productionFocus);
     assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.productionFocus));
+  }
+
+  @Test
+  public void shouldBeAbleToChangeWorkForceInCityToGatheringFood() {
+    // Given a game
+    // When changing work force focus in city to gathering food
+    // Then it should change it to foodFocus
+    game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.foodFocus);
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
+    // Testing for blue city aswell
+    doXEndOfTurn(1);
+    game.changeWorkForceFocusInCityAt(blueCityPos, GameConstants.foodFocus);
+    assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(GameConstants.foodFocus));
   }
 
   /**
