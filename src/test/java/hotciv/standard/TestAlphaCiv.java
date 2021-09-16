@@ -407,6 +407,17 @@ public class TestAlphaCiv {
   }
 
   @Test
+  public void shouldBe10ProductionToProduceAnArcher() {
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    doXEndOfTurn(4);
+    assertThat(game.getUnitAt(redCityPos).getTypeString(), is(GameConstants.ARCHER));
+    doXEndOfTurn(4);
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(4));
+  }
+
+
+
+  @Test
   public void shouldPlaceUnitAroundCityNeighborhoodIfLastSpotIsOccupied() {
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     Position northOfRedCityPos = new Position(0,1);
