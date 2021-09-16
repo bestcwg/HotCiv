@@ -333,7 +333,9 @@ public class TestAlphaCiv {
     // When a red unit moves to (and attacks) a blue unit
     // Then the red unit wins and occupies the tile
     assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
-    game.moveUnit(archerPos,legionPos);
+    game.moveUnit(archerPos,new Position(2,1));
+    doXEndOfTurn(2);
+    game.moveUnit(new Position(2,1),legionPos);
     assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.ARCHER));
   }
 
@@ -658,6 +660,21 @@ public class TestAlphaCiv {
     TileImpl plains = new TileImpl(GameConstants.PLAINS);
     assertThat(plains.getProductionProduction(), is(0));
     assertThat(plains.getFoodProduction(), is(3));
+  }
+
+  @Test
+  public void shouldChangeBlueCityOwnerToRedIfCaptureByRedUnit() {
+    // Given a game
+    // When red unit move into blue city
+    game.moveUnit(archerPos, new Position(3,0));
+    doXEndOfTurn(2);
+    game.moveUnit(new Position(3,0), new Position(4,0));
+    doXEndOfTurn(2);
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.BLUE));
+    game.moveUnit(new Position(4,0), blueCityPos);
+    // Then red player captures the city and makes it owned by red player
+    assertThat(game.getUnitAt(blueCityPos).getOwner(), is(Player.RED));
+    assertThat(game.getCityAt(blueCityPos).getOwner(), is(Player.RED));
   }
 
   /**

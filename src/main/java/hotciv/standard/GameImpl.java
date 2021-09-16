@@ -115,27 +115,34 @@ public class GameImpl implements Game {
    */
   public boolean moveUnit( Position from, Position to ) {
     // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == playerInTurn && getUnitAt(from).getMoveCount() >= 1) {
-      // check that the unit is not moving over a mountain
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1) {
+      // check that the unit is not moving over a mountain or ocean
       if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
       }
-      if (units.containsKey(to)) {
-        // if loop for handling moving units to different tiles
-        if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
-          // to make sure two units with the same owner cannot stand on the same tile
-          return false;
-        }
-        // For when a unit is attacking another unit
-        units.remove(to);
-        moveUnitFrom_To(from,to);
-        return true;
-      }
-      // for when a unit is moving to an empty tile
-      // makes sure the unit cannot move more than one tile, can move diagonally
+      // makes sure units only move 1 tile at a time
       if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
         if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
-          moveUnitFrom_To(from, to);
+          // for handling what to do if unit is a to position
+          if (units.containsKey(to)) {
+            // if it is the players unit dont move to pos, as player cant have two units on same pos
+            if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
+              return false;
+            }
+            // if it is enemy unit, remove that unit
+            units.remove(to);
+          }
+
+          // if there is a city that the player doesnt own, capture it
+          if (cities.containsKey(to)) {
+            if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
+              CityImpl city = (CityImpl) cities.get(to);
+              city.changeOwner(getUnitAt(from).getOwner());
+            }
+          }
+
+          // if position to is empty, just move unit to tile
+          moveUnitFrom_To(from,to);
           return true;
         }
       }

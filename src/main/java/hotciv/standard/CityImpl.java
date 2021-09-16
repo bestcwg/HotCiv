@@ -65,4 +65,12 @@ public class CityImpl implements City {
     public void changeWorkForceFocus(String focus) {
         this.workForce = focus;
     }
+
+    /**
+     * A method for changing owner of city when captured
+     * @param newOwner The Player who captures the city
+     */
+    public void changeOwner(Player newOwner) {
+        this.owner = newOwner;
+    }
 }
