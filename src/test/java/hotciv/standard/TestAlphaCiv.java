@@ -437,6 +437,41 @@ public class TestAlphaCiv {
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
   }
 
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfArcher() {
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getAttackingStrength(), is(2));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfArcher() {
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getDefensiveStrength(), is(3));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfLegion() {
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(legionPos).getAttackingStrength(), is(4));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfLegion() {
+    assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
+    assertThat(game.getUnitAt(legionPos).getDefensiveStrength(), is(2));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeAttackingStrengthOfSettler() {
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getAttackingStrength(), is(0));
+  }
+
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfSettler() {
+    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(settlerPos).getDefensiveStrength(), is(3));
+  }
 
 
   @Test

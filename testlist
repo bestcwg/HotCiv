@@ -65,10 +65,13 @@
     [OK] Legion unit cost 15 production to produce
     [OK] Settler unit cost 30 production to produce
 
-Units has attack and defence number
-    Archer has 3 defence and 2 attack
-    Legion has 2 defence and 4 attack
-    Settler has 3 defence and 0 attack
+[OK]Units has attack and defence number
+    [OK]Archer has 2 attack
+    [OK]Archer has 3 defence
+    [OK]Legion has 4 attack
+    [OK]Legion has 2 defence
+    [OK]Settler has 0 attack
+    [OK]Settler has 3 defence
 
 [OK] City choose workforce to be "gathering food" or "production"
     [OK] should be able to choose workforce as production in city
