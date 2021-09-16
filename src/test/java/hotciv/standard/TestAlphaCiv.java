@@ -443,6 +443,12 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(archerPos).getAttackingStrength(), is(2));
   }
 
+  @Test
+  public void shouldBeAbleToSeeDefensiveStrengthOfArcher() {
+    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(archerPos).getDefensiveStrength(), is(3));
+  }
+
 
 
   @Test

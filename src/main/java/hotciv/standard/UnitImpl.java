@@ -9,6 +9,7 @@ public class UnitImpl implements Unit {
     private Player owner;
     private String unitType;
     private int attackingStrength;
+    private int defensiveStrength;
 
     /**
      * Constructor for the unit implementation
@@ -21,6 +22,8 @@ public class UnitImpl implements Unit {
         switch (unitType) {
             case GameConstants.ARCHER:
                 attackingStrength = 2;
+                defensiveStrength = 3;
+                break;
         }
     }
 
@@ -39,7 +42,7 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getDefensiveStrength() {
-        return 0;
+        return defensiveStrength;
     }
 
     @Override
