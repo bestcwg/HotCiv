@@ -73,6 +73,7 @@
     [OK]Settler has 0 attack
     [OK]Settler has 3 defence
 
-City choose workforce to be "gathering food" or "production"
+[OK] City choose workforce to be "gathering food" or "production"
+    [OK] should be able to choose workforce as production in city
 
 etc.
