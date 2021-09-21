@@ -205,7 +205,7 @@ public class GameImpl implements Game {
   /**
    * A helper method for creating a hashmap of cities
    */
-  public void createHashMapForCities() {
+  private void createHashMapForCities() {
     Position redCityPos = new Position(1,1);
     Position blueCityPos = new Position(4,1);
 
@@ -216,7 +216,7 @@ public class GameImpl implements Game {
   /**
    * A helper method for creating a hashmap of units
    */
-  public void createHashMapForUnits() {
+  private void createHashMapForUnits() {
     Position redArcherPos = new Position(2,0);
     Position blueLegionPos = new Position(3,2);
     Position redSettlerPos = new Position(4,3);
@@ -229,7 +229,7 @@ public class GameImpl implements Game {
   /**
    * A helper method for creating a hashmap of tiles
    */
-  public void createHashMapForSpecialTiles() {
+  private void createHashMapForSpecialTiles() {
     Position oceanTile = new Position(1,0);
     Position hillTile = new Position(0,1);
     Position mountainTile = new Position(2,2);
@@ -320,7 +320,7 @@ public class GameImpl implements Game {
    * @param from where the unit is
    * @param to where the unit is going
    */
-  public void moveUnitFrom_To(Position from, Position to) {
+  private void moveUnitFrom_To(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     units.put(to,unit);
     units.remove(from);
