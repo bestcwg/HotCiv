@@ -108,6 +108,6 @@ Should implement betaCiv age strategy
     [OK] Between 50AD and 1750 the age should increment with 50 years
     [OK] Between 1750 and 1900 the age should increment with 25 years
     [OK] Between 1900 and 1970 the age should increment with 5 years
-    after 1970 the age should increment with 1 year
+    [OK] After 1970 the age should increment with 1 year
 
 etc.

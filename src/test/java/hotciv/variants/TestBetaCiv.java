@@ -102,6 +102,19 @@ public class TestBetaCiv {
         assertThat(game.getAge(),is(1970));
     }
 
+    @Test
+    public void shouldIncrementAgeWith1YearFrom1970AndOnwards() {
+        // Given a game
+        // When the age is between 1970 and onwards
+        // Then age should increment with 1 years
+        doXEndOfTurn(192);
+        assertThat(game.getAge(), is(1970));
+        doXEndOfTurn(28);
+        assertThat(game.getAge(),is(1984));
+        doXEndOfTurn(16);
+        assertThat(game.getAge(), is(1992));
+    }
+
     /**
      * A helper method for passing turns to avoid code duplication,
      * and ease of use in test driven development
