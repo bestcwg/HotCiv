@@ -81,7 +81,7 @@ public class TestBetaCiv {
     }
 
     @Test
-    public void shouldIncrementAgeWith25YearsBetween1750ADAnd1900AD() {
+    public void shouldIncrementAgeWith25YearsBetween1750And1900() {
         // Given a game
         // When the age is between 1750 AD and 1900 AD
         // Then age should increment with 25 years
@@ -89,6 +89,17 @@ public class TestBetaCiv {
         assertThat(game.getAge(), is(1750));
         doXEndOfTurn(12);
         assertThat(game.getAge(),is(1900));
+    }
+
+    @Test
+    public void shouldIncrementAgeWith5YearsBetween1900And1970() {
+        // Given a game
+        // When the age is between 1900 and 1970
+        // Then age should increment with 5 years
+        doXEndOfTurn(164);
+        assertThat(game.getAge(), is(1900));
+        doXEndOfTurn(28);
+        assertThat(game.getAge(),is(1970));
     }
 
     /**
