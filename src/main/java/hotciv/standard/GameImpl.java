@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.utility.*;
 
+import javax.swing.*;
 import java.util.*;
 
 /** Skeleton implementation of HotCiv.
@@ -142,6 +143,7 @@ public class GameImpl implements Game {
             if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
               CityImpl city = (CityImpl) getCityAt(to);
               city.changeOwner(getUnitAt(from).getOwner());
+              checkForWinner(age, cities);
             }
           }
 
@@ -291,7 +293,7 @@ public class GameImpl implements Game {
     // increment the age
     age += ageStrategy.calculateAge(getAge());
     playerTurns = 0;
-    winner = winnerStrategy.calculateWinner(getAge());
+    checkForWinner(getAge(),cities);
   }
 
   /**
@@ -327,5 +329,15 @@ public class GameImpl implements Game {
     units.put(to,unit);
     units.remove(from);
     unit.retractMoveCount();
+  }
+
+  /**
+   * A helper method to calculate winner depending on
+   * which winnerStrategy is in use
+   * @param age of current Game
+   * @param cities HashMap of cities in game
+   */
+  private void checkForWinner(int age, HashMap<Position,City> cities) {
+    winner = winnerStrategy.calculateWinner(age, cities);
   }
 }

@@ -116,20 +116,36 @@ public class TestBetaCiv {
     }
 
     @Test
-    public void shouldBeRedPlayerWhoWinsWhenOwnAllCities() {
+    public void shouldBeRedPlayerWhoWinsIfOwnsAllCities() {
         // Given a game with BetaCivAgeStrategy
         // When player red owns all cities
-        // Then player red should win game
         Position redCityPos = new Position(1,1);
         Position blueCityPos = new Position(4,1);
         Position archerPos = new Position(2,0);
-
-        assertThat(game.getCityAt(redCityPos).getOwner(),is(Player.RED));
+        // Then player red should win game
+        assertThat(game.getCityAt(blueCityPos).getOwner(),is(Player.BLUE));
         game.moveUnit(archerPos, new Position(3,1));
         doXEndOfTurn(2);
         game.moveUnit(new Position(3,1),blueCityPos);
         assertThat(game.getCityAt(blueCityPos).getOwner(),is(Player.RED));
         assertThat(game.getWinner(),is(Player.RED));
+    }
+
+    @Test
+    public void shouldBeBluePlayerWhoWinsIfOwnsAllCities() {
+        // Given a game with BetaCivAgeStrategy
+        // When player blue owns all cities
+        Position redCityPos = new Position(1,1);
+        Position blueCityPos = new Position(4,1);
+        Position legionPos = new Position(3,2);
+        // Then player blue should win game
+        doXEndOfTurn(1);
+        assertThat(game.getCityAt(redCityPos).getOwner(),is(Player.RED));
+        game.moveUnit(legionPos, new Position(2,1));
+        doXEndOfTurn(2);
+        game.moveUnit(new Position(2,1), redCityPos);
+        assertThat(game.getCityAt(redCityPos).getOwner(),is(Player.BLUE));
+        assertThat(game.getWinner(),is(Player.BLUE));
     }
 
     /**
