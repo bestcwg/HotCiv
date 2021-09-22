@@ -67,6 +67,19 @@ public class TestBetaCiv {
         assertThat(game.getAge(),is(50));
     }
 
+    @Test
+    public void shouldIncrementAgeWith50YearsBetween50ADAnd1750() {
+        // Given a game
+        // When the age is between 50 AD and 1750
+        // Then age should increment with 50 years
+        doXEndOfTurn(84);
+        assertThat(game.getAge(),is(50));
+        doXEndOfTurn(2);
+        assertThat(game.getAge(), is(100));
+        doXEndOfTurn(66);
+        assertThat(game.getAge(), is(1750));
+    }
+
     /**
      * A helper method for passing turns to avoid code duplication,
      * and ease of use in test driven development
