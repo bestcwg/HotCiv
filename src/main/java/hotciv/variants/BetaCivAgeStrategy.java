@@ -15,8 +15,11 @@ public class BetaCivAgeStrategy implements AgeStrategy {
         if (age == 1) {
             return 49;
         }
-        if (age >= 50 && age <= 1750) {
+        if (age >= 50 && age < 1750) {
             return 50;
+        }
+        if (age >= 1750 && age < 1900) {
+            return 25;
         }
         return 100;
     }
