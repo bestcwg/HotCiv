@@ -101,10 +101,10 @@ Winner should control all cities
 
 Should implement betaCiv age strategy
     [OK] From 4000BC to 100BC the age should increment with 100
-    Around birth of christ the sequence is -100, -1, +1, +50
+    [OK] Around birth of christ the sequence is -100, -1, +1, +50
         [OK] After -100 should be -1
         [OK] after -1 should be +1
-        after +1 should be +50
+        [OK] after +1 should be +50
     Between 50ad and 1750 the age should increment with 50 years
     between 1750 and 1900 the age should increment with 25 years
     between 1900 and 1970 the age should increment with 5 years
