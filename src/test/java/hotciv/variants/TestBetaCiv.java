@@ -22,7 +22,7 @@ public class TestBetaCiv {
     public void shouldIncrementAgeWith100From4000BCTo100BC() {
         // Given a game with BetaCivAgeStrategy
         // When a round ends
-        // The age should increment with 100 when the age is between 4000BC and 100BC
+        // Then age should increment with 100 when the age is between 4000BC and 100BC
         assertThat(game.getAge(), is(-4000));
         doXEndOfTurn(2);
         assertThat(game.getAge(), is(-3900));
@@ -31,6 +31,18 @@ public class TestBetaCiv {
         doXEndOfTurn(70);
         assertThat(game.getAge(),is(-100));
     }
+
+    @Test
+    public void shouldBeAge1BCAfter100BC() {
+        // Given a game with BetaCivAgeStrategy
+        // When round ends at age 100BC
+        // Then age should increment with 99
+        doXEndOfTurn(78);
+        assertThat(game.getAge(), is(-100));
+        doXEndOfTurn(2);
+        assertThat(game.getAge(),is(-1));
+    }
+
 
     /**
      * A helper method for passing turns to avoid code duplication,

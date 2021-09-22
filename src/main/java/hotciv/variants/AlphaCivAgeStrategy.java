@@ -5,7 +5,7 @@ import hotciv.framework.AgeStrategy;
 public class AlphaCivAgeStrategy implements AgeStrategy {
 
     @Override
-    public int calculateAge() {
+    public int calculateAge(int age) {
         return 100;
     }
 }

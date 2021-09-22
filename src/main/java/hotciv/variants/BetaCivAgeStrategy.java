@@ -5,7 +5,10 @@ import hotciv.framework.AgeStrategy;
 public class BetaCivAgeStrategy implements AgeStrategy {
 
     @Override
-    public int calculateAge() {
+    public int calculateAge(int age) {
+        if (age == -100) {
+            return 99;
+        }
         return 100;
     }
 }

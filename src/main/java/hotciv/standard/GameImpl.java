@@ -289,7 +289,7 @@ public class GameImpl implements Game {
       }
     }
     // increment the age
-    age += ageStrategy.calculateAge();
+    age += ageStrategy.calculateAge(getAge());
     playerTurns = 0;
     winner = winnerStrategy.calculateWinner(getAge());
   }
