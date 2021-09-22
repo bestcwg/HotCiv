@@ -40,14 +40,16 @@ public class GameImpl implements Game {
   private Player winner;
   private int age;
   private int playerTurns;
+  private AgeStategy ageStategy;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl() {
+  public GameImpl(AgeStategy ageStategy) {
     playerInTurn = Player.RED;
     age = -4000;
+    this.ageStategy = ageStategy;
 
     worldMap = new HashMap<>();
     cities = new HashMap<>();
@@ -285,7 +287,7 @@ public class GameImpl implements Game {
       }
     }
     // increment the age
-    age += 100;
+    age += ageStategy.calculateAge();
     playerTurns = 0;
     if (getAge() == -3000) {
       winner = Player.RED;

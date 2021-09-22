@@ -2,12 +2,11 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variants.alphaCivAgeStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 
@@ -54,7 +53,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new alphaCivAgeStrategy());
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red
