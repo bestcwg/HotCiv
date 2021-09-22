@@ -123,9 +123,9 @@ public class GameImpl implements Game {
       // makes sure units only move 1 tile at a time
       if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
         if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
-          // for handling what to do if unit is a to position
+          // for handling what to do if unit is at to position
           if (units.containsKey(to)) {
-            // if it is the players unit dont move to pos, as player cant have two units on same pos
+            // if it is the players unit don't move to pos, as player can't have two units on same pos
             if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
               return false;
             }
@@ -133,7 +133,7 @@ public class GameImpl implements Game {
             units.remove(to);
           }
 
-          // if there is a city that the player doesnt own, capture it
+          // if there is a city that the player doesn't own, capture it
           if (cities.containsKey(to)) {
             if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
               CityImpl city = (CityImpl) getCityAt(to);
@@ -244,13 +244,13 @@ public class GameImpl implements Game {
    * When a round ends, the move count of units are reset, the cities add and produce their production
    * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
    */
-  public void endOfRound() {
+  private void endOfRound() {
     // Reset move count for all units
     for (Map.Entry<Position, Unit> u : units.entrySet()) {
       UnitImpl unit = (UnitImpl) u.getValue();
       unit.resetMoveCount();
     }
-    // loop through all the cities in the cities hashmap for unit production
+    // loop through all the cities in the cities' hashmap for unit production
     for (Map.Entry<Position, City> c : cities.entrySet()) {
       // typecast to CityImpl to make sure we can access changeTreasury to add production
       CityImpl city = (CityImpl) c.getValue();
