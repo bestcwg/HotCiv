@@ -1,7 +1,7 @@
 package hotciv.variants;
 
 import hotciv.framework.Player;
-import hotciv.framework.WinnerStrategy;
+import hotciv.standard.WinnerStrategy;
 
 public class AlphaCivWinnerStrategy implements WinnerStrategy {
     @Override
