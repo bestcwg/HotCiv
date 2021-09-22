@@ -15,7 +15,7 @@ public class TestBetaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new BetaCivAgeStrategy(), new AlphaCivWinnerStrategy());
+        game = new GameImpl(new BetaCivAgeStrategy(), new BetaCivWinnerStrategy());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class TestBetaCiv {
 
     @Test
     public void shouldIncrementAgeWith50YearsBetween50ADAnd1750AD() {
-        // Given a game
+        // Given a game with BetaCivAgeStrategy
         // When the age is between 50 AD and 1750
         // Then age should increment with 50 years
         doXEndOfTurn(84);
@@ -82,7 +82,7 @@ public class TestBetaCiv {
 
     @Test
     public void shouldIncrementAgeWith25YearsBetween1750And1900() {
-        // Given a game
+        // Given a game with BetaCivAgeStrategy
         // When the age is between 1750 AD and 1900 AD
         // Then age should increment with 25 years
         doXEndOfTurn(152);
@@ -93,7 +93,7 @@ public class TestBetaCiv {
 
     @Test
     public void shouldIncrementAgeWith5YearsBetween1900And1970() {
-        // Given a game
+        // Given a game with BetaCivAgeStrategy
         // When the age is between 1900 and 1970
         // Then age should increment with 5 years
         doXEndOfTurn(164);
@@ -104,7 +104,7 @@ public class TestBetaCiv {
 
     @Test
     public void shouldIncrementAgeWith1YearFrom1970AndOnwards() {
-        // Given a game
+        // Given a game with BetaCivAgeStrategy
         // When the age is between 1970 and onwards
         // Then age should increment with 1 years
         doXEndOfTurn(192);
@@ -113,6 +113,23 @@ public class TestBetaCiv {
         assertThat(game.getAge(),is(1984));
         doXEndOfTurn(16);
         assertThat(game.getAge(), is(1992));
+    }
+
+    @Test
+    public void shouldBeRedPlayerWhoWinsWhenOwnAllCities() {
+        // Given a game with BetaCivAgeStrategy
+        // When player red owns all cities
+        // Then player red should win game
+        Position redCityPos = new Position(1,1);
+        Position blueCityPos = new Position(4,1);
+        Position archerPos = new Position(2,0);
+
+        assertThat(game.getCityAt(redCityPos).getOwner(),is(Player.RED));
+        game.moveUnit(archerPos, new Position(3,1));
+        doXEndOfTurn(2);
+        game.moveUnit(new Position(3,1),blueCityPos);
+        assertThat(game.getCityAt(blueCityPos).getOwner(),is(Player.RED));
+        assertThat(game.getWinner(),is(Player.RED));
     }
 
     /**

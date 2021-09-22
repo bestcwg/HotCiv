@@ -98,6 +98,8 @@ Units cannot move outside the game world
 Testcases needed for betaCiv:
 
 Winner should control all cities
+    [OK] Player red should win if own all cities
+    Player blue should win if own all cities
 
 Should implement betaCiv age strategy
     [OK] From 4000BC to 100BC the age should increment with 100
