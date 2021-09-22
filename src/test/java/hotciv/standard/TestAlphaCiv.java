@@ -318,16 +318,6 @@ public class TestAlphaCiv {
   }
 
   @Test
-  public void shouldBeNoMoreThanOneUnitOfSameOwnerOnTile() {
-    // Given a game
-    // When red player moves unit to another of reds unit
-    // Then the move should not succeed
-    assertThat(game.moveUnit(archerPos, settlerPos), is(false));
-    assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
-    assertThat(game.getUnitAt(settlerPos).getTypeString(), is(GameConstants.SETTLER));
-  }
-
-  @Test
   public void shouldBeAttackingUnitThatWins() {
     // Given a game
     // When a red unit moves to (and attacks) a blue unit
@@ -687,6 +677,34 @@ public class TestAlphaCiv {
     doXEndOfTurn(2);
     // Then move should fail
     assertThat(game.moveUnit(new Position(3,1), new Position(3,2)), is(false));
+  }
+
+  @Test
+  public void shouldNotBeAbleToChangeOtherPlayerCityProduction() {
+    // Given a game
+    // When red player tries to change production in red turn, in blue city
+    game.changeProductionInCityAt(blueCityPos, GameConstants.ARCHER);
+    // Then production in blue city should not be changed
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
+
+    // blue player aswell
+    doXEndOfTurn(1);
+    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(nullValue()));
+  }
+
+  @Test
+  public void shouldNotBeAbleToChangeOtherPlayerCityWorkForce() {
+    // Given a game
+    // When red player tries to change work foce in red turn, in blue city
+    game.changeWorkForceFocusInCityAt(blueCityPos, GameConstants.foodFocus);
+    // Then work force in blue city should not be changed
+    assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(nullValue()));
+
+    // blue player aswell
+    doXEndOfTurn(1);
+    game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.productionFocus);
+    assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(nullValue()));
   }
 
   /**
