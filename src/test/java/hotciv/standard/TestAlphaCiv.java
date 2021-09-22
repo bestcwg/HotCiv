@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variants.AlphaCivWinnerStrategy;
 import hotciv.variants.alphaCivAgeStrategy;
 import org.junit.jupiter.api.*;
 
@@ -53,7 +54,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl(new alphaCivAgeStrategy());
+    game = new GameImpl(new alphaCivAgeStrategy(),new AlphaCivWinnerStrategy());
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red

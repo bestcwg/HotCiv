@@ -41,15 +41,17 @@ public class GameImpl implements Game {
   private int age;
   private int playerTurns;
   private AgeStrategy ageStrategy;
+  private WinnerStrategy winnerStrategy;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy) {
+  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy) {
     playerInTurn = Player.RED;
     age = -4000;
     this.ageStrategy = ageStrategy;
+    this.winnerStrategy = winnerStrategy;
 
     worldMap = new HashMap<>();
     cities = new HashMap<>();
@@ -289,9 +291,7 @@ public class GameImpl implements Game {
     // increment the age
     age += ageStrategy.calculateAge();
     playerTurns = 0;
-    if (getAge() == -3000) {
-      winner = Player.RED;
-    }
+    winner = winnerStrategy.calculateWinner(getAge());
   }
 
   /**
