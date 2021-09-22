@@ -9,6 +9,9 @@ public class BetaCivAgeStrategy implements AgeStrategy {
         if (age == -100) {
             return 99;
         }
+        if (age == -1) {
+            return 2;
+        }
         return 100;
     }
 }

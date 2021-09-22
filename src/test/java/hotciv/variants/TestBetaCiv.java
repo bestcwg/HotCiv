@@ -32,6 +32,8 @@ public class TestBetaCiv {
         assertThat(game.getAge(),is(-100));
     }
 
+
+
     @Test
     public void shouldBeAge1BCAfter100BC() {
         // Given a game with BetaCivAgeStrategy
@@ -43,6 +45,16 @@ public class TestBetaCiv {
         assertThat(game.getAge(),is(-1));
     }
 
+    @Test
+    public void shouldBeAge1ACAfter1BC() {
+        // Given a game with BetaCivAgeStrategy
+        // When round ends at age 1BC
+        // Then age should increment with 2
+        doXEndOfTurn(80);
+        assertThat(game.getAge(),is(-1));
+        doXEndOfTurn(2);
+        assertThat(game.getAge(),is(1));
+    }
 
     /**
      * A helper method for passing turns to avoid code duplication,
