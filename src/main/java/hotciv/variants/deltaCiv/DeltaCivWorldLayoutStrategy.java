@@ -94,8 +94,10 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
     private void createHashMapForUnits() {
         Position redSettlerPos = new Position(5,5);
         Position redArcherPos = new Position(3,8);
+        Position blueLegionPos = new Position(4,4);
 
         unitsLayout.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
         unitsLayout.put(redArcherPos, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        unitsLayout.put(blueLegionPos, new UnitImpl(Player.BLUE, GameConstants.LEGION));
     }
 }

@@ -93,4 +93,14 @@ public class TestDeltaCiv {
         assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.RED));
         assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.ARCHER));
     }
+
+    @Test
+    public void shouldBeBlueLegionAt4_4() {
+        // Given a game with DeltaCivWorldLayoutStrategy
+        // When a world is made
+        // Then there should be a blue legion at 4,4
+        Position unitPos = new Position(4,4);
+        assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.BLUE));
+        assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.LEGION));
+    }
 }

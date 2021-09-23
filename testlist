@@ -128,12 +128,13 @@ Testcases needed for GammaCiv:
 
 Testcases needed for DeltaCiv:
 
-Worldmap should be as on page 8 36.1
+[OK] Worldmap should be as on page 8 36.1
     [OK] Place tiles in worldmap
     [OK] Red has a city at (8,12)
     [OK] Blue has a city at (4,5)
     [OK] Red has a settler at (5,5)
-    Blue has a legion at (4,4)
+    [OK] Blue has a legion at (4,4)
     [OK] Red has a archer at (3,8)
-    Should be easy for other developers to add a map
+
+Should be easy for other developers to add a map
 etc.
