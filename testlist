@@ -136,5 +136,9 @@ Testcases needed for DeltaCiv:
     [OK] Blue has a legion at (4,4)
     [OK] Red has a archer at (3,8)
 
-Should be easy for other developers to add a map
+Should be easy for other developers to change the starting setup
+    [OK]should be able to change the tile layout of the worldmap
+    should be able the change the starting cities
+    should be able to change the starting units
+
 etc.

@@ -3,7 +3,6 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.utility.*;
 
-import javax.swing.*;
 import java.util.*;
 
 /** Skeleton implementation of HotCiv.
@@ -50,7 +49,7 @@ public class GameImpl implements Game {
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
+  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString) {
     playerInTurn = Player.RED;
     age = -4000;
 
@@ -59,7 +58,7 @@ public class GameImpl implements Game {
     this.performUnitActionStrategy = performUnitActionStrategy;
     this.worldLayoutStrategy = worldLayoutStrategy;
 
-    worldMap = worldLayoutStrategy.setUpWorld();
+    worldMap = worldLayoutStrategy.setUpWorld(worldLayoutString);
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();
   }

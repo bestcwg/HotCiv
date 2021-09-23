@@ -56,7 +56,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy());
+    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {});
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red

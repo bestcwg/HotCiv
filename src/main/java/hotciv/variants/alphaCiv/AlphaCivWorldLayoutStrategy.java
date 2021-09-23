@@ -13,15 +13,15 @@ public class AlphaCivWorldLayoutStrategy implements WorldLayoutStrategy {
     private HashMap<Position, City> citiesLayout;
     private HashMap<Position, Unit> unitsLayout;
     @Override
-    public HashMap<Position, Tile> setUpWorld() {
-        worldLayout = new HashMap<>();
+    public HashMap<Position, Tile> setUpWorld(String[] worldLayoutString) {
+        this.worldLayout = new HashMap<>();
         for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
             for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
-                worldLayout.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
+                this.worldLayout.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
             }
         }
         createHashMapForSpecialTiles();
-        return worldLayout;
+        return this.worldLayout;
     }
 
     @Override

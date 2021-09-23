@@ -19,7 +19,7 @@ public class TestGammaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy());
+        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {});
         archer = new Position(2,0);
         settlerPos = new Position(4,3);
     }
