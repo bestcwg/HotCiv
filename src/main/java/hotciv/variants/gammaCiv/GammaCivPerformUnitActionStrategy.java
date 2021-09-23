@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.gammaCiv;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.PerformUnitActionStrategy;

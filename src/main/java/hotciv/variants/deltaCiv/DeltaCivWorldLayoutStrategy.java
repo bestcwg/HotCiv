@@ -1,8 +1,6 @@
-package hotciv.variants;
+package hotciv.variants.deltaCiv;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
-import hotciv.framework.Tile;
+import hotciv.framework.*;
 import hotciv.standard.TileImpl;
 import hotciv.standard.WorldLayoutStrategy;
 
@@ -62,5 +60,15 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
             }
         }
         return worldLayout;
+    }
+
+    @Override
+    public HashMap<Position, City> setUpCities() {
+        return null;
+    }
+
+    @Override
+    public HashMap<Position, Unit> setUpUnits() {
+        return null;
     }
 }

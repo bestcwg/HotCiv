@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.betaCiv;
 
 import hotciv.framework.City;
 import hotciv.framework.Player;

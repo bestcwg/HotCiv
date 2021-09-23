@@ -60,11 +60,8 @@ public class GameImpl implements Game {
     this.worldLayoutStrategy = worldLayoutStrategy;
 
     worldMap = worldLayoutStrategy.setUpWorld();
-    cities = new HashMap<>();
-    units = new HashMap<>();
-
-    createHashMapForCities();
-    createHashMapForUnits();
+    cities = worldLayoutStrategy.setUpCities();
+    units = worldLayoutStrategy.setUpUnits();
   }
 
   /**
@@ -208,30 +205,6 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position p ) {
     performUnitActionStrategy.action(p, getUnitAt(p), cities, units);
-  }
-
-  /**
-   * A helper method for creating a hashmap of cities
-   */
-  private void createHashMapForCities() {
-    Position redCityPos = new Position(1,1);
-    Position blueCityPos = new Position(4,1);
-
-    cities.put(redCityPos, new CityImpl(Player.RED));
-    cities.put(blueCityPos, new CityImpl(Player.BLUE));
-  }
-
-  /**
-   * A helper method for creating a hashmap of units
-   */
-  private void createHashMapForUnits() {
-    Position redArcherPos = new Position(2,0);
-    Position blueLegionPos = new Position(3,2);
-    Position redSettlerPos = new Position(4,3);
-
-    units.put(redArcherPos, new UnitImpl(Player.RED, GameConstants.ARCHER));
-    units.put(blueLegionPos, new UnitImpl(Player.BLUE, GameConstants.LEGION));
-    units.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
   }
 
   /**

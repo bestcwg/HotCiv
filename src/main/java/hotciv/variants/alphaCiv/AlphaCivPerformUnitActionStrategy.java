@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.alphaCiv;
 
 import hotciv.framework.*;
 import hotciv.standard.PerformUnitActionStrategy;

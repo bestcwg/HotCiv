@@ -3,7 +3,10 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
-import hotciv.standard.WorldLayoutStrategy;
+import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
+import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.betaCiv.BetaCivAgeStrategy;
+import hotciv.variants.betaCiv.BetaCivWinnerStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;

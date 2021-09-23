@@ -2,10 +2,10 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import hotciv.variants.AlphaCivPerformUnitActionStrategy;
-import hotciv.variants.AlphaCivWinnerStrategy;
-import hotciv.variants.AlphaCivAgeStrategy;
-import hotciv.variants.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
+import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
+import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
+import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
