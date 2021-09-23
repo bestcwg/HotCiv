@@ -32,6 +32,9 @@ public class TestGammaCiv {
 
     @Test
     public void shouldNotBeAbleToMoveFortifiedUnits() {
+        //Given a game with the GammaCivPerformUnitActionStrategy
+        // When a unit is fortified
+        // Then it should not be able to move
         game.performUnitActionAt(archer);
         assertThat(game.moveUnit(archer, new Position(3,0)), is(false));
     }
@@ -49,6 +52,9 @@ public class TestGammaCiv {
 
     @Test
     public void shouldBeAbleToMoveArcherAfterFortifiedIsRevoked() {
+        // Given a game with the GammaCivPerformUnitActionStrategy
+        // When fortify is revoked
+        // Then the unit should be able to move
         Position newPos = new Position(3,0);
         game.performUnitActionAt(archer);
         assertThat(game.moveUnit(archer, newPos), is(false));
@@ -68,6 +74,9 @@ public class TestGammaCiv {
 
     @Test
     public void shouldRemoveSettlerAfterPerformUnitAction() {
+        // Given a game with the GammaCivPerformUnitActionStrategy
+        // When a settler performs its unit action
+        // Then it should be removed
         game.performUnitActionAt(settlerPos);
         assertThat(game.getUnitAt(settlerPos), is(nullValue()));
     }

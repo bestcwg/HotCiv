@@ -14,6 +14,8 @@ public class GammaCivPerformUnitActionStrategy implements PerformUnitActionStrat
         UnitImpl u = (UnitImpl) unit;
 
         switch (unit.getTypeString()) {
+            // Archer action is fortify, that makes the archer defensive strength double, but cannot move
+            // Settler action is settle, create a new city and remove the settler from the game
             case GameConstants.ARCHER:
                 u.fortify();
                 break;
