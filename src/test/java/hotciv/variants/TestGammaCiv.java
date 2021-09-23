@@ -65,4 +65,10 @@ public class TestGammaCiv {
         game.performUnitActionAt(settlerPos);
         assertThat(game.getCityAt(settlerPos),is(notNullValue()));
     }
+
+    @Test
+    public void shouldRemoveSettlerAfterPerformUnitAction() {
+        game.performUnitActionAt(settlerPos);
+        assertThat(game.getUnitAt(settlerPos), is(nullValue()));
+    }
 }

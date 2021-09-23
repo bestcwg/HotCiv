@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class GammaCivPerformUnitActionStrategy implements PerformUnitActionStrategy {
 
     @Override
-    public void action(Position position, Unit unit, HashMap<Position, City> cities) {
+    public void action(Position position, Unit unit, HashMap<Position, City> cities, HashMap<Position,Unit> units) {
         UnitImpl u = (UnitImpl) unit;
 
         switch (unit.getTypeString()) {
@@ -19,6 +19,7 @@ public class GammaCivPerformUnitActionStrategy implements PerformUnitActionStrat
                 break;
             case GameConstants.SETTLER:
                 cities.put(position, new CityImpl(u.getOwner()));
+                units.remove(position);
                 break;
         }
     }
