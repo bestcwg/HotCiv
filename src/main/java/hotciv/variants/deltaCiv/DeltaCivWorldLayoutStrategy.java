@@ -1,6 +1,7 @@
 package hotciv.variants.deltaCiv;
 
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.WorldLayoutStrategy;
 
@@ -8,6 +9,8 @@ import java.util.HashMap;
 
 public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
     private HashMap<Position, Tile> worldLayout;
+    private HashMap<Position, City> citiesLayout;
+    private HashMap<Position, Unit> unitsLayout;
     @Override
     public HashMap<Position, Tile> setUpWorld() {
         // Basically we use a 'data driven' approach - code the
@@ -64,11 +67,24 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
 
     @Override
     public HashMap<Position, City> setUpCities() {
-        return null;
+        citiesLayout = new HashMap<>();
+        createHashMapForCities();
+        return citiesLayout;
     }
 
     @Override
     public HashMap<Position, Unit> setUpUnits() {
         return null;
+    }
+
+    /**
+     * A helper method for creating a hashmap of cities
+     */
+    private void createHashMapForCities() {
+        Position redCityPos = new Position(8,12);
+        Position blueCityPos = new Position(4,5);
+
+        citiesLayout.put(redCityPos, new CityImpl(Player.RED));
+        citiesLayout.put(blueCityPos, new CityImpl(Player.BLUE));
     }
 }

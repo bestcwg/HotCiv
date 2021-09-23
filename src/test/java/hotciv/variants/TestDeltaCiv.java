@@ -55,4 +55,22 @@ public class TestDeltaCiv {
         assertThat(game.getTileAt(new Position(0,3)).getTypeString(),is(GameConstants.PLAINS));
         assertThat(game.getTileAt(new Position(4,6)).getTypeString(),is(GameConstants.PLAINS));
     }
+
+    @Test
+    public void shouldBeRedCityAt8_12() {
+        // Given a game with DeltaCivWorldLayoutStrategy
+        // When a world is made
+        // Then there should be a red city at 8,12
+        assertThat(game.getCityAt(new Position(8,12)), is(notNullValue()));
+        assertThat(game.getCityAt(new Position(8,12)).getOwner(), is(Player.RED));
+    }
+
+    @Test
+    public void shouldBeRedCityAt4_5() {
+        // Given a game with DeltaCivWorldLayoutStrategy
+        // When a world is made
+        // Then there should be a blue city at 4,5
+        assertThat(game.getCityAt(new Position(4,5)), is(notNullValue()));
+        assertThat(game.getCityAt(new Position(4,5)).getOwner(), is(Player.BLUE));
+    }
 }
