@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
+import hotciv.standard.WorldLayoutStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -13,7 +14,7 @@ public class TestBetaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new BetaCivAgeStrategy(), new BetaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy());
+        game = new GameImpl(new BetaCivAgeStrategy(), new BetaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy());
     }
 
     @Test

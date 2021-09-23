@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
+import hotciv.standard.WorldLayoutStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -15,7 +16,7 @@ public class TestGammaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy());
+        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy());
         archer = new Position(2,0);
         settlerPos = new Position(4,3);
     }

@@ -44,29 +44,26 @@ public class GameImpl implements Game {
   private AgeStrategy ageStrategy;
   private WinnerStrategy winnerStrategy;
   private PerformUnitActionStrategy performUnitActionStrategy;
+  private WorldLayoutStrategy worldLayoutStrategy;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy) {
+  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
     playerInTurn = Player.RED;
     age = -4000;
+
     this.ageStrategy = ageStrategy;
     this.winnerStrategy = winnerStrategy;
     this.performUnitActionStrategy = performUnitActionStrategy;
+    this.worldLayoutStrategy = worldLayoutStrategy;
 
-    worldMap = new HashMap<>();
+    worldMap = worldLayoutStrategy.setUpWorld();
     cities = new HashMap<>();
     units = new HashMap<>();
 
-    for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
-      for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
-        worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
-      }
-    }
     createHashMapForCities();
-    createHashMapForSpecialTiles();
     createHashMapForUnits();
   }
 
@@ -235,19 +232,6 @@ public class GameImpl implements Game {
     units.put(redArcherPos, new UnitImpl(Player.RED, GameConstants.ARCHER));
     units.put(blueLegionPos, new UnitImpl(Player.BLUE, GameConstants.LEGION));
     units.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
-  }
-
-  /**
-   * A helper method for creating a hashmap of tiles
-   */
-  private void createHashMapForSpecialTiles() {
-    Position oceanTile = new Position(1,0);
-    Position hillTile = new Position(0,1);
-    Position mountainTile = new Position(2,2);
-
-    worldMap.put(oceanTile, new TileImpl(GameConstants.OCEANS));
-    worldMap.put(hillTile, new TileImpl(GameConstants.HILLS));
-    worldMap.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
   }
 
   /**
