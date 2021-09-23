@@ -3,6 +3,7 @@ package hotciv.variants.deltaCiv;
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
+import hotciv.standard.UnitImpl;
 import hotciv.standard.WorldLayoutStrategy;
 
 import java.util.HashMap;
@@ -74,7 +75,9 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
 
     @Override
     public HashMap<Position, Unit> setUpUnits() {
-        return null;
+        unitsLayout = new HashMap<>();
+        createHashMapForUnits();
+        return unitsLayout;
     }
 
     /**
@@ -86,5 +89,11 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
 
         citiesLayout.put(redCityPos, new CityImpl(Player.RED));
         citiesLayout.put(blueCityPos, new CityImpl(Player.BLUE));
+    }
+
+    private void createHashMapForUnits() {
+        Position redSettlerPos = new Position(5,5);
+
+        unitsLayout.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
     }
 }

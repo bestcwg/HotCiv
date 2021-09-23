@@ -66,11 +66,21 @@ public class TestDeltaCiv {
     }
 
     @Test
-    public void shouldBeRedCityAt4_5() {
+    public void shouldBeBlueCityAt4_5() {
         // Given a game with DeltaCivWorldLayoutStrategy
         // When a world is made
         // Then there should be a blue city at 4,5
         assertThat(game.getCityAt(new Position(4,5)), is(notNullValue()));
         assertThat(game.getCityAt(new Position(4,5)).getOwner(), is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldBeRedSettlerAt5_5() {
+        // Given a game with DeltaCivWorldLayoutStrategy
+        // When a world is made
+        // Then there should be a red settler at 5,5
+        Position unitPos = new Position(5,5);
+        assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.RED));
+        assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.SETTLER));
     }
 }
