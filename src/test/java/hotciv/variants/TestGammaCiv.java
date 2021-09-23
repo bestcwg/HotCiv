@@ -71,4 +71,22 @@ public class TestGammaCiv {
         game.performUnitActionAt(settlerPos);
         assertThat(game.getUnitAt(settlerPos), is(nullValue()));
     }
+
+    @Test
+    public void shouldBePopulationSizeOf1WhenCreatingCityWithSettler() {
+        // Given a game with GammaCivPerformUnitActionStrategy
+        // When settler perform unit action
+        // Then size of city should be 1
+        game.performUnitActionAt(settlerPos);
+        assertThat(game.getCityAt(settlerPos).getSize(),is(1));
+    }
+
+    @Test
+    public void shouldBeRedPlayerWhoOwnTheCityWhenCreatedWithSettler() {
+        // Given a game with GammaCivPerformUnitActionStrategy
+        // When red settler perform unit action
+        // Then the city owner should be red
+        game.performUnitActionAt(settlerPos);
+        assertThat(game.getCityAt(settlerPos).getOwner(),is(Player.RED));
+    }
 }
