@@ -82,4 +82,8 @@ public class UnitImpl implements Unit {
     public boolean isMoveable() {
         return false;
     }
+
+    public void fortify() {
+        defensiveStrength = defensiveStrength * 2;
+    }
 }

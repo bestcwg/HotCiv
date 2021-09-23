@@ -209,7 +209,7 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt( Position p ) {
-    performUnitActionStrategy.action(getUnitAt(p).getTypeString());
+    performUnitActionStrategy.action(getUnitAt(p));
   }
 
   /**
