@@ -95,6 +95,7 @@ public class UnitImpl implements Unit {
                 defensiveStrength = 6;
                 break;
             case 6:
+                moveAble = true;
                 defensiveStrength = 3;
                 break;
         }

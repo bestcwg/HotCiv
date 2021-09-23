@@ -43,4 +43,14 @@ public class TestGammaCiv {
         game.performUnitActionAt(archer);
         assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(3));
     }
+
+    @Test
+    public void shouldBeAbleToMoveArcherAfterFortifiedIsRevoked() {
+        Position newPos = new Position(3,0);
+        game.performUnitActionAt(archer);
+        assertThat(game.moveUnit(archer, newPos), is(false));
+        game.performUnitActionAt(archer);
+        assertThat(game.moveUnit(archer, newPos), is(true));
+        assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
+    }
 }

@@ -122,8 +122,8 @@ Settler can perform action "build city"
 Archer can perform action "Fortify"
     [OK] Archer defensive stats are doubled when fortify
     [OK] Archer cannot move while in fortify
-    If archer already in fortify, perform action envokes fortify
-        [OK] Archer should have 3 defence when fortify is envoked
-        Archer can move when fortify is revoked
+    If archer already in fortify, perform action revokes fortify
+        [OK] Archer should have 3 defence when fortify is revoked
+        [OK] Archer can move when fortify is revoked
 
 etc.
