@@ -3,8 +3,6 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
-import hotciv.variants.AlphaCivWinnerStrategy;
-import hotciv.variants.AlphaCivAgeStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -119,7 +117,6 @@ public class TestBetaCiv {
     public void shouldBeRedPlayerWhoWinsIfOwnsAllCities() {
         // Given a game with BetaCivAgeStrategy
         // When player red owns all cities
-        Position redCityPos = new Position(1,1);
         Position blueCityPos = new Position(4,1);
         Position archerPos = new Position(2,0);
         // Then player red should win game
@@ -136,7 +133,6 @@ public class TestBetaCiv {
         // Given a game with BetaCivAgeStrategy
         // When player blue owns all cities
         Position redCityPos = new Position(1,1);
-        Position blueCityPos = new Position(4,1);
         Position legionPos = new Position(3,2);
         // Then player blue should win game
         doXEndOfTurn(1);

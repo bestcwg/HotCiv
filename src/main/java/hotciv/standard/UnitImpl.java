@@ -74,4 +74,12 @@ public class UnitImpl implements Unit {
     public void retractMoveCount() {
         moveCount -= 1;
     }
+
+    /**
+     * A method for controlling if a unit is able to move
+     * @return boolean of whether the unit may move
+     */
+    public boolean isMoveable() {
+        return false;
+    }
 }

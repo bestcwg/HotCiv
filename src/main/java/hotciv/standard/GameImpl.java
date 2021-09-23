@@ -206,7 +206,9 @@ public class GameImpl implements Game {
     }
   }
 
-  public void performUnitActionAt( Position p ) {}
+  public void performUnitActionAt( Position p ) {
+
+  }
 
   /**
    * A helper method for creating a hashmap of cities

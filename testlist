@@ -112,4 +112,16 @@ Testcases needed for betaCiv:
     [OK] Between 1900 and 1970 the age should increment with 5 years
     [OK] After 1970 the age should increment with 1 year
 
+Testcases needed for GammaCiv:
+
+Settler can perform action "build city"
+    Settler should be removed after the action
+    City should be placed instead
+    Population of city is 1
+    Owner of city is the same as the settlers owner
+Archer can perform action "Fortify"
+    Archer defensive stats are doubled
+    Archer cannot move while in fortify
+    If archer already in fortify, perform action envokes fortify
+
 etc.
