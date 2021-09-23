@@ -116,13 +116,13 @@ Testcases needed for GammaCiv:
 
 Settler can perform action "build city"
     Settler should be removed after the action
-    City should be placed instead
+    [OK] City should be placed when performed unit action on settler
     Population of city is 1
     Owner of city is the same as the settlers owner
 Archer can perform action "Fortify"
     [OK] Archer defensive stats are doubled when fortify
     [OK] Archer cannot move while in fortify
-    If archer already in fortify, perform action revokes fortify
+    [OK] If archer already in fortify, perform action revokes fortify
         [OK] Archer should have 3 defence when fortify is revoked
         [OK] Archer can move when fortify is revoked
 

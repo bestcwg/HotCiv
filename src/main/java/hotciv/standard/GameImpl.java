@@ -210,7 +210,7 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt( Position p ) {
-    performUnitActionStrategy.action(getUnitAt(p));
+    performUnitActionStrategy.action(p, getUnitAt(p), cities);
   }
 
   /**

@@ -1,11 +1,13 @@
 package hotciv.variants;
 
-import hotciv.framework.Unit;
+import hotciv.framework.*;
 import hotciv.standard.PerformUnitActionStrategy;
+
+import java.util.HashMap;
 
 public class AlphaCivPerformUnitActionStrategy implements PerformUnitActionStrategy {
     @Override
-    public void action(Unit unit) {
+    public void action(Position position, Unit unit, HashMap<Position,City> cities) {
 
     }
 }

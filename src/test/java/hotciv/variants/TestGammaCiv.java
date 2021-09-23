@@ -10,12 +10,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestGammaCiv {
     private Game game;
-    Position archer;
+    private Position archer;
+    private Position settlerPos;
 
     @BeforeEach
     void setUp() {
         game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy());
         archer = new Position(2,0);
+        settlerPos = new Position(4,3);
     }
 
     @Test
@@ -41,6 +43,7 @@ public class TestGammaCiv {
         game.performUnitActionAt(archer);
         assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(6));
         game.performUnitActionAt(archer);
+        // Then archer should have 3 defence
         assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(3));
     }
 
@@ -52,5 +55,14 @@ public class TestGammaCiv {
         game.performUnitActionAt(archer);
         assertThat(game.moveUnit(archer, newPos), is(true));
         assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.ARCHER));
+    }
+
+    @Test
+    public void shouldBePlacedACityIfSettlerPerformUnitAction() {
+        // Given a game with GammaCivPerformUnitActionStrategy
+        // When settler perform unit action
+        // Then city is placed at the same position
+        game.performUnitActionAt(settlerPos);
+        assertThat(game.getCityAt(settlerPos),is(notNullValue()));
     }
 }

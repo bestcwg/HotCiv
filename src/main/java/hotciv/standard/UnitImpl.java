@@ -85,7 +85,7 @@ public class UnitImpl implements Unit {
     }
 
     /**
-     * A helper method for changing defence and mobility for archer
+     * A method for changing defence and mobility for archer
      * when fortified
      */
     public void fortify() {
