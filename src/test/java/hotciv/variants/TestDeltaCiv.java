@@ -83,4 +83,14 @@ public class TestDeltaCiv {
         assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.RED));
         assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.SETTLER));
     }
+
+    @Test
+    public void shouldBeRedArcherAt3_8() {
+        // Given a game with DeltaCivWorldLayoutStrategy
+        // When a world is made
+        // Then there should be a red archer at 3,8
+        Position unitPos = new Position(3,8);
+        assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.RED));
+        assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.ARCHER));
+    }
 }
