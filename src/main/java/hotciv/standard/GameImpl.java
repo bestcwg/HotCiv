@@ -121,8 +121,9 @@ public class GameImpl implements Game {
    * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
+    UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
     // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1) {
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable() ) {
       // check that the unit is not moving over a mountain or ocean
       if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
