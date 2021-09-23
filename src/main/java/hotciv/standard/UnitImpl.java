@@ -84,8 +84,19 @@ public class UnitImpl implements Unit {
         return moveAble;
     }
 
+    /**
+     * A helper method for changing defence and mobility for archer
+     * when fortified
+     */
     public void fortify() {
         moveAble = false;
-        defensiveStrength = defensiveStrength * 2;
+        switch (defensiveStrength) {
+            case 3:
+                defensiveStrength = 6;
+                break;
+            case 6:
+                defensiveStrength = 3;
+                break;
+        }
     }
 }

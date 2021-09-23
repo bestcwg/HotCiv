@@ -20,9 +20,11 @@ public class TestGammaCiv {
 
     @Test
     public void shouldBeDoubleDefenceStatsForRedArcherInFortifyAt2_0() {
-
+        // Given a game with GammaCivPerformUnitActionStrategy
+        // When perform unit action on archer
         assertThat(game.getUnitAt(archer).getTypeString(), is(GameConstants.ARCHER));
         game.performUnitActionAt(archer);
+        // Then archer should double defence stats
         assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(6));
     }
 
@@ -30,5 +32,15 @@ public class TestGammaCiv {
     public void shouldNotBeAbleToMoveFortifiedUnits() {
         game.performUnitActionAt(archer);
         assertThat(game.moveUnit(archer, new Position(3,0)), is(false));
+    }
+
+    @Test
+    public void shouldBe3DefenceWhenFortifyIsRevoked() {
+        // Given a game with GammaCivPerformUnitActionStrategy
+        // When perform unit action on archer who is already fortified
+        game.performUnitActionAt(archer);
+        assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(6));
+        game.performUnitActionAt(archer);
+        assertThat(game.getUnitAt(archer).getDefensiveStrength(),is(3));
     }
 }
