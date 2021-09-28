@@ -2,12 +2,14 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
+import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
+import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
+import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.*;
 
 /** Skeleton class for AlphaCiv test cases
 
@@ -54,7 +56,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl();
+    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {});
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red
@@ -451,7 +453,7 @@ public class TestAlphaCiv {
   public void shouldBeAbleToSeeDefensiveStrengthOfArcher() {
     // Given a game
     // When an archer is created
-    // Then it should have an defensive strength of 3
+    // Then it should have a defensive strength of 3
     assertThat(game.getUnitAt(archerPos).getTypeString(), is(GameConstants.ARCHER));
     assertThat(game.getUnitAt(archerPos).getDefensiveStrength(), is(3));
   }
@@ -597,60 +599,10 @@ public class TestAlphaCiv {
   public void shouldNotBeAbleToSpawnAUnitFromACityOnAMountainTile() {
     // Given a game
     // When a city produces a unit
-    // Then i should not spawn on a mountain tile
+    // Then it should not spawn on a mountain tile
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     doXEndOfTurn(40);
     assertThat(game.getUnitAt(new Position(2,2)), is(nullValue()));
-  }
-
-  @Test
-  public void shouldBe1ProductionAnd0FoodForMountainTile(){
-    // Given a mountain object
-    // When its implemented
-    // Then it should have a food production of 0 and production of 1
-    TileImpl mountain = new TileImpl(GameConstants.MOUNTAINS);
-    assertThat(mountain.getProductionProduction(), is(1));
-    assertThat(mountain.getFoodProduction(), is(0));
-  }
-
-  @Test
-  public void shouldBe2ProductionAnd0FoodForHillTile(){
-    // Given a hill object
-    // When its implemented
-    // Then it should have a food production of 0 and production of 3
-    TileImpl hill = new TileImpl(GameConstants.HILLS);
-    assertThat(hill.getProductionProduction(), is(2));
-    assertThat(hill.getFoodProduction(), is(0));
-  }
-
-  @Test
-  public void shouldBe3ProductionAnd0FoodForForrestTile(){
-    // Given a forrest object
-    // When its implemented
-    // Then it should have a food production of 0 and production of 3
-    TileImpl forrest = new TileImpl(GameConstants.FOREST);
-    assertThat(forrest.getProductionProduction(), is(3));
-    assertThat(forrest.getFoodProduction(), is(0));
-  }
-
-  @Test
-  public void shouldBe0ProductionAnd1FoodForOceanTile(){
-    // Given an ocean object
-    // When its implemented
-    // Then it should have a food production of 1 and production of 0
-    TileImpl ocean = new TileImpl(GameConstants.OCEANS);
-    assertThat(ocean.getProductionProduction(), is(0));
-    assertThat(ocean.getFoodProduction(), is(1));
-  }
-
-  @Test
-  public void shouldBe0ProductionAnd3FoodForPlainTile(){
-    // Given a plains object
-    // When its implemented
-    // Then it should have a food production of 3 and production of 0
-    TileImpl plains = new TileImpl(GameConstants.PLAINS);
-    assertThat(plains.getProductionProduction(), is(0));
-    assertThat(plains.getFoodProduction(), is(3));
   }
 
   @Test
@@ -687,7 +639,7 @@ public class TestAlphaCiv {
     // Then production in blue city should not be changed
     assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
 
-    // blue player aswell
+    // blue player as well
     doXEndOfTurn(1);
     game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
     assertThat(game.getCityAt(redCityPos).getProduction(), is(nullValue()));
@@ -696,12 +648,12 @@ public class TestAlphaCiv {
   @Test
   public void shouldNotBeAbleToChangeOtherPlayerCityWorkForce() {
     // Given a game
-    // When red player tries to change work foce in red turn, in blue city
+    // When red player tries to change work force in red turn, in blue city
     game.changeWorkForceFocusInCityAt(blueCityPos, GameConstants.foodFocus);
     // Then work force in blue city should not be changed
     assertThat(game.getCityAt(blueCityPos).getWorkforceFocus(), is(nullValue()));
 
-    // blue player aswell
+    // blue player as well
     doXEndOfTurn(1);
     game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.productionFocus);
     assertThat(game.getCityAt(redCityPos).getWorkforceFocus(), is(nullValue()));

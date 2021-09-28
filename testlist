@@ -95,4 +95,50 @@ Units cannot move outside the game world
     [OK] do not spawn on ocean
 
 
+Testcases needed for betaCiv:
+
+[OK] Winner should control all cities
+    [OK] Player red should win if own all cities
+    [OK] Player blue should win if own all cities
+
+[OK] Should implement betaCiv age strategy
+    [OK] From 4000BC to 100BC the age should increment with 100
+    [OK] Around birth of christ the sequence is -100, -1, +1, +50
+        [OK] After -100 should be -1
+        [OK] after -1 should be +1
+        [OK] after +1 should be +50
+    [OK] Between 50AD and 1750 the age should increment with 50 years
+    [OK] Between 1750 and 1900 the age should increment with 25 years
+    [OK] Between 1900 and 1970 the age should increment with 5 years
+    [OK] After 1970 the age should increment with 1 year
+
+Testcases needed for GammaCiv:
+
+[OK] Settler can perform action "build city"
+    [OK] Settler should be removed after the action
+    [OK] City should be placed when performed unit action on settler
+    [OK] Population of city is 1
+    [OK] Owner of city is the same as the settlers owner
+[OK] Archer can perform action "Fortify"
+    [OK] Archer defensive stats are doubled when fortify
+    [OK] Archer cannot move while in fortify
+    [OK] If archer already in fortify, perform action revokes fortify
+        [OK] Archer should have 3 defence when fortify is revoked
+        [OK] Archer can move when fortify is revoked
+
+Testcases needed for DeltaCiv:
+
+[OK] Worldmap should be as on page 8 36.1
+    [OK] Place tiles in worldmap
+    [OK] Red has a city at (8,12)
+    [OK] Blue has a city at (4,5)
+    [OK] Red has a settler at (5,5)
+    [OK] Blue has a legion at (4,4)
+    [OK] Red has a archer at (3,8)
+
+Should be easy for other developers to change the starting setup
+    [OK]should be able to change the tile layout of the worldmap
+    should be able the change the starting cities
+    should be able to change the starting units
+
 etc.

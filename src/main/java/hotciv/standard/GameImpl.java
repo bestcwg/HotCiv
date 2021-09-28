@@ -40,27 +40,27 @@ public class GameImpl implements Game {
   private Player winner;
   private int age;
   private int playerTurns;
+  private AgeStrategy ageStrategy;
+  private WinnerStrategy winnerStrategy;
+  private PerformUnitActionStrategy performUnitActionStrategy;
+  private WorldLayoutStrategy worldLayoutStrategy;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl() {
+  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString) {
     playerInTurn = Player.RED;
     age = -4000;
 
-    worldMap = new HashMap<>();
-    cities = new HashMap<>();
-    units = new HashMap<>();
+    this.ageStrategy = ageStrategy;
+    this.winnerStrategy = winnerStrategy;
+    this.performUnitActionStrategy = performUnitActionStrategy;
+    this.worldLayoutStrategy = worldLayoutStrategy;
 
-    for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
-      for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){
-        worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
-      }
-    }
-    createHashMapForCities();
-    createHashMapForSpecialTiles();
-    createHashMapForUnits();
+    worldMap = worldLayoutStrategy.setUpWorld(worldLayoutString);
+    cities = worldLayoutStrategy.setUpCities();
+    units = worldLayoutStrategy.setUpUnits();
   }
 
   /**
@@ -114,8 +114,9 @@ public class GameImpl implements Game {
    * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
+    UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
     // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1) {
+    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable() ) {
       // check that the unit is not moving over a mountain or ocean
       if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
         return false;
@@ -138,6 +139,7 @@ public class GameImpl implements Game {
             if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
               CityImpl city = (CityImpl) getCityAt(to);
               city.changeOwner(getUnitAt(from).getOwner());
+              checkForWinner(age, cities);
             }
           }
 
@@ -200,43 +202,8 @@ public class GameImpl implements Game {
     }
   }
 
-  public void performUnitActionAt( Position p ) {}
-
-  /**
-   * A helper method for creating a hashmap of cities
-   */
-  private void createHashMapForCities() {
-    Position redCityPos = new Position(1,1);
-    Position blueCityPos = new Position(4,1);
-
-    cities.put(redCityPos, new CityImpl(Player.RED));
-    cities.put(blueCityPos, new CityImpl(Player.BLUE));
-  }
-
-  /**
-   * A helper method for creating a hashmap of units
-   */
-  private void createHashMapForUnits() {
-    Position redArcherPos = new Position(2,0);
-    Position blueLegionPos = new Position(3,2);
-    Position redSettlerPos = new Position(4,3);
-
-    units.put(redArcherPos, new UnitImpl(Player.RED, GameConstants.ARCHER));
-    units.put(blueLegionPos, new UnitImpl(Player.BLUE, GameConstants.LEGION));
-    units.put(redSettlerPos, new UnitImpl(Player.RED, GameConstants.SETTLER));
-  }
-
-  /**
-   * A helper method for creating a hashmap of tiles
-   */
-  private void createHashMapForSpecialTiles() {
-    Position oceanTile = new Position(1,0);
-    Position hillTile = new Position(0,1);
-    Position mountainTile = new Position(2,2);
-
-    worldMap.put(oceanTile, new TileImpl(GameConstants.OCEANS));
-    worldMap.put(hillTile, new TileImpl(GameConstants.HILLS));
-    worldMap.put(mountainTile, new TileImpl(GameConstants.MOUNTAINS));
+  public void performUnitActionAt( Position p ) {
+    performUnitActionStrategy.action(p, getUnitAt(p), cities, units);
   }
 
   /**
@@ -285,11 +252,9 @@ public class GameImpl implements Game {
       }
     }
     // increment the age
-    age += 100;
+    age += ageStrategy.calculateAge(getAge());
     playerTurns = 0;
-    if (getAge() == -3000) {
-      winner = Player.RED;
-    }
+    checkForWinner(getAge(),cities);
   }
 
   /**
@@ -325,5 +290,15 @@ public class GameImpl implements Game {
     units.put(to,unit);
     units.remove(from);
     unit.retractMoveCount();
+  }
+
+  /**
+   * A helper method to calculate winner depending on
+   * which winnerStrategy is in use
+   * @param age of current Game
+   * @param cities HashMap of cities in game
+   */
+  private void checkForWinner(int age, HashMap<Position,City> cities) {
+    winner = winnerStrategy.calculateWinner(age, cities);
   }
 }

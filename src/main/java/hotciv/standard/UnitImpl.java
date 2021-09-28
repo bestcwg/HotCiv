@@ -1,6 +1,5 @@
 package hotciv.standard;
 
-import hotciv.framework.Game;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
@@ -11,6 +10,7 @@ public class UnitImpl implements Unit {
     private int attackingStrength;
     private int defensiveStrength;
     private int moveCount;
+    private boolean moveAble;
 
     /**
      * Constructor for the unit implementation, set up the units attacking and defensive strength
@@ -19,6 +19,7 @@ public class UnitImpl implements Unit {
      * @param unitType the type of unit (Archer,Legion,Settler)
      */
     public UnitImpl(Player owner, String unitType) {
+        moveAble = true;
         this.owner = owner;
         this.unitType = unitType;
         moveCount = 1;
@@ -73,5 +74,30 @@ public class UnitImpl implements Unit {
      */
     public void retractMoveCount() {
         moveCount -= 1;
+    }
+
+    /**
+     * A method for controlling if a unit is able to move
+     * @return boolean of whether the unit may move
+     */
+    public boolean isMoveable() {
+        return moveAble;
+    }
+
+    /**
+     * A method for changing defence and mobility for archer
+     * when fortified
+     */
+    public void fortify() {
+        moveAble = false;
+        switch (defensiveStrength) {
+            case 3:
+                defensiveStrength = 6;
+                break;
+            case 6:
+                moveAble = true;
+                defensiveStrength = 3;
+                break;
+        }
     }
 }
