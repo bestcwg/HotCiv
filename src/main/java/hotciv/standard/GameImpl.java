@@ -105,7 +105,7 @@ public class GameImpl implements Game {
    */
   public int getAge() { return age; }
 
-  /**
+   /**
    * A method for moving a unit around the map
    * It validates that the player in turn is moving a unit of their colour
    * and that the move is valid (Do not move over mountain)
@@ -113,43 +113,16 @@ public class GameImpl implements Game {
    * @param to the position the unit should move to
    * @return a boolean value, false if the move failed and true if it succeeds
    */
-  public boolean moveUnit(Position from, Position to) {
-    UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
-    // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
-    if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable() ) {
-      // check that the unit is not moving over a mountain or ocean
-      if (getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(to).getTypeString().equals(GameConstants.OCEANS)) {
-        return false;
-      }
-      // makes sure units only move 1 tile at a time
-      if (-1 <= (from.getColumn() - to.getColumn()) && (from.getColumn() - to.getColumn()) <= 1) {
-        if (-1 <= (from.getRow() - to.getRow()) && (from.getRow() - to.getRow()) <= 1) {
-          // for handling what to do if unit is at to position
-          if (units.containsKey(to)) {
-            // if it is the players unit don't move to pos, as player can't have two units on same pos
-            if (getUnitAt(from).getOwner() == getUnitAt(to).getOwner()) {
-              return false;
-            }
-            // if it is enemy unit, remove that unit
-            units.remove(to);
-          }
-
-          // if there is a city that the player doesn't own, capture it
-          if (cities.containsKey(to)) {
-            if (getCityAt(to).getOwner() != getUnitAt(from).getOwner()) {
-              CityImpl city = (CityImpl) getCityAt(to);
-              city.changeOwner(getUnitAt(from).getOwner());
-              checkForWinner(age, cities);
-            }
-          }
-
-          // if position to is empty, just move unit to tile
-          moveUnitFrom_To(from,to);
-          return true;
-        }
-      }
+  public boolean moveUnit( Position from, Position to ) {
+    if (!isMoveValid(from, to)) {
+      return false;
     }
-    return false;
+    if (!isConquerableTile(from, to)) {
+      return false;
+    }
+
+    makeActualMove(from,to);
+    return true;
   }
 
   /**
@@ -250,11 +223,91 @@ public class GameImpl implements Game {
    * @param from where the unit is
    * @param to where the unit is going
    */
-  private void moveUnitFrom_To(Position from, Position to) {
+  private void makeActualMove(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     units.put(to,unit);
     units.remove(from);
     unit.retractMoveCount();
+  }
+
+  /**
+   * A helper method for moveUnit to check for there exist a unit
+   * at the from position, if the unit is moveable, the distance
+   * that the unit is allowed to move, it is not stacking on another
+   * unit and if the tile it is moving to is passable
+   * @param from Position the unit is moving from
+   * @param to Position the unit is moving to
+   * @return A boolean depending on if the move was successful
+   */
+  private boolean isMoveValid(Position from, Position to) {
+    UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
+
+    // Checks if there is a unit at the position moving from
+    boolean existUnitOnFromTile = units.containsKey(from);
+    if (!existUnitOnFromTile) {
+      return false;
+    }
+
+    // Check if is the player in turns unit
+    boolean isOwnUnit = getUnitAt(from).getOwner() == getPlayerInTurn();
+    if (!isOwnUnit) {
+      return false;
+    }
+
+    // Checks if unit is moveable by move count and if it is moveable in its current state
+    boolean unitIsMoveable = getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable();
+    if (!unitIsMoveable) {
+      return false;
+    }
+
+    // Makes sure that the unit cannot move more than one tile at a time
+    boolean moveDistanceIsLessOrEqualOne = Math.abs(from.getColumn() - to.getColumn()) <= 1 &&
+            Math.abs(from.getRow() - to.getRow()) <= 1;
+    if (!moveDistanceIsLessOrEqualOne) {
+      return false;
+    }
+
+    // Checks that the unit dont move on unpassable tiles
+    boolean isNotPassableTile = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) ||
+            getTileAt(to).getTypeString().equals(GameConstants.OCEANS);
+    if (isNotPassableTile) {
+      return false;
+    }
+
+    // Checks for unit at to position, with same owner as player in turn, so units cannot stack on eachother
+    boolean isStackingUnit = getUnitAt(to) != null && getUnitAt(from).getOwner() == getUnitAt(to).getOwner();
+    if (isStackingUnit) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * A helper method for moveUnit method, to check if the tile
+   * the unit is moving to is conquerable
+   * @param from Position the unit is moving from
+   * @param to Position the unit is moving to
+   * @return A boolean depending on if the attack was successful
+   */
+  private boolean isConquerableTile(Position from, Position to) {
+    // If attacking another unit, that unit is removed
+    boolean isAttackingUnit = units.containsKey(to);
+    if (isAttackingUnit) {
+      units.remove(to);
+    }
+
+    // If unit move into city, that is not the player in turns, the city is lost to the player in turn
+    boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
+    if (isCityAtToTile) {
+      CityImpl city = (CityImpl) getCityAt(to);
+      city.changeOwner(getUnitAt(from).getOwner());
+
+      // Checks if the player in turn owns all the cities in the game
+      checkForWinner(age, cities);
+    }
+
+    return true;
   }
 
   private void resetMoveCountForAllUnits() {
