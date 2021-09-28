@@ -39,7 +39,7 @@ public class GameImpl implements Game {
   private Player playerInTurn;
   private Player winner;
   private int age;
-  private int playerTurns;
+  private int playerTurnsTaken;
   private AgeStrategy ageStrategy;
   private WinnerStrategy winnerStrategy;
   private PerformUnitActionStrategy performUnitActionStrategy;
@@ -113,7 +113,7 @@ public class GameImpl implements Game {
    * @param to the position the unit should move to
    * @return a boolean value, false if the move failed and true if it succeeds
    */
-  public boolean moveUnit( Position from, Position to ) {
+  public boolean moveUnit(Position from, Position to) {
     UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
     // Checks if the unit exists, and that the player in turn is the owner of the player, and that the selected unit has a positive move count
     if (units.containsKey(from) && getUnitAt(from).getOwner() == getPlayerInTurn() && getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable() ) {
@@ -166,8 +166,8 @@ public class GameImpl implements Game {
         playerInTurn = Player.RED;
         break;
     }
-    playerTurns++;
-    if (playerTurns == 2) {
+    playerTurnsTaken++;
+    if (playerTurnsTaken == 2) {
       endOfRound();
     }
   }
@@ -213,67 +213,32 @@ public class GameImpl implements Game {
    */
   private void endOfRound() {
     // Reset move count for all units
-    for (Map.Entry<Position, Unit> u : units.entrySet()) {
-      UnitImpl unit = (UnitImpl) u.getValue();
-      unit.resetMoveCount();
-    }
-    // loop through all the cities in the cities' hashmap for unit production
-    for (Map.Entry<Position, City> c : cities.entrySet()) {
-      // typecast to CityImpl to make sure we can access changeTreasury to add production
-      CityImpl city = (CityImpl) c.getValue();
-      city.changeTreasury(6);
-      // a measure to make sure tests don't fail if a production isn't set
-      if(city.getProduction() != null) {
-        switch (city.getProduction()) {
-          case GameConstants.ARCHER:
-            // Check if the treasury of the city is enough to produces the city production focus
-            if (city.getTreasury() >= 10) {
-              // reduce the city's treasure with the amount of production needed for the unit
-              city.changeTreasury(-10);
-              createUnit(c.getKey(), city);
-            }
-            break;
-          case GameConstants.LEGION:
-            // Check if the treasury of the city is enough to produces the city production focus
-            if (city.getTreasury() >= 15) {
-              // reduce the city's treasure with the amount of production needed for the unit
-              city.changeTreasury(-15);
-              createUnit(c.getKey(), city);
-            }
-            break;
-          case GameConstants.SETTLER:
-            // Check if the treasury of the city is enough to produces the city production focus
-            if (city.getTreasury() >= 30) {
-              city.changeTreasury(-30);
-              // reduce the city's treasure with the amount of production needed for the unit
-              createUnit(c.getKey(), city);
-            }
-        }
-      }
-    }
+    resetMoveCountForAllUnits();
+    produceProductionForAllCities();
     // increment the age
     age += ageStrategy.calculateAge(getAge());
-    playerTurns = 0;
-    checkForWinner(getAge(),cities);
+    playerTurnsTaken = 0;
+    checkForWinner(getAge(), cities);
   }
 
   /**
    * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
-   * @param c the position of the city
+   * @param cityPosition the position of the city
    * @param city and the actual city object
    */
-  private void createUnit(Position c, City city) {
+  private void createUnit(Position cityPosition, City city) {
     // loop though the neighborhood of a city using the provided utility class
-    for (Position p : Utility.get8neighborhoodOf(c)) {
+    for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
+      String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
       // if there is no unit at the city center place a unit here
-      if (getUnitAt(c) == null) {
-        units.put(c, new UnitImpl(city.getOwner(), city.getProduction()));
+      if (getUnitAt(cityPosition) == null) {
+        units.put(cityPosition, new UnitImpl(city.getOwner(), city.getProduction()));
         break;
         // Otherwise, run through the neighborhood to find a legal spot to place the unit
-      } else if (getUnitAt(p) == null &&
-              !getTileAt(p).getTypeString().equals(GameConstants.MOUNTAINS)
-              && !getTileAt(p).getTypeString().equals(GameConstants.OCEANS)) {
-        units.put(p, new UnitImpl(city.getOwner(), city.getProduction()));
+      } else if (getUnitAt(neighborhoodPosition) == null &&
+              !concreteTile.equals(GameConstants.MOUNTAINS)
+              && !concreteTile.equals(GameConstants.OCEANS)) {
+        units.put(neighborhoodPosition, new UnitImpl(city.getOwner(), city.getProduction()));
         break;
       }
     }
@@ -291,6 +256,47 @@ public class GameImpl implements Game {
     units.remove(from);
     unit.retractMoveCount();
   }
+
+  private void resetMoveCountForAllUnits() {
+    for (Map.Entry<Position, Unit> u : units.entrySet()) {
+      UnitImpl unit = (UnitImpl) u.getValue();
+      unit.resetMoveCount();
+    }
+  }
+
+  private void produceProductionForAllCities() {
+    int cityProductionAmount = 6;
+    // Loop though all the cities in the HashMap to change production and producce for each
+    for (Map.Entry<Position, City> cityEntry : cities.entrySet()) {
+      // Typecast to access methods in the impl of city class
+      CityImpl realCity = (CityImpl) cityEntry.getValue();
+
+      // Set up descriptive names for values used in the switch case
+      realCity.changeTreasury(cityProductionAmount);
+      int cityTreasury = realCity.getTreasury();
+
+      // a measure to make sure tests without a production focus doesn't produce null pointer expections
+      if (realCity.getProduction() != null) {
+        // Set up descriptive names for values used in the switch case
+        String cityProduction = realCity.getProduction();
+        int costOfUnit = GameConstants.unitCost.get(cityProduction);
+
+        // Switching over the production focus of the city to see if there is enough production to produce it
+        switch (cityProduction) {
+          case GameConstants.ARCHER:
+          case GameConstants.LEGION:
+          case GameConstants.SETTLER:
+            if (cityTreasury >= costOfUnit) {
+              realCity.changeTreasury(-costOfUnit);
+              createUnit(cityEntry.getKey(), realCity);
+            }
+            break;
+        }
+      }
+    }
+  }
+
+
 
   /**
    * A helper method to calculate winner depending on
