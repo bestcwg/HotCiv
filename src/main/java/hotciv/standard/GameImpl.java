@@ -171,12 +171,12 @@ public class GameImpl implements Game {
    */
   public void changeProductionInCityAt( Position cityPosition, String unitType ) {
     boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
-    if(playerOwnsCity) {
-      boolean isUnit = (unitType.equals(GameConstants.ARCHER) ||
-                        unitType.equals(GameConstants.LEGION) ||
-                        unitType.equals(GameConstants.SETTLER));
+    boolean isUnit = (unitType.equals(GameConstants.ARCHER) ||
+            unitType.equals(GameConstants.LEGION) ||
+            unitType.equals(GameConstants.SETTLER));
 
-      if (cities.containsKey(cityPosition) && isUnit) {
+    if(cities.containsKey(cityPosition)) {
+      if (playerOwnsCity && isUnit) {
         CityImpl city = (CityImpl) getCityAt(cityPosition);
         city.changeProduction(unitType);
       }
@@ -184,7 +184,7 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt( Position unitPosition ) {
-    performUnitActionStrategy.action(unitPosition, getUnitAt(unitPosition), cities, units);
+    performUnitActionStrategy.action(unitPosition, this);
   }
 
   /**
@@ -361,5 +361,22 @@ public class GameImpl implements Game {
    */
   private void checkForWinner(int age, HashMap<Position,City> cities) {
     winner = winnerStrategy.calculateWinner(age, cities);
+  }
+
+  /**
+   * A method for creating a city
+   * @param cityPosition position of the city
+   * @param city object
+   */
+  public void createCity(Position cityPosition, City city) {
+    cities.put(cityPosition, city);
+  }
+
+  /**
+   * A method for removing a unit at a position
+   * @param unitPosition position of the unit
+   */
+  public void removeUnit(Position unitPosition) {
+    units.remove(unitPosition);
   }
 }

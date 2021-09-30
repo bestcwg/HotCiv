@@ -13,5 +13,5 @@ public interface PerformUnitActionStrategy {
      * @param cities A hashmap containing all the cities in the game
      * @param units A hashmap containing all the units in the game
      */
-    void action(Position position, Unit unit, HashMap<Position,City> cities, HashMap<Position,Unit> units);
+    void action(Position position, Game game);
 }
