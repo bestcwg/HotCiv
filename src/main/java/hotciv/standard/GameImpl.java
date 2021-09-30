@@ -107,6 +107,14 @@ public class GameImpl implements Game {
    */
   public int getAge() { return age; }
 
+  /**
+   * A method for getting all the cities
+   * @return A hashmap of all the cities
+   */
+  public HashMap<Position,City> getCities() {
+    return cities;
+  }
+
    /**
    * A method for moving a unit around the map
    * It validates that the player in turn is moving a unit of their colour
@@ -318,6 +326,9 @@ public class GameImpl implements Game {
     return true;
   }
 
+  /**
+   * A helper method for resetting moveCount for all units
+   */
   private void resetMoveCountForAllUnits() {
     for (Map.Entry<Position, Unit> u : units.entrySet()) {
       UnitImpl unit = (UnitImpl) u.getValue();
@@ -325,6 +336,10 @@ public class GameImpl implements Game {
     }
   }
 
+  /**
+   * A helper method for producing the selected production
+   * in all cities
+   */
   private void produceProductionForAllCities() {
     int cityProductionAmount = 6;
     for (Map.Entry<Position, City> cityEntry : cities.entrySet()) {
@@ -356,8 +371,7 @@ public class GameImpl implements Game {
   /**
    * A helper method to calculate winner depending on
    * which winnerStrategy is in use
-   * @param age of current Game
-   * @param cities HashMap of cities in game
+   * @param game the actual game
    */
   private void checkForWinner(Game game) {
     winner = winnerStrategy.calculateWinner(game);
@@ -378,9 +392,5 @@ public class GameImpl implements Game {
    */
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
-  }
-
-  public HashMap<Position,City> getCities() {
-    return cities;
   }
 }
