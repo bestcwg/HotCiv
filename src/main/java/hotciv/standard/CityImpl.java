@@ -1,7 +1,6 @@
 package hotciv.standard;
 
 import hotciv.framework.City;
-import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {

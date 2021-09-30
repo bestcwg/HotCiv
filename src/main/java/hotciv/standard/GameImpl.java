@@ -39,6 +39,7 @@ public class GameImpl implements Game {
   private Player playerInTurn;
   private Player winner;
   private int age;
+  private int numberOfPlayers;
   private int playerTurnsTaken;
   private AgeStrategy ageStrategy;
   private WinnerStrategy winnerStrategy;
@@ -52,6 +53,7 @@ public class GameImpl implements Game {
   public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString) {
     playerInTurn = Player.RED;
     age = -4000;
+    numberOfPlayers = 2;
 
     this.ageStrategy = ageStrategy;
     this.winnerStrategy = winnerStrategy;
@@ -65,24 +67,24 @@ public class GameImpl implements Game {
 
   /**
    * A method for getting a tile object at a given position
-   * @param p the position in the world that must be returned.
+   * @param tilePosition the position in the world that must be returned.
    * @return the type of tile (Plains,Ocean,Hill,Mountain)
    */
-  public Tile getTileAt(Position p ) { return worldMap.get(p); }
+  public Tile getTileAt(Position tilePosition ) { return worldMap.get(tilePosition); }
 
   /**
    * A method for getting a unit object at a given position
-   * @param p the position in the world.
+   * @param unitPosition the position in the world.
    * @return the unit at the given position
    */
-  public Unit getUnitAt( Position p ) { return units.get(p); }
+  public Unit getUnitAt( Position unitPosition ) { return units.get(unitPosition); }
 
   /**
    * A method for getting a city object at a given position
-   * @param p the position in the world.
+   * @param cityPosition the position in the world.
    * @return the city at the given position
    */
-  public City getCityAt( Position p ) { return cities.get(p); }
+  public City getCityAt( Position cityPosition ) { return cities.get(cityPosition); }
 
   /**
    * A method for getting the player in turn
@@ -140,43 +142,49 @@ public class GameImpl implements Game {
         break;
     }
     playerTurnsTaken++;
-    if (playerTurnsTaken == 2) {
+    if (playerTurnsTaken == numberOfPlayers) {
       endOfRound();
     }
   }
 
   /**
    * A method for changing the work force focus in the city
-   * @param p the position of the city whose focus
+   * @param cityPosition the position of the city whose focus
    * should be changed.
-   * @param balance a string defining the focus of the work
+   * @param productionFocus a string defining the focus of the work
    * force in a city. Valid values are at least
    * GameConstants.productionFocus
    */
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {
-    if(getPlayerInTurn() == cities.get(p).getOwner()) {
-      CityImpl city = (CityImpl) cities.get(p);
-      city.changeWorkForceFocus(balance);
+  public void changeWorkForceFocusInCityAt( Position cityPosition, String productionFocus ) {
+    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
+    if(playerOwnsCity) {
+      CityImpl city = (CityImpl) cities.get(cityPosition);
+      city.changeWorkForceFocus(productionFocus);
     }
   }
 
   /**
    * A Method for changing the production in a city
-   * @param p the position of the city
+   * @param cityPosition the position of the city
    * @param unitType a string defining the type of unit that the city should produce
    *                 valid units are GameConstants ARCHER,LEGION,SETTLER
    */
-  public void changeProductionInCityAt( Position p, String unitType ) {
-    if(getPlayerInTurn() == getCityAt(p).getOwner()) {
-      if (cities.containsKey(p) && (unitType.equals(GameConstants.ARCHER) || unitType.equals(GameConstants.LEGION) || unitType.equals(GameConstants.SETTLER))) {
-        CityImpl city = (CityImpl) getCityAt(p);
+  public void changeProductionInCityAt( Position cityPosition, String unitType ) {
+    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
+    if(playerOwnsCity) {
+      boolean isUnit = (unitType.equals(GameConstants.ARCHER) ||
+                        unitType.equals(GameConstants.LEGION) ||
+                        unitType.equals(GameConstants.SETTLER));
+
+      if (cities.containsKey(cityPosition) && isUnit) {
+        CityImpl city = (CityImpl) getCityAt(cityPosition);
         city.changeProduction(unitType);
       }
     }
   }
 
-  public void performUnitActionAt( Position p ) {
-    performUnitActionStrategy.action(p, getUnitAt(p), cities, units);
+  public void performUnitActionAt( Position unitPosition ) {
+    performUnitActionStrategy.action(unitPosition, getUnitAt(unitPosition), cities, units);
   }
 
   /**
@@ -185,10 +193,8 @@ public class GameImpl implements Game {
    * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
    */
   private void endOfRound() {
-    // Reset move count for all units
     resetMoveCountForAllUnits();
     produceProductionForAllCities();
-    // increment the age
     age += ageStrategy.calculateAge(getAge());
     playerTurnsTaken = 0;
     checkForWinner(getAge(), cities);
@@ -203,14 +209,16 @@ public class GameImpl implements Game {
     // loop though the neighborhood of a city using the provided utility class
     for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
       String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
+      boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
+                                    !concreteTile.equals(GameConstants.OCEANS);
+
       // if there is no unit at the city center place a unit here
       if (getUnitAt(cityPosition) == null) {
         units.put(cityPosition, new UnitImpl(city.getOwner(), city.getProduction()));
         break;
+
         // Otherwise, run through the neighborhood to find a legal spot to place the unit
-      } else if (getUnitAt(neighborhoodPosition) == null &&
-              !concreteTile.equals(GameConstants.MOUNTAINS)
-              && !concreteTile.equals(GameConstants.OCEANS)) {
+      } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
         units.put(neighborhoodPosition, new UnitImpl(city.getOwner(), city.getProduction()));
         break;
       }
@@ -232,7 +240,7 @@ public class GameImpl implements Game {
 
   /**
    * A helper method for moveUnit to check for there exist a unit
-   * at the from position, if the unit is moveable, the distance
+   * at the form position, if the unit is moveable, the distance
    * that the unit is allowed to move, it is not stacking on another
    * unit and if the tile it is moving to is passable
    * @param from Position the unit is moving from
@@ -267,14 +275,14 @@ public class GameImpl implements Game {
       return false;
     }
 
-    // Checks that the unit dont move on unpassable tiles
+    // Checks that the unit don't move on unpassable tiles
     boolean isNotPassableTile = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) ||
             getTileAt(to).getTypeString().equals(GameConstants.OCEANS);
     if (isNotPassableTile) {
       return false;
     }
 
-    // Checks for unit at to position, with same owner as player in turn, so units cannot stack on eachother
+    // Checks for unit at to position, with same owner as player in turn, so units cannot stack on each other
     boolean isStackingUnit = getUnitAt(to) != null && getUnitAt(from).getOwner() == getUnitAt(to).getOwner();
     if (isStackingUnit) {
       return false;
@@ -319,22 +327,18 @@ public class GameImpl implements Game {
 
   private void produceProductionForAllCities() {
     int cityProductionAmount = 6;
-    // Loop though all the cities in the HashMap to change production and producce for each
     for (Map.Entry<Position, City> cityEntry : cities.entrySet()) {
       // Typecast to access methods in the impl of city class
       CityImpl realCity = (CityImpl) cityEntry.getValue();
 
-      // Set up descriptive names for values used in the switch case
       realCity.changeTreasury(cityProductionAmount);
       int cityTreasury = realCity.getTreasury();
 
-      // a measure to make sure tests without a production focus doesn't produce null pointer expections
+      // a measure to make sure tests without a production focus doesn't produce null pointer exceptions
       if (realCity.getProduction() != null) {
-        // Set up descriptive names for values used in the switch case
         String cityProduction = realCity.getProduction();
         int costOfUnit = GameConstants.unitCost.get(cityProduction);
 
-        // Switching over the production focus of the city to see if there is enough production to produce it
         switch (cityProduction) {
           case GameConstants.ARCHER:
           case GameConstants.LEGION:
@@ -348,8 +352,6 @@ public class GameImpl implements Game {
       }
     }
   }
-
-
 
   /**
    * A helper method to calculate winner depending on

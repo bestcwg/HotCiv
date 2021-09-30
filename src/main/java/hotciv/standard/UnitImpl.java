@@ -22,19 +22,19 @@ public class UnitImpl implements Unit {
         moveAble = true;
         this.owner = owner;
         this.unitType = unitType;
-        moveCount = 1;
+        moveCount = GameConstants.MOVECOUNT;
         switch (unitType) {
             case GameConstants.ARCHER:
-                attackingStrength = 2;
-                defensiveStrength = 3;
+                attackingStrength = GameConstants.ARCHER_ATTACK_AND_DEFENCE[0];
+                defensiveStrength = GameConstants.ARCHER_ATTACK_AND_DEFENCE[1];
                 break;
             case GameConstants.LEGION:
-                attackingStrength = 4;
-                defensiveStrength = 2;
+                attackingStrength = GameConstants.LEGION_ATTACK_AND_DEFENCE[0];
+                defensiveStrength = GameConstants.LEGION_ATTACK_AND_DEFENCE[1];
                 break;
             case GameConstants.SETTLER:
-                attackingStrength = 0;
-                defensiveStrength = 3;
+                attackingStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[0];
+                defensiveStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[1];
                 break;
         }
     }
@@ -66,7 +66,7 @@ public class UnitImpl implements Unit {
      * A method for resetting the move count to 1
      */
     public void resetMoveCount() {
-        moveCount = 1;
+        moveCount = GameConstants.MOVECOUNT;
     }
 
     /**
