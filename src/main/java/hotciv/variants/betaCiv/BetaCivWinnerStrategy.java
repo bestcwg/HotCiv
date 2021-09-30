@@ -1,9 +1,11 @@
 package hotciv.variants.betaCiv;
 
 import hotciv.framework.City;
+import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.standard.CityImpl;
+import hotciv.standard.GameImpl;
 import hotciv.standard.WinnerStrategy;
 
 import java.util.HashMap;
@@ -11,9 +13,11 @@ import java.util.Map;
 
 public class BetaCivWinnerStrategy implements WinnerStrategy {
     @Override
-    public Player calculateWinner(int age, HashMap<Position, City> cities) {
+    public Player calculateWinner(Game game) {
         int redCities = 0;
         int blueCities = 0;
+        GameImpl actualGame = (GameImpl) game;
+        HashMap<Position, City> cities = ((GameImpl) game).getCities();
 
         for (Map.Entry<Position,City> c : cities.entrySet()) {
             CityImpl city = (CityImpl) c.getValue();

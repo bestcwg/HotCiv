@@ -197,7 +197,7 @@ public class GameImpl implements Game {
     produceProductionForAllCities();
     age += ageStrategy.calculateAge(getAge());
     playerTurnsTaken = 0;
-    checkForWinner(getAge(), cities);
+    checkForWinner(this);
   }
 
   /**
@@ -312,7 +312,7 @@ public class GameImpl implements Game {
       city.changeOwner(getUnitAt(from).getOwner());
 
       // Checks if the player in turn owns all the cities in the game
-      checkForWinner(age, cities);
+      checkForWinner(this);
     }
 
     return true;
@@ -359,8 +359,8 @@ public class GameImpl implements Game {
    * @param age of current Game
    * @param cities HashMap of cities in game
    */
-  private void checkForWinner(int age, HashMap<Position,City> cities) {
-    winner = winnerStrategy.calculateWinner(age, cities);
+  private void checkForWinner(Game game) {
+    winner = winnerStrategy.calculateWinner(game);
   }
 
   /**
@@ -378,5 +378,9 @@ public class GameImpl implements Game {
    */
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
+  }
+
+  public HashMap<Position,City> getCities() {
+    return cities;
   }
 }

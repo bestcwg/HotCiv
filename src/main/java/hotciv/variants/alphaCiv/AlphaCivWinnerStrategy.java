@@ -1,16 +1,15 @@
 package hotciv.variants.alphaCiv;
 
-import hotciv.framework.City;
+import hotciv.framework.Game;
 import hotciv.framework.Player;
-import hotciv.framework.Position;
 import hotciv.standard.WinnerStrategy;
 
 import java.util.HashMap;
 
 public class AlphaCivWinnerStrategy implements WinnerStrategy {
     @Override
-    public Player calculateWinner(int age, HashMap<Position, City> cities) {
-        if (age >= -3000) {
+    public Player calculateWinner(Game game) {
+        if (game.getAge() >= -3000) {
             return Player.RED;
         }
         return null;
