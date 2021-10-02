@@ -127,10 +127,7 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    if (!isOccupiedEnemyTile(from, to)) {
-      return false;
-    }
-
+    AttackIfEnemyTile(from, to);
     makeActualMove(from,to);
     return true;
   }
@@ -304,9 +301,8 @@ public class GameImpl implements Game {
    * the unit is moving to is conquerable
    * @param from Position the unit is moving from
    * @param to Position the unit is moving to
-   * @return A boolean depending on if the attack was successful
    */
-  private boolean isOccupiedEnemyTile(Position from, Position to) {
+  private void AttackIfEnemyTile(Position from, Position to) {
     // If attacking another unit, that unit is removed
     boolean isAttackingUnit = units.containsKey(to);
     if (isAttackingUnit) {
@@ -322,8 +318,6 @@ public class GameImpl implements Game {
       // Checks if the player in turn owns all the cities in the game
       checkForWinner(this);
     }
-
-    return true;
   }
 
   /**
