@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class AlphaCivPerformUnitActionStrategy implements PerformUnitActionStrategy {
     @Override
-    public void action(Position position, Unit unit, HashMap<Position,City> cities, HashMap<Position,Unit> units) {
+    public void action(Position position, Game game) {
 
     }
 }

@@ -6,7 +6,6 @@ import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.standard.WorldLayoutStrategy;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {

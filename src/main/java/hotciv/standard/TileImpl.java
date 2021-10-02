@@ -1,9 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
 import hotciv.framework.Tile;
-import java.util.HashMap;
 
 public class TileImpl implements Tile {
     private String tileType;
@@ -18,25 +16,24 @@ public class TileImpl implements Tile {
         this.tileType = tileType;
         switch (tileType){
             case GameConstants.MOUNTAINS:
-                foodProduce = 0;
-                productionProduce = 1;
+                foodProduce = GameConstants.MOUNTAIN_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.MOUNTAIN_FOOD_AND_PRODUCTION[1];
                 break;
             case GameConstants.FOREST:
-                foodProduce = 0;
-                productionProduce =3;
+                foodProduce = GameConstants.FOREST_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.FOREST_FOOD_AND_PRODUCTION[1];
                 break;
             case GameConstants.HILLS:
-                foodProduce = 0;
-                productionProduce = 2;
+                foodProduce = GameConstants.HILLS_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.HILLS_FOOD_AND_PRODUCTION[1];
                 break;
             case GameConstants.OCEANS:
-                foodProduce = 1;
-                productionProduce = 0;
+                foodProduce = GameConstants.OCEAN_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.OCEAN_FOOD_AND_PRODUCTION[1];
                 break;
             case GameConstants.PLAINS:
-                foodProduce = 3;
-                productionProduce = 0;
-
+                foodProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[1];
         }
     }
 
