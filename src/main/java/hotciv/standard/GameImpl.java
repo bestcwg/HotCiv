@@ -127,7 +127,7 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    AttackIfEnemyTile(from, to);
+    attackIfEnemyTile(from, to);
     makeActualMove(from,to);
     return true;
   }
@@ -302,7 +302,7 @@ public class GameImpl implements Game {
    * @param from Position the unit is moving from
    * @param to Position the unit is moving to
    */
-  private void AttackIfEnemyTile(Position from, Position to) {
+  private void attackIfEnemyTile(Position from, Position to) {
     // If attacking another unit, that unit is removed
     boolean isAttackingUnit = units.containsKey(to);
     if (isAttackingUnit) {
