@@ -7,6 +7,7 @@ public class TileImpl implements Tile {
     private String tileType;
     private int foodProduce;
     private int productionProduce;
+    private int battleMultiplier;
 
     /**
      * Constructor for the tile implementation
@@ -22,10 +23,12 @@ public class TileImpl implements Tile {
             case GameConstants.FOREST:
                 foodProduce = GameConstants.FOREST_FOOD_AND_PRODUCTION[0];
                 productionProduce = GameConstants.FOREST_FOOD_AND_PRODUCTION[1];
+                battleMultiplier = GameConstants.FOREST_BATTLE_MULTIPLIER;
                 break;
             case GameConstants.HILLS:
                 foodProduce = GameConstants.HILLS_FOOD_AND_PRODUCTION[0];
                 productionProduce = GameConstants.HILLS_FOOD_AND_PRODUCTION[1];
+                battleMultiplier = GameConstants.HILLS_BATTLE_MULTIPLIER;
                 break;
             case GameConstants.OCEANS:
                 foodProduce = GameConstants.OCEAN_FOOD_AND_PRODUCTION[0];
@@ -34,6 +37,7 @@ public class TileImpl implements Tile {
             case GameConstants.PLAINS:
                 foodProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[0];
                 productionProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[1];
+                battleMultiplier = GameConstants.PLAINS_BATTLE_MULTIPLIER;
         }
     }
 
@@ -49,4 +53,6 @@ public class TileImpl implements Tile {
     public int getProductionProduction() {
         return productionProduce;
     }
+
+    public int getBattleMultiplier() { return battleMultiplier;}
 }

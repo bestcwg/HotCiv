@@ -136,9 +136,18 @@ Testcases needed for DeltaCiv:
     [OK] Blue has a legion at (4,4)
     [OK] Red has a archer at (3,8)
 
-Should be easy for other developers to change the starting setup
-    [OK]should be able to change the tile layout of the worldmap
-    should be able the change the starting cities
-    should be able to change the starting units
+Testcases needed for EpsilonCiv:
+
+[OK] tile type has battle multiplier
+
+AttackingIsResolvedByStrenght
+    Tile type multiply attacking strenght
+    each supporting unit add 1 to compined attack
+    tile type multiply defensive strenght
+    each supporting unit add 1 to combined defence
+    attack is based on attacking units attack
+    defence is based on defensive units defence
+    there is randomness applied to the attack and defence
+
 
 etc.

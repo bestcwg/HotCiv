@@ -45,12 +45,15 @@ public class GameConstants {
   // Valid terrain types
   public static final String PLAINS    = "plains";
   public static final int[] PLAINS_FOOD_AND_PRODUCTION = {3,0};
+  public static final int PLAINS_BATTLE_MULTIPLIER = 1;
   public static final String OCEANS    = "ocean";
   public static final int[] OCEAN_FOOD_AND_PRODUCTION = {1,0};
   public static final String FOREST    = "forest";
   public static final int[] FOREST_FOOD_AND_PRODUCTION = {0,3};
+  public static final int FOREST_BATTLE_MULTIPLIER = 2;
   public static final String HILLS     = "hills";
   public static final int[] HILLS_FOOD_AND_PRODUCTION = {0,2};
+  public static final int HILLS_BATTLE_MULTIPLIER = 2;
   public static final String MOUNTAINS = "mountain";
   public static final int[] MOUNTAIN_FOOD_AND_PRODUCTION = {0,1};
   // Valid production balance types
