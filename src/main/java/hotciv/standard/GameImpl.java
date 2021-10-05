@@ -118,11 +118,19 @@ public class GameImpl implements Game {
   }
 
   /**
-   * A method gor getting all unites
+   * A method for getting all unites
    * @return a hashmap of all units
    */
   public HashMap<Position,Unit> getUnits() {
     return units;
+  }
+
+  /**
+   * A method for getting the world map
+   * @return a hashmap of tiles
+   */
+  public HashMap<Position,Tile> getWorldMap() {
+    return worldMap;
   }
 
    /**
