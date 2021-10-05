@@ -71,26 +71,4 @@ public class TestTileImpl {
         assertThat(plains.getProductionProduction(), is(0));
         assertThat(plains.getFoodProduction(), is(3));
     }
-
-    @Test
-    public void shouldBeBattleMultiplierOf2ForHills() {
-        assertThat(hill.getBattleMultiplier(), is(2));
-    }
-
-    @Test
-    public void shouldBeBattleMultiplierOf2ForForest() {
-        assertThat(forrest.getBattleMultiplier(), is(2));
-
-    }
-
-    @Test
-    public void shouldBeBattleMultiplierOf1ForPlains() {
-        assertThat(plains.getBattleMultiplier(), is(1));
-    }
-
-    @Test
-    public void shouldBeBattleMultiplierOf0ForOceanAndMountain() {
-        assertThat(mountain.getBattleMultiplier(), is(0));
-        assertThat(ocean.getBattleMultiplier(), is(0));
-    }
 }
