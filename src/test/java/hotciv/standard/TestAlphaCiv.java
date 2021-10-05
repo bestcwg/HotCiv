@@ -47,7 +47,7 @@ public class TestAlphaCiv {
   private Position settlerPos;
   private Position redCityPos;
   private Position blueCityPos;
-  private Position p;
+  private Position position;
   private Position newPos;
 
   /** Fixture for alphaciv testing. */
@@ -74,27 +74,27 @@ public class TestAlphaCiv {
   public void shouldBeOceanAt1_0() {
     // Given a game
     // When entering position 1,0
-    p = new Position(1, 0);
+    position = new Position(1, 0);
     // Then the tile at the location is an ocean
-    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.OCEANS));
+    assertThat(game.getTileAt(position).getTypeString(), is(GameConstants.OCEANS));
   }
 
   @Test
   public void shouldBeHillAt0_1() {
     // Given a game
     // When entering position 0,2
-    p = new Position(0, 1);
+    position = new Position(0, 1);
     // Then the tile at the location is a hill
-    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.HILLS));
+    assertThat(game.getTileAt(position).getTypeString(), is(GameConstants.HILLS));
   }
 
   @Test
   public void shouldBeMountainAt2_2() {
     // Given a game
     // When entering position 2,2
-    p = new Position(2, 2);
+    position = new Position(2, 2);
     // Then the tile at the location is a mountain
-    assertThat(game.getTileAt(p).getTypeString(), is(GameConstants.MOUNTAINS));
+    assertThat(game.getTileAt(position).getTypeString(), is(GameConstants.MOUNTAINS));
   }
 
   @Test
@@ -213,9 +213,9 @@ public class TestAlphaCiv {
   public void shouldBeUnitAt2_0() {
     // Given a game
     // When entering position 2,0
-    p = new Position(2,0);
+    position = new Position(2,0);
     // Then a unit should be at that tile
-    assertThat(game.getUnitAt(p), is(notNullValue()));
+    assertThat(game.getUnitAt(position), is(notNullValue()));
   }
 
   @Test
