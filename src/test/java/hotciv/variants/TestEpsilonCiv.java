@@ -138,4 +138,36 @@ public class TestEpsilonCiv {
         assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+1) * 1));
         assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+1) * 1));
     }
+
+    @Test
+    public void shouldBeRedPlayerWhoWinsAfter3WonBattles() {
+        GameImpl gameImpl = (GameImpl) game;
+        Position redUnit = new Position(8,8);
+        Position blueUnit1 = new Position(8,9);
+        Position blueUnit2 = new Position(8,10);
+        Position blueUnit3 = new Position(8,11);
+
+        gameImpl.getUnits().put(redUnit, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        gameImpl.getUnits().put(blueUnit1, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(blueUnit2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(blueUnit3, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+
+        game.moveUnit(redUnit,blueUnit1);
+        doXEndOfTurn(2);
+        game.moveUnit(blueUnit1,blueUnit2);
+        doXEndOfTurn(2);
+        game.moveUnit(blueUnit2,blueUnit3);
+        assertThat(game.getWinner(),is(Player.RED));
+    }
+
+    /**
+     * A helper method for passing turns to avoid code duplication,
+     * and ease of use in test driven development
+     * @param x is the amount of turns that should be ended
+     */
+    public void doXEndOfTurn(int x) {
+        for (int i = 1; i <= x; i++) {
+            game.endOfTurn();
+        }
+    }
 }

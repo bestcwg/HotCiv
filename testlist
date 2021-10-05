@@ -155,4 +155,7 @@ AttackingIsResolvedByStrenght
     defence is based on defensive units defence
     there is randomness applied to the attack and defence
 
+The first player who wins 3 battles is the winner
+    [OK] Red player wins if have won 3 battles
+    Blue player wins if have won 3 battles
 etc.

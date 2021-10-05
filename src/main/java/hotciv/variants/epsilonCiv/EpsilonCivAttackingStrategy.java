@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class EpsilonCivAttackingStrategy implements AttackingStrategy {
 
     @Override
-    public void calculateBattleWinner(Position from, Position to, Game game) {
+    public boolean calculateBattleWinner(Position from, Position to, Game game) {
         HashMap<Position, Unit> units = ((GameImpl) game).getUnits();
 
 
@@ -20,10 +20,12 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
             int totalDefensiveUnitStrength = getTotalDefensiveStrength(to, game);
             if (totalAttackingUnitStrength >= totalDefensiveUnitStrength) {
                 units.remove(to);
+                return true;
             } else {
                 units.remove(from);
             }
         }
+        return false;
     }
 
     @Override

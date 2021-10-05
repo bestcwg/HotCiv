@@ -9,8 +9,9 @@ public interface AttackingStrategy {
      * @param from the attacking unit
      * @param to the defending unit
      * @param game the actual game
+     * @return
      */
-    void calculateBattleWinner(Position from, Position to, Game game);
+    boolean calculateBattleWinner(Position from, Position to, Game game);
 
     /**
      * A helper method that adds the supporting factors to the unit attacking strength

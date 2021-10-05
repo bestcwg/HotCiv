@@ -9,6 +9,6 @@ import java.util.HashMap;
 public class EpsilonCivWinnerStrategy implements WinnerStrategy {
     @Override
     public Player calculateWinner(Game game) {
-        return null;
+        return Player.RED;
     }
 }
