@@ -5,13 +5,10 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 import hotciv.standard.GameImpl;
-import hotciv.standard.WinnerStrategy;
+import hotciv.standard.UnitImpl;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
-import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
-import hotciv.variants.betaCiv.BetaCivAgeStrategy;
-import hotciv.variants.betaCiv.BetaCivWinnerStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivAttackingStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
 import org.junit.jupiter.api.*;
@@ -41,29 +38,39 @@ public class TestEpsilonCiv {
 
     @Test
     public void shouldBeUnitWithAttackHigherThatOtherUnitDefenceThatWins() {
-        newPos = new Position(3,1);
-        game.moveUnit(archerPos, newPos);
-        game.endOfTurn();
-        game.moveUnit(legionPos, newPos);
-        assertThat(game.getUnitAt(newPos).getTypeString(), is(GameConstants.LEGION));
-        assertThat(game.getUnitAt(newPos).getOwner(), is(Player.BLUE));
+        GameImpl gameImpl = (GameImpl) game;
+        Position newPlains = new Position(8,8);
+        Position newPlains2 = new Position(8,9);
+        gameImpl.getUnits().put(newPlains, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(newPlains2, new UnitImpl(Player.BLUE, GameConstants.ARCHER));
+        game.moveUnit(newPlains,newPlains2);
+
+
+        assertThat(game.getUnitAt(newPlains2).getTypeString(), is(GameConstants.LEGION));
+        assertThat(game.getUnitAt(newPlains2).getOwner(), is(Player.RED));
+        assertThat(game.getUnitAt(newPlains), is(nullValue()));
     }
 
     @Test
     public void shouldBeUnitWithDefenceHigherThatOtherUnitAttackThatWins() {
-        newPos = new Position(3,3);
-        game.moveUnit(settlerPos, newPos);
-        assertThat(game.getUnitAt(newPos), is(notNullValue()));
-        doXEndOfTurn(2);
-        game.moveUnit(newPos, legionPos);
-        assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
-        assertThat(game.getUnitAt(legionPos).getOwner(), is(Player.BLUE));
+        GameImpl gameImpl = (GameImpl) game;
+        Position newPlains = new Position(8,8);
+        Position newPlains2 = new Position(8,9);
+        gameImpl.getUnits().put(newPlains, new UnitImpl(Player.RED, GameConstants.SETTLER));
+        gameImpl.getUnits().put(newPlains2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        game.moveUnit(newPlains,newPlains2);
+
+
+
+        assertThat(game.getUnitAt(newPlains2).getTypeString(), is(GameConstants.LEGION));
+        assertThat(game.getUnitAt(newPlains2).getOwner(), is(Player.BLUE));
+        assertThat(game.getUnitAt(newPlains), is(nullValue()));
     }
 
     @Test
-    public void shouldBeUnitDefendingStrenghtMultipliedByThreeWhenDefendingFromCity() {
+    public void shouldBeUnitDefendingStrengthMultipliedByThreeWhenDefendingFromCity() {
         game.moveUnit(archerPos,redCityPos);
-        assertThat(new EpsilonCivAttackingStrategy().getDefendingUnitStrenght(redCityPos, game),is(9));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(redCityPos, game),is(3 * 3));
     }
 
     /**

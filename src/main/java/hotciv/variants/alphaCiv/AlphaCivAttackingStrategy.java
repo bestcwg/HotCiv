@@ -29,8 +29,13 @@ public class AlphaCivAttackingStrategy implements AttackingStrategy {
     }
 
     @Override
-    public int getDefendingUnitStrenght(Position from, Game game) {
-        return game.getUnitAt(from).getDefensiveStrength();
+    public int getTotalAttackingStrength(Position position, Game game) {
+        return 0;
+    }
+
+    @Override
+    public int getTotalDefensiveStrength(Position position, Game game) {
+        return 0;
     }
 }
 

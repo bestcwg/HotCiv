@@ -7,7 +7,6 @@ import hotciv.framework.Unit;
 import hotciv.standard.AttackingStrategy;
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
-import hotciv.standard.TileImpl;
 import hotciv.utility.Utility2;
 
 import java.util.HashMap;
@@ -23,11 +22,11 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
 
         boolean isAttackingUnit = units.containsKey(to);
         if (isAttackingUnit) {
-            int attackingUnitStrength = game.getUnitAt(from).getAttackingStrength();
-            int defensiveUnitStrength = game.getUnitAt(to).getDefensiveStrength();
-            if (attackingUnitStrength > defensiveUnitStrength) {
+            int totalAttackingUnitStrength = getTotalAttackingStrength(from, game);
+            int totalDefensiveUnitStrength = getTotalDefensiveStrength(to, game);
+            if (totalAttackingUnitStrength >= totalDefensiveUnitStrength) {
                 units.remove(to);
-            } else if (attackingUnitStrength < defensiveUnitStrength) {
+            } else {
                 units.remove(from);
             }
         }
@@ -42,7 +41,19 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
     }
 
     @Override
-    public int getDefendingUnitStrenght(Position from, Game game) {
-        return game.getUnitAt(from).getDefensiveStrength() * Utility2.getTerrainFactor(game, from);
+    public int getTotalAttackingStrength(Position position, Game game) {
+        int strength = game.getUnitAt(position).getAttackingStrength();
+
+        strength *= Utility2.getTerrainFactor(game, position);
+        return strength;
     }
+
+    @Override
+    public int getTotalDefensiveStrength(Position position, Game game) {
+        int strength = game.getUnitAt(position).getDefensiveStrength();
+
+        strength *= Utility2.getTerrainFactor(game, position);
+        return strength;
+    }
+
 }
