@@ -147,7 +147,7 @@ public class GameImpl implements Game {
     }
     Boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
     if (battleWon) {
-      winnerStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
+      winnerStrategy.incrementBattlesWonBy(playerInTurn);
     }
     checkIfAttackingCity(from, to);
     makeActualMove(from, to);
