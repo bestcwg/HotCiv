@@ -1,6 +1,7 @@
-package hotciv.standard;
+package hotciv.unitTests;
 
 import hotciv.framework.GameConstants;
+import hotciv.standard.TileImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;

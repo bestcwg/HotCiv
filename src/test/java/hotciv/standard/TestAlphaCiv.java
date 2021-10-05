@@ -2,10 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
-import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.alphaCiv.*;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -56,7 +53,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {});
+    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new AlphaCivAttackingStrategy());
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red

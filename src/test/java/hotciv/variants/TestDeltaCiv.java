@@ -4,6 +4,7 @@ import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
+import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
 import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
@@ -17,7 +18,7 @@ public class TestDeltaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), new String[] {});
+        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), new String[] {}, new AlphaCivAttackingStrategy());
     }
 
     @Test
@@ -128,7 +129,7 @@ public class TestDeltaCiv {
                         "oooooooooooooooo",
                 };
         // Then it should be created
-        GameImpl game1 = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), layout);
+        GameImpl game1 = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), layout, new AlphaCivAttackingStrategy());
         assertThat(game1.getTileAt(new Position(0,0)).getTypeString(), is(GameConstants.PLAINS));
         assertThat(game1.getTileAt(new Position(1,1)).getTypeString(), is(GameConstants.OCEANS));
         assertThat(game1.getTileAt(new Position(2,2)).getTypeString(), is(GameConstants.FOREST));

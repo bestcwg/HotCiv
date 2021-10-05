@@ -45,12 +45,13 @@ public class GameImpl implements Game {
   private WinnerStrategy winnerStrategy;
   private PerformUnitActionStrategy performUnitActionStrategy;
   private WorldLayoutStrategy worldLayoutStrategy;
+  private AttackingStrategy attackingStrategy;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString) {
+  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString, AttackingStrategy attackingStrategy) {
     playerInTurn = Player.RED;
     age = -4000;
     numberOfPlayers = 2;
@@ -59,6 +60,7 @@ public class GameImpl implements Game {
     this.winnerStrategy = winnerStrategy;
     this.performUnitActionStrategy = performUnitActionStrategy;
     this.worldLayoutStrategy = worldLayoutStrategy;
+    this.attackingStrategy = attackingStrategy;
 
     worldMap = worldLayoutStrategy.setUpWorld(worldLayoutString);
     cities = worldLayoutStrategy.setUpCities();
@@ -115,6 +117,14 @@ public class GameImpl implements Game {
     return cities;
   }
 
+  /**
+   * A method gor getting all unites
+   * @return a hashmap of all units
+   */
+  public HashMap<Position,Unit> getUnits() {
+    return units;
+  }
+
    /**
    * A method for moving a unit around the map
    * It validates that the player in turn is moving a unit of their colour
@@ -127,7 +137,7 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    attackIfEnemyTile(from, to);
+    attackingStrategy.calculateBattleWinner(from, to, this);
     makeActualMove(from,to);
     return true;
   }
@@ -302,23 +312,7 @@ public class GameImpl implements Game {
    * @param from Position the unit is moving from
    * @param to Position the unit is moving to
    */
-  private void attackIfEnemyTile(Position from, Position to) {
-    // If attacking another unit, that unit is removed
-    boolean isAttackingUnit = units.containsKey(to);
-    if (isAttackingUnit) {
-      units.remove(to);
-    }
 
-    // If unit move into city, that is not the player in turns, the city is lost to the player in turn
-    boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
-    if (isCityAtToTile) {
-      CityImpl city = (CityImpl) getCityAt(to);
-      city.changeOwner(getUnitAt(from).getOwner());
-
-      // Checks if the player in turn owns all the cities in the game
-      checkForWinner(this);
-    }
-  }
 
   /**
    * A helper method for resetting moveCount for all units
@@ -367,7 +361,7 @@ public class GameImpl implements Game {
    * which winnerStrategy is in use
    * @param game the actual game
    */
-  private void checkForWinner(Game game) {
+  public void checkForWinner(Game game) {
     winner = winnerStrategy.calculateWinner(game);
   }
 
