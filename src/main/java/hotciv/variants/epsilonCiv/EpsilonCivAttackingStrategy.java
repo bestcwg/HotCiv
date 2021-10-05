@@ -18,7 +18,7 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
         if (isAttackingUnit) {
             int totalAttackingUnitStrength = getTotalAttackingStrength(from, game);
             int totalDefensiveUnitStrength = getTotalDefensiveStrength(to, game);
-            if (totalAttackingUnitStrength >= totalDefensiveUnitStrength) {
+            if (totalAttackingUnitStrength > totalDefensiveUnitStrength) {
                 units.remove(to);
                 return true;
             } else {

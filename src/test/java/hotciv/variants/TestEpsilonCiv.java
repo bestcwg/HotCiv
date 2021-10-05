@@ -147,7 +147,7 @@ public class TestEpsilonCiv {
         Position blueUnit2 = new Position(8,10);
         Position blueUnit3 = new Position(8,11);
 
-        gameImpl.getUnits().put(redUnit, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        gameImpl.getUnits().put(redUnit, new UnitImpl(Player.RED, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit1, new UnitImpl(Player.BLUE, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit3, new UnitImpl(Player.BLUE, GameConstants.LEGION));
@@ -158,6 +158,28 @@ public class TestEpsilonCiv {
         doXEndOfTurn(2);
         game.moveUnit(blueUnit2,blueUnit3);
         assertThat(game.getWinner(),is(Player.RED));
+    }
+
+    @Test
+    public void shouldBeBluePlayerWhoWinsAfter3WonBattles() {
+        GameImpl gameImpl = (GameImpl) game;
+        Position blueUnit = new Position(8,8);
+        Position redUnit1 = new Position(8,9);
+        Position redUnit2 = new Position(8,10);
+        Position redUnit3 = new Position(8,11);
+
+        gameImpl.getUnits().put(blueUnit, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit1, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit2, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit3, new UnitImpl(Player.RED, GameConstants.LEGION));
+
+        game.endOfTurn();
+        game.moveUnit(blueUnit,redUnit1);
+        doXEndOfTurn(2);
+        game.moveUnit(redUnit1,redUnit2);
+        doXEndOfTurn(2);
+        game.moveUnit(redUnit2,redUnit3);
+        assertThat(game.getWinner(),is(Player.BLUE));
     }
 
     /**

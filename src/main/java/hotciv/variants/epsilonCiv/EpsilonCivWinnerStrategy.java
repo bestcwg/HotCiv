@@ -7,8 +7,28 @@ import hotciv.standard.WinnerStrategy;
 import java.util.HashMap;
 
 public class EpsilonCivWinnerStrategy implements WinnerStrategy {
+    private int redPlayerBattlesWon;
+    private int bluePlayerBattlesWon;
     @Override
     public Player calculateWinner(Game game) {
-        return Player.RED;
+        if (redPlayerBattlesWon == 3) {
+            return Player.RED;
+        }
+        if (bluePlayerBattlesWon == 3) {
+            return Player.BLUE;
+        }
+        return null;
+    }
+
+    @Override
+    public void incrementBattlesWonBy(Player player) {
+        switch (player) {
+            case RED:
+                redPlayerBattlesWon++;
+                break;
+            case BLUE:
+                bluePlayerBattlesWon++;
+                break;
+        }
     }
 }

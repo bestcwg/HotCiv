@@ -15,4 +15,5 @@ public interface WinnerStrategy {
      * @return the Player Enum of the winning player, if no winner returns null
      */
     Player calculateWinner(Game game);
+    void incrementBattlesWonBy(Player player);
 }

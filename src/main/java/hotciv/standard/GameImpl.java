@@ -145,10 +145,13 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    attackingStrategy.calculateBattleWinner(from, to, this);
+    Boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
+    if (battleWon) {
+      winnerStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
+    }
     checkIfAttackingCity(from, to);
     makeActualMove(from, to);
-
+    checkForWinner(this);
     return true;
   }
 
@@ -330,9 +333,7 @@ public class GameImpl implements Game {
       CityImpl city = (CityImpl) getCityAt(to);
       city.changeOwner(getUnitAt(from).getOwner());
       // Checks if the player in turn owns all the cities in the game
-      checkForWinner(this);
     }
-
   }
 
   /**
