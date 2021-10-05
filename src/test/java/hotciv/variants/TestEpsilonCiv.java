@@ -19,21 +19,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestEpsilonCiv {
     private Game game;
     private Position archerPos;
-    private Position legionPos;
-    private Position settlerPos;
     private Position redCityPos;
-    private Position blueCityPos;
-    private Position p;
-    private Position newPos;
 
     @BeforeEach
     void setUp() {
         game = new GameImpl(new AlphaCivAgeStrategy(), new EpsilonCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new EpsilonCivAttackingStrategy());
         archerPos = new Position(2,0); // The archers' owner is red
-        legionPos = new Position(3,2); // The Legions' owner is blue
-        settlerPos = new Position(4,3); // The settler' owner is red
         redCityPos = new Position(1,1);
-        blueCityPos = new Position(4,1);
+
     }
 
     @Test
@@ -108,14 +101,41 @@ public class TestEpsilonCiv {
         assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
     }
 
-    /**
-     * A helper method for passing turns to avoid code duplication,
-     * and ease of use in test driven development
-     * @param x is the amount of turns that should be ended
-     */
-    public void doXEndOfTurn(int x) {
-        for (int i = 1; i <= x; i++) {
-            game.endOfTurn();
-        }
+    @Test
+    public void shouldIncrementUnitStrengthBy1WhenAFriendlyUnitIsAdjacent() {
+        GameImpl gameImpl = (GameImpl) game;
+        Position plains = new Position(8,8);
+        gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+
+        Position friendly1 = new Position(8,9);
+        gameImpl.getUnits().put(friendly1, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+1) * 1));
+
+        Position friendly2 = new Position(9,9);
+        gameImpl.getUnits().put(friendly2, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+2) * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+2) * 1));
+    }
+
+    @Test
+    public void shouldNotIncrementUnitStrengthBy1WhenAEnemyUnitIsAdjacent() {
+        GameImpl gameImpl = (GameImpl) game;
+        Position plains = new Position(8,8);
+        gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+
+        Position friendly1 = new Position(8,9);
+        gameImpl.getUnits().put(friendly1, new UnitImpl(Player.BLUE, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+
+        Position friendly2 = new Position(9,9);
+        gameImpl.getUnits().put(friendly2, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+1) * 1));
     }
 }

@@ -146,7 +146,9 @@ public class GameImpl implements Game {
       return false;
     }
     attackingStrategy.calculateBattleWinner(from, to, this);
-    makeActualMove(from,to);
+    checkIfAttackingCity(from, to);
+    makeActualMove(from, to);
+
     return true;
   }
 
@@ -314,6 +316,23 @@ public class GameImpl implements Game {
     }
 
     return true;
+  }
+
+  /**
+   * A method called to check if a player is attacking a City, When a city is attacked it will change owner
+   * @param from the position the attacking unit is
+   * @param to the position of the potential city
+   */
+  private void checkIfAttackingCity(Position from, Position to) {
+    // If unit move into city, that is not the player in turns, the city is lost to the player in turn
+    boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
+    if (isCityAtToTile) {
+      CityImpl city = (CityImpl) getCityAt(to);
+      city.changeOwner(getUnitAt(from).getOwner());
+      // Checks if the player in turn owns all the cities in the game
+      checkForWinner(this);
+    }
+
   }
 
   /**
