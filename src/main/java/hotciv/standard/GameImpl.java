@@ -145,14 +145,32 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    Boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
-    if (battleWon) {
-      winnerStrategy.incrementBattlesWonBy(playerInTurn);
+    attackEnemyUnitIfAtToTile(from,to);
+    boolean attackUnitLost = !units.containsKey(from);
+    if (attackUnitLost) {
+      return false;
     }
-    checkIfAttackingCity(from, to);
+    boolean isEnemyCityAtToTile = cities.containsKey(to) && playerInTurn != getCityAt(to).getOwner();
+    if (isEnemyCityAtToTile) {
+      CityImpl city = (CityImpl) getCityAt(to);
+      city.changeOwner(playerInTurn);
+    }
     makeActualMove(from, to);
     checkForWinner(this);
     return true;
+  }
+
+  private void attackEnemyUnitIfAtToTile(Position from, Position to) {
+    boolean isEnemyAtToTile = units.containsKey(to);
+    if (isEnemyAtToTile) {
+      boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
+      if (battleWon) {
+        units.remove(to);
+        winnerStrategy.incrementBattlesWonBy(playerInTurn);
+      } else {
+        units.remove(from);
+      }
+    }
   }
 
   /**
@@ -261,11 +279,10 @@ public class GameImpl implements Game {
    */
   private void makeActualMove(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if (unit != null) {
-      units.put(to,unit);
-      units.remove(from);
-      unit.retractMoveCount();
-    }
+
+    units.put(to,unit);
+    units.remove(from);
+    unit.retractMoveCount();
   }
 
   /**
@@ -319,23 +336,6 @@ public class GameImpl implements Game {
     }
 
     return true;
-  }
-
-  /**
-   * A method called to check if a player is attacking a City, When a city is attacked it will change owner
-   * @param from the position the attacking unit is
-   * @param to the position of the potential city
-   */
-  private void checkIfAttackingCity(Position from, Position to) {
-    if (units.containsKey(from)) {
-      // If unit move into city, that is not the player in turns, the city is lost to the player in turn
-      boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
-      if (isCityAtToTile) {
-        CityImpl city = (CityImpl) getCityAt(to);
-        city.changeOwner(getUnitAt(from).getOwner());
-        // Checks if the player in turn owns all the cities in the game
-      }
-    }
   }
 
   /**
