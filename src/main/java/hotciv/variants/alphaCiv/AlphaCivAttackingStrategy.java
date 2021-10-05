@@ -10,9 +10,8 @@ public class AlphaCivAttackingStrategy implements AttackingStrategy {
     @Override
     public void calculateBattleWinner(Position from, Position to, Game game) {
         GameImpl actualGame = (GameImpl) game;
-        HashMap<Position, City> cities = ((GameImpl) game).getCities();
-        HashMap<Position, Unit> units = ((GameImpl) game).getUnits();
-
+        HashMap<Position, City> cities = actualGame.getCities();
+        HashMap<Position, Unit> units = actualGame.getUnits();
 
         // If attacking another unit, that unit is removed
         boolean isAttackingUnit = units.containsKey(to);
@@ -27,6 +26,11 @@ public class AlphaCivAttackingStrategy implements AttackingStrategy {
             // Checks if the player in turn owns all the cities in the game
             actualGame.checkForWinner(game);
         }
+    }
+
+    @Override
+    public int getDefendingUnitStrenght(Position from, Game game) {
+        return game.getUnitAt(from).getDefensiveStrength();
     }
 }
 

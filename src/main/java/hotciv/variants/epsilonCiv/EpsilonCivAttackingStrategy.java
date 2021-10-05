@@ -8,10 +8,12 @@ import hotciv.standard.AttackingStrategy;
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
 import hotciv.standard.TileImpl;
+import hotciv.utility.Utility2;
 
 import java.util.HashMap;
 
 public class EpsilonCivAttackingStrategy implements AttackingStrategy {
+
     @Override
     public void calculateBattleWinner(Position from, Position to, Game game) {
         GameImpl actualGame = (GameImpl) game;
@@ -37,5 +39,10 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
             // Checks if the player in turn owns all the cities in the game
             actualGame.checkForWinner(game);
         }
+    }
+
+    @Override
+    public int getDefendingUnitStrenght(Position from, Game game) {
+        return game.getUnitAt(from).getDefensiveStrength() * Utility2.getTerrainFactor(game, from);
     }
 }
