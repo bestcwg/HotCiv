@@ -3,16 +3,21 @@ package hotciv.variants.epsilonCiv;
 import hotciv.framework.*;
 import hotciv.standard.AttackingStrategy;
 import hotciv.standard.GameImpl;
+import hotciv.standard.RollStrategy;
 import hotciv.utility.Utility2;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class EpsilonCivAttackingStrategy implements AttackingStrategy {
+    RollStrategy rollStrategy;
+    public EpsilonCivAttackingStrategy(RollStrategy rollStrategy) {
+        this.rollStrategy = rollStrategy;
+    }
 
     @Override
     public boolean calculateBattleWinner(Position from, Position to, Game game) {
         HashMap<Position, Unit> units = ((GameImpl) game).getUnits();
-
 
         boolean isAttackingUnit = units.containsKey(to);
         if (isAttackingUnit) {
@@ -35,6 +40,7 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
         int strength = game.getUnitAt(position).getAttackingStrength();
         strength += Utility2.getFriendlySupport(game, position, owner);
         strength *= Utility2.getTerrainFactor(game, position);
+        strength *= rollStrategy.roll();
         return strength;
     }
 
@@ -44,7 +50,7 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
         int strength = game.getUnitAt(position).getDefensiveStrength();
         strength += Utility2.getFriendlySupport(game, position, owner);
         strength *= Utility2.getTerrainFactor(game, position);
+        strength *= rollStrategy.roll();
         return strength;
     }
-
 }

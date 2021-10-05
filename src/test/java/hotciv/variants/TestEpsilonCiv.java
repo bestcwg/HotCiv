@@ -1,9 +1,9 @@
 package hotciv.variants;
 
 import hotciv.framework.*;
-import hotciv.standard.GameImpl;
-import hotciv.standard.TileImpl;
-import hotciv.standard.UnitImpl;
+import hotciv.standard.*;
+import hotciv.utility.FixedRollStrategy;
+import hotciv.utility.RandomRollStrategy;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
@@ -11,6 +11,7 @@ import hotciv.variants.epsilonCiv.EpsilonCivAttackingStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
 import org.junit.jupiter.api.*;
 
+import java.time.temporal.ValueRange;
 import java.util.HashMap;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -20,10 +21,12 @@ public class TestEpsilonCiv {
     private Game game;
     private Position archerPos;
     private Position redCityPos;
+    private RollStrategy fixedRoll;
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new EpsilonCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new EpsilonCivAttackingStrategy());
+        game = new GameImpl(new AlphaCivAgeStrategy(), new EpsilonCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new EpsilonCivAttackingStrategy(new FixedRollStrategy()));
+        fixedRoll = new FixedRollStrategy();
         archerPos = new Position(2,0); // The archers' owner is red
         redCityPos = new Position(1,1);
 
@@ -61,8 +64,8 @@ public class TestEpsilonCiv {
     @Test
     public void shouldMultiplyUnitStrengthBy3WhenInCity() {
         game.moveUnit(archerPos,redCityPos);
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(redCityPos, game),is(3 * 3));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(redCityPos, game),is(2 * 3));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(redCityPos, game),is(3 * 3));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(redCityPos, game),is(2 * 3));
     }
 
     @Test
@@ -73,8 +76,8 @@ public class TestEpsilonCiv {
         tiles.put(forest, new TileImpl(GameConstants.FOREST));
         gameImpl.getUnits().put(forest, new UnitImpl(Player.RED, GameConstants.ARCHER));
         
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(forest, game), is(3 * 2));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(forest, game), is(2 * 2));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(forest, game), is(3 * 2));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(forest, game), is(2 * 2));
     }
 
     @Test
@@ -85,8 +88,8 @@ public class TestEpsilonCiv {
         tiles.put(hill, new TileImpl(GameConstants.HILLS));
         gameImpl.getUnits().put(hill, new UnitImpl(Player.RED, GameConstants.ARCHER));
         
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(hill, game), is(3 * 2));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(hill, game), is(2 * 2));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(hill, game), is(3 * 2));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(hill, game), is(2 * 2));
     }
 
     @Test
@@ -97,8 +100,8 @@ public class TestEpsilonCiv {
         tiles.put(plains, new TileImpl(GameConstants.PLAINS));
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
 
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
     }
 
     @Test
@@ -106,18 +109,18 @@ public class TestEpsilonCiv {
         GameImpl gameImpl = (GameImpl) game;
         Position plains = new Position(8,8);
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
 
         Position friendly1 = new Position(8,9);
         gameImpl.getUnits().put(friendly1, new UnitImpl(Player.RED, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+1) * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is((3+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is((2+1) * 1));
 
         Position friendly2 = new Position(9,9);
         gameImpl.getUnits().put(friendly2, new UnitImpl(Player.RED, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+2) * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+2) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is((3+2) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is((2+2) * 1));
     }
 
     @Test
@@ -125,18 +128,18 @@ public class TestEpsilonCiv {
         GameImpl gameImpl = (GameImpl) game;
         Position plains = new Position(8,8);
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
 
         Position friendly1 = new Position(8,9);
         gameImpl.getUnits().put(friendly1, new UnitImpl(Player.BLUE, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is(3 * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is(2 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
 
         Position friendly2 = new Position(9,9);
         gameImpl.getUnits().put(friendly2, new UnitImpl(Player.RED, GameConstants.ARCHER));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalDefensiveStrength(plains, game), is((3+1) * 1));
-        assertThat(new EpsilonCivAttackingStrategy().getTotalAttackingStrength(plains, game), is((2+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is((3+1) * 1));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is((2+1) * 1));
     }
 
     @Test
@@ -180,6 +183,61 @@ public class TestEpsilonCiv {
         doXEndOfTurn(2);
         game.moveUnit(redUnit2,redUnit3);
         assertThat(game.getWinner(),is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldNotWinAfterAttackingAndLoosing3rdBattle() {
+        GameImpl gameImpl = (GameImpl) game;
+        HashMap<Position, City> cities = ((GameImpl) game).getCities();
+        cities.put(new Position(8,11), new CityImpl(Player.RED));
+
+
+        Position blueUnit = new Position(8,8);
+        Position redUnit1 = new Position(8,9);
+        Position redUnit2 = new Position(8,10);
+        Position redUnit3 = new Position(8,11);
+
+        gameImpl.getUnits().put(blueUnit, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit1, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit2, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit3, new UnitImpl(Player.RED, GameConstants.LEGION));
+
+        game.endOfTurn();
+        game.moveUnit(blueUnit,redUnit1);
+        doXEndOfTurn(2);
+        game.moveUnit(redUnit1,redUnit2);
+        doXEndOfTurn(2);
+        game.moveUnit(redUnit2,redUnit3);
+        assertThat(game.getWinner(), is(nullValue()));
+    }
+
+    @Test
+    public void shouldNotWinAfterDefendingAndWinning3rdBattle() {
+        GameImpl gameImpl = (GameImpl) game;
+        Position blueUnit = new Position(8,8);
+        Position redUnit1 = new Position(8,9);
+        Position redUnit2 = new Position(8,10);
+        Position redUnit3 = new Position(8,11);
+
+        gameImpl.getUnits().put(blueUnit, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit1, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit2, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(redUnit3, new UnitImpl(Player.RED, GameConstants.SETTLER));
+
+        game.endOfTurn();
+        game.moveUnit(blueUnit,redUnit1);
+        doXEndOfTurn(2);
+        game.moveUnit(redUnit1,redUnit2);
+        game.endOfTurn();
+        game.moveUnit(redUnit3,redUnit2);
+        assertThat(game.getWinner(), is(nullValue()));
+    }
+
+    @Test
+    public void shouldBeRandomInRealGame() {
+        RollStrategy random = new RandomRollStrategy();
+        int die = random.roll();
+        assertThat(ValueRange.of(1, 6).isValidIntValue(die), is(true));
     }
 
     /**

@@ -140,22 +140,24 @@ Testcases needed for EpsilonCiv:
 
 [OK] tile type has battle multiplier
 
-AttackingIsResolvedByStrenght
-    unit multiply attacking strenght based on tile and if in city
-        city multiply attack strength by 3
-        hill multiply attack strenght by 2
-        plains multiply attack strenght by 1
-    unit multiply defending strenght based on tile and if in city
+[OK]AttackingIsResolvedByStrenght
+    [OK] unit multiply attacking strenght based on tile and if in city
+        [OK] city multiply attack strength by 3
+        [OK] hill multiply attack strenght by 2
+        [OK] plains multiply attack strenght by 1
+    [OK] unit multiply defending strenght based on tile and if in city
         [OK] city multiply defending strength by 3
-        hill multiply defending strenght by 2
-        plains multiply defending strenght by 1
-    each supporting unit add 1 to combined attack
-    each supporting unit add 1 to combined defence
-    attack is based on attacking units attack
-    defence is based on defensive units defence
-    there is randomness applied to the attack and defence
+        [OK] hill multiply defending strenght by 2
+        [OK] plains multiply defending strenght by 1
+    [OK] each supporting unit add 1 to combined attack
+    [OK] each supporting unit add 1 to combined defence
+    [OK] attack is based on attacking units attack
+    [OK] defence is based on defensive units defence
+    [OK] there is randomness applied to the attack and defence
 
 [OK]The first player who wins 3 battles is the winner
     [OK] Red player wins if have won 3 battles
     [OK]Blue player wins if have won 3 battles
+    [OK]Should not increment amount of battles won if defending and wins
+    [OK]should not increment amount of battles won if attacking and loses.
 etc.

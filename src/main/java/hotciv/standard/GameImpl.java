@@ -327,12 +327,14 @@ public class GameImpl implements Game {
    * @param to the position of the potential city
    */
   private void checkIfAttackingCity(Position from, Position to) {
-    // If unit move into city, that is not the player in turns, the city is lost to the player in turn
-    boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
-    if (isCityAtToTile) {
-      CityImpl city = (CityImpl) getCityAt(to);
-      city.changeOwner(getUnitAt(from).getOwner());
-      // Checks if the player in turn owns all the cities in the game
+    if (units.containsKey(from)) {
+      // If unit move into city, that is not the player in turns, the city is lost to the player in turn
+      boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
+      if (isCityAtToTile) {
+        CityImpl city = (CityImpl) getCityAt(to);
+        city.changeOwner(getUnitAt(from).getOwner());
+        // Checks if the player in turn owns all the cities in the game
+      }
     }
   }
 
