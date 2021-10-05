@@ -249,8 +249,8 @@ public class GameImpl implements Game {
   private void makeActualMove(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     if (unit != null) {
-    units.put(to,unit);
-    units.remove(from);
+      units.put(to,unit);
+      units.remove(from);
       unit.retractMoveCount();
     }
   }

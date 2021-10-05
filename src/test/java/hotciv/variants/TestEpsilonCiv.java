@@ -19,7 +19,7 @@ import org.junit.jupiter.api.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestEpsilon {
+public class TestEpsilonCiv {
     private Game game;
     private Position archerPos;
     private Position legionPos;
@@ -54,10 +54,30 @@ public class TestEpsilon {
         newPos = new Position(3,3);
         game.moveUnit(settlerPos, newPos);
         assertThat(game.getUnitAt(newPos), is(notNullValue()));
-        game.endOfTurn();
-        game.endOfTurn();
+        doXEndOfTurn(2);
         game.moveUnit(newPos, legionPos);
         assertThat(game.getUnitAt(legionPos).getTypeString(), is(GameConstants.LEGION));
         assertThat(game.getUnitAt(legionPos).getOwner(), is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldBeUnitDefendingStrenghtMultipliedByThreeWhenDefendingFromCity() {
+        newPos = new Position(2,1);
+        game.moveUnit(archerPos,redCityPos);
+        game.endOfTurn();
+        game.moveUnit(legionPos, newPos);
+        assertThat(game.getUnitAt(newPos).getAttackingStrength(), is(4));
+        assertThat(game.moveUnit(newPos, redCityPos), is(false));
+    }
+
+    /**
+     * A helper method for passing turns to avoid code duplication,
+     * and ease of use in test driven development
+     * @param x is the amount of turns that should be ended
+     */
+    public void doXEndOfTurn(int x) {
+        for (int i = 1; i <= x; i++) {
+            game.endOfTurn();
+        }
     }
 }

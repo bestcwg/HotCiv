@@ -7,6 +7,7 @@ import hotciv.framework.Unit;
 import hotciv.standard.AttackingStrategy;
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
+import hotciv.standard.TileImpl;
 
 import java.util.HashMap;
 

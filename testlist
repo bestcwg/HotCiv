@@ -141,8 +141,11 @@ Testcases needed for EpsilonCiv:
 [OK] tile type has battle multiplier
 
 AttackingIsResolvedByStrenght
-    Tile type multiply attacking strenght
-    each supporting unit add 1 to compined attack
+    unit multiply attacking strenght based on tile and city
+        city times attack strength by 3
+        hill times attack strenght by 2
+        plains times attack strenght by 1
+    each supporting unit add 1 to combined attack
     tile type multiply defensive strenght
     each supporting unit add 1 to combined defence
     attack is based on attacking units attack
