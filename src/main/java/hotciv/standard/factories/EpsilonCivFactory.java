@@ -2,7 +2,6 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
-import hotciv.utility.FixedRollStrategy;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
@@ -10,7 +9,7 @@ import hotciv.variants.epsilonCiv.EpsilonCivAttackingStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
 
 public class EpsilonCivFactory implements CivFactory {
-    private RollStrategy rollStrategy;
+    private final RollStrategy rollStrategy;
 
     public EpsilonCivFactory(RollStrategy rollStrategy) {
         this.rollStrategy = rollStrategy;

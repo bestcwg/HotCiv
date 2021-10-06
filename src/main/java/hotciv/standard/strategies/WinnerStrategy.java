@@ -1,11 +1,8 @@
 package hotciv.standard.strategies;
 
-import hotciv.framework.City;
+
 import hotciv.framework.Game;
 import hotciv.framework.Player;
-import hotciv.framework.Position;
-
-import java.util.HashMap;
 
 public interface WinnerStrategy {
     /**

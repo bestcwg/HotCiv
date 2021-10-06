@@ -2,7 +2,6 @@ package hotciv.standard.strategies;
 
 import hotciv.framework.*;
 
-import java.util.HashMap;
 
 public interface PerformUnitActionStrategy {
     /**

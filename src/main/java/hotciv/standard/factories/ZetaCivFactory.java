@@ -9,8 +9,8 @@ import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
 import hotciv.variants.zetaCiv.ZetaCivWinnerStrategy;
 
 public class ZetaCivFactory implements CivFactory {
-    private WinnerStrategy epsilonCivWinnerStrategy;
-    private WinnerStrategy betaCivWinnerStrategy;
+    private final WinnerStrategy epsilonCivWinnerStrategy;
+    private final WinnerStrategy betaCivWinnerStrategy;
 
     public ZetaCivFactory(WinnerStrategy betaCivWinnerStrategy, WinnerStrategy epsilonCivWinnerStrategy) {
         this.betaCivWinnerStrategy = betaCivWinnerStrategy;

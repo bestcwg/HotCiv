@@ -9,7 +9,7 @@ public interface AttackingStrategy {
      * @param from the attacking unit
      * @param to the defending unit
      * @param game the actual game
-     * @return
+     * @return boolean value of if the attacker won or lost
      */
     boolean calculateBattleWinner(Position from, Position to, Game game);
 

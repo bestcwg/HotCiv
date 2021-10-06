@@ -5,8 +5,8 @@ import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
-    private Player owner;
-    private String unitType;
+    private final Player owner;
+    private final String unitType;
     private int attackingStrength;
     private int defensiveStrength;
     private int moveCount;

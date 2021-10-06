@@ -17,7 +17,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestZetaCiv {
     private Game game;
 
-
     /**
      * Fixture for zetaCiv testing.
      */
@@ -28,8 +27,8 @@ public class TestZetaCiv {
 
     @Test
     public void shouldBeRedWhoWinsIfControllingAllCitiesBeforeRound20() {
-        // Given a game with BetaCivAgeStrategy
-        // When player red owns all cities
+        // Given a game
+        // When player red owns all cities before round 20
         Position blueCityPos = new Position(4,1);
         Position archerPos = new Position(2,0);
         // Then player red should win game
@@ -44,10 +43,10 @@ public class TestZetaCiv {
     @Test
     public void shouldNotWinAfterControllingAllCitiesAfterRound20() {
         // Given a game with BetaCivAgeStrategy
-        // When player red owns all cities
+        // When player red owns all cities after round 20
         Position blueCityPos = new Position(4,1);
         Position archerPos = new Position(2,0);
-        // Then player red should win game
+        // Then player red should not win game
         assertThat(game.getCityAt(blueCityPos).getOwner(),is(Player.BLUE));
         game.moveUnit(archerPos, new Position(3,1));
         doXEndOfTurn(40);
@@ -58,6 +57,8 @@ public class TestZetaCiv {
 
     @Test
     public void shouldNotWinByWinning3BattlesBeforeRound20() {
+        // Given a game
+        // When winning 3 battles before round 20
         GameImpl gameImpl = (GameImpl) game;
         Position redUnit = new Position(8,8);
         Position blueUnit1 = new Position(8,9);
@@ -69,6 +70,7 @@ public class TestZetaCiv {
         gameImpl.getUnits().put(blueUnit2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit3, new UnitImpl(Player.BLUE, GameConstants.LEGION));
 
+        // Then that player should not win
         game.moveUnit(redUnit,blueUnit1);
         doXEndOfTurn(2);
         game.moveUnit(blueUnit1,blueUnit2);
@@ -79,6 +81,8 @@ public class TestZetaCiv {
 
     @Test
     public void shouldBeWinningAfter3BattleWonAfterRound20() {
+        // Given a game
+        // When a player wins 3 battles after round 20
         GameImpl gameImpl = (GameImpl) game;
         doXEndOfTurn(40);
         Position redUnit = new Position(8,8);
@@ -91,6 +95,7 @@ public class TestZetaCiv {
         gameImpl.getUnits().put(blueUnit2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit3, new UnitImpl(Player.BLUE, GameConstants.LEGION));
 
+        // Then that player should win
         game.moveUnit(redUnit,blueUnit1);
         doXEndOfTurn(2);
         game.moveUnit(blueUnit1,blueUnit2);
@@ -110,4 +115,3 @@ public class TestZetaCiv {
         }
     }
 }
-
