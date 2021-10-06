@@ -161,3 +161,10 @@ Testcases needed for EpsilonCiv:
     [OK]Should not increment amount of battles won if defending and wins
     [OK]should not increment amount of battles won if attacking and loses.
 etc.
+
+Testcases for ZetaCiv
+
+[OK] A player should win if they capture all cities before round 20
+[OK] A player should not win if they capture all cities before round 20
+[OK] A player should win if they win 3 battles after round 20
+[OK] A player should not win if they win 3 battles before round 20

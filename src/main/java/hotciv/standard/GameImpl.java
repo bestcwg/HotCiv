@@ -46,6 +46,7 @@ public class GameImpl implements Game {
   private PerformUnitActionStrategy performUnitActionStrategy;
   private WorldLayoutStrategy worldLayoutStrategy;
   private AttackingStrategy attackingStrategy;
+  private int roundCounter;
 
   /**
    * Constructor for the GameImplementation class
@@ -55,6 +56,7 @@ public class GameImpl implements Game {
     playerInTurn = Player.RED;
     age = -4000;
     numberOfPlayers = 2;
+    roundCounter = 1;
 
     this.ageStrategy = ageStrategy;
     this.winnerStrategy = winnerStrategy;
@@ -131,6 +133,14 @@ public class GameImpl implements Game {
    */
   public HashMap<Position,Tile> getWorldMap() {
     return worldMap;
+  }
+
+  /**
+   * A method for getting the amount of rounds played
+   * @return an int representing the amount of rounds played.
+   */
+  public int getRoundCounter() {
+    return roundCounter;
   }
 
    /**
@@ -243,6 +253,7 @@ public class GameImpl implements Game {
     produceProductionForAllCities();
     age += ageStrategy.calculateAge(getAge());
     playerTurnsTaken = 0;
+    roundCounter++;
     checkForWinner(this);
   }
 
@@ -413,4 +424,5 @@ public class GameImpl implements Game {
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
   }
+
 }
