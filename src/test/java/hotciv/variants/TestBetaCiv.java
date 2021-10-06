@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
+import hotciv.standard.factories.BetaCivFactory;
 import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
@@ -18,7 +19,7 @@ public class TestBetaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new BetaCivAgeStrategy(), new BetaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new AlphaCivAttackingStrategy());
+        game = new GameImpl(new BetaCivFactory());
     }
 
     @Test

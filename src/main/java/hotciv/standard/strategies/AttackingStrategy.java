@@ -1,4 +1,4 @@
-package hotciv.standard;
+package hotciv.standard.strategies;
 
 import hotciv.framework.Game;
 import hotciv.framework.Position;

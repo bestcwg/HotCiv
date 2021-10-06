@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import hotciv.standard.factories.AlphaCivFactory;
 import hotciv.variants.alphaCiv.*;
 import org.junit.jupiter.api.*;
 
@@ -53,7 +54,7 @@ public class TestAlphaCiv {
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
-    game = new GameImpl(new AlphaCivAgeStrategy(),new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new AlphaCivAttackingStrategy());
+    game = new GameImpl(new AlphaCivFactory());
     archerPos = new Position(2,0); // The archers' owner is red
     legionPos = new Position(3,2); // The Legions' owner is blue
     settlerPos = new Position(4,3); // The settler' owner is red

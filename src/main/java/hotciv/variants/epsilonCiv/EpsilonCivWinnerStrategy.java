@@ -2,9 +2,7 @@ package hotciv.variants.epsilonCiv;
 
 import hotciv.framework.Game;
 import hotciv.framework.Player;
-import hotciv.standard.WinnerStrategy;
-
-import java.util.HashMap;
+import hotciv.standard.strategies.WinnerStrategy;
 
 public class EpsilonCivWinnerStrategy implements WinnerStrategy {
     private int redPlayerBattlesWon;

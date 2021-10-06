@@ -4,6 +4,7 @@ import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
 import hotciv.standard.UnitImpl;
+import hotciv.standard.factories.ZetaCivFactory;
 import hotciv.variants.alphaCiv.*;
 import hotciv.variants.betaCiv.BetaCivWinnerStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
@@ -22,7 +23,7 @@ public class TestZetaCiv {
      */
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new ZetaCivWinnerStrategy(new BetaCivWinnerStrategy(), new EpsilonCivWinnerStrategy()), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[]{}, new AlphaCivAttackingStrategy());
+        game = new GameImpl(new ZetaCivFactory(new BetaCivWinnerStrategy(), new EpsilonCivWinnerStrategy()));
     }
 
     @Test

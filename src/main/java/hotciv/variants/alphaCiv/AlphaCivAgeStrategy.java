@@ -1,6 +1,6 @@
 package hotciv.variants.alphaCiv;
 
-import hotciv.standard.AgeStrategy;
+import hotciv.standard.strategies.AgeStrategy;
 
 public class AlphaCivAgeStrategy implements AgeStrategy {
 

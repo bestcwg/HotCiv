@@ -2,9 +2,7 @@ package hotciv.variants.alphaCiv;
 
 import hotciv.framework.Game;
 import hotciv.framework.Player;
-import hotciv.standard.WinnerStrategy;
-
-import java.util.HashMap;
+import hotciv.standard.strategies.WinnerStrategy;
 
 public class AlphaCivWinnerStrategy implements WinnerStrategy {
     @Override

@@ -1,8 +1,6 @@
 package hotciv.unitTests;
 
-import hotciv.framework.*;
-
-import hotciv.standard.AgeStrategy;
+import hotciv.standard.strategies.AgeStrategy;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
 import org.junit.jupiter.api.*;
 

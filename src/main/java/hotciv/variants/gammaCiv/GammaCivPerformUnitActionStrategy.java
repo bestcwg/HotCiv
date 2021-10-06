@@ -2,11 +2,9 @@ package hotciv.variants.gammaCiv;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
-import hotciv.standard.PerformUnitActionStrategy;
+import hotciv.standard.strategies.PerformUnitActionStrategy;
 import hotciv.framework.*;
 import hotciv.standard.UnitImpl;
-
-import java.util.HashMap;
 
 public class GammaCivPerformUnitActionStrategy implements PerformUnitActionStrategy {
 

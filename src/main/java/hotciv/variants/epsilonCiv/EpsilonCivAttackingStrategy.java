@@ -1,13 +1,9 @@
 package hotciv.variants.epsilonCiv;
 
 import hotciv.framework.*;
-import hotciv.standard.AttackingStrategy;
-import hotciv.standard.GameImpl;
-import hotciv.standard.RollStrategy;
+import hotciv.standard.strategies.AttackingStrategy;
+import hotciv.standard.strategies.RollStrategy;
 import hotciv.utility.Utility2;
-
-import java.util.HashMap;
-import java.util.Random;
 
 public class EpsilonCivAttackingStrategy implements AttackingStrategy {
     RollStrategy rollStrategy;

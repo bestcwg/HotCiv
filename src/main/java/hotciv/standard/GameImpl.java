@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.standard.strategies.*;
 import hotciv.utility.*;
 
 import java.util.*;
@@ -33,6 +34,7 @@ import java.util.*;
 */
 
 public class GameImpl implements Game {
+  private CivFactory civFactory;
   private HashMap<Position, City> cities;
   private HashMap<Position, Unit> units;
   private HashMap<Position, Tile> worldMap;
@@ -52,21 +54,24 @@ public class GameImpl implements Game {
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString, AttackingStrategy attackingStrategy) {
+  public GameImpl(CivFactory civFactory) {
+    this.civFactory = civFactory;
     playerInTurn = Player.RED;
-    age = -4000;
+    age = GameConstants.WORLD_AGE;
     numberOfPlayers = 2;
     roundCounter = 1;
 
-    this.ageStrategy = ageStrategy;
-    this.winnerStrategy = winnerStrategy;
-    this.performUnitActionStrategy = performUnitActionStrategy;
-    this.worldLayoutStrategy = worldLayoutStrategy;
-    this.attackingStrategy = attackingStrategy;
+    ageStrategy = civFactory.getAgeStrategy();
+    winnerStrategy = civFactory.getWinnerStrategy();
+    performUnitActionStrategy = civFactory.getUnitActionStrategy();
+    worldLayoutStrategy = civFactory.getWorldLayoutStrategy();
+    attackingStrategy = civFactory.getAttackStrategy();
 
-    worldMap = worldLayoutStrategy.setUpWorld(worldLayoutString);
+    worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();
+
+    checkForWinner(this);
   }
 
   /**

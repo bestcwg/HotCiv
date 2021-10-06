@@ -4,7 +4,7 @@ import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
-import hotciv.standard.WorldLayoutStrategy;
+import hotciv.standard.strategies.WorldLayoutStrategy;
 
 import java.util.HashMap;
 
@@ -13,62 +13,47 @@ public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
     private HashMap<Position, City> citiesLayout;
     private HashMap<Position, Unit> unitsLayout;
     @Override
-    public HashMap<Position, Tile> setUpWorld(String[] worldLayoutString) {
+    public HashMap<Position, Tile> setUpWorld() {
         // Basically we use a 'data driven' approach - code the
         // layout in a simple semi-visual representation, and
         // convert it to the actual Game representation.
-        String[] layout;
-        if (worldLayoutString.length > 0) {
-             layout = worldLayoutString;
-        } else {
-            layout =
-                    new String[] {
-                            "...ooMooooo.....",
-                            "..ohhoooofffoo..",
-                            ".oooooMooo...oo.",
-                            ".ooMMMoooo..oooo",
-                            "...ofooohhoooo..",
-                            ".ofoofooooohhoo.",
-                            "...ooo..........",
-                            ".ooooo.ooohooM..",
-                            ".ooooo.oohooof..",
-                            "offfoooo.offoooo",
-                            "oooooooo...ooooo",
-                            ".ooMMMoooo......",
-                            "..ooooooffoooo..",
-                            "....ooooooooo...",
-                            "..ooohhoo.......",
-                            ".....ooooooooo..",
-                    };
-        }
+        String[] layout =
+                new String[] {
+                        "...ooMooooo.....",
+                        "..ohhoooofffoo..",
+                        ".oooooMooo...oo.",
+                        ".ooMMMoooo..oooo",
+                        "...ofooohhoooo..",
+                        ".ofoofooooohhoo.",
+                        "...ooo..........",
+                        ".ooooo.ooohooM..",
+                        ".ooooo.oohooof..",
+                        "offfoooo.offoooo",
+                        "oooooooo...ooooo",
+                        ".ooMMMoooo......",
+                        "..ooooooffoooo..",
+                        "....ooooooooo...",
+                        "..ooohhoo.......",
+                        ".....ooooooooo..",
+                };
         // Conversion...
-        this.worldLayout = new HashMap<>();
+        HashMap<Position,Tile> theWorld = new HashMap<Position,Tile>();
         String line;
         for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
             line = layout[r];
-            for (int c = 0; c < GameConstants.WORLDSIZE; c++) {
+            for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
                 char tileChar = line.charAt(c);
                 String type = "error";
-                if (tileChar == '.') {
-                    type = GameConstants.OCEANS;
-                }
-                if (tileChar == 'o') {
-                    type = GameConstants.PLAINS;
-                }
-                if (tileChar == 'M') {
-                    type = GameConstants.MOUNTAINS;
-                }
-                if (tileChar == 'f') {
-                    type = GameConstants.FOREST;
-                }
-                if (tileChar == 'h') {
-                    type = GameConstants.HILLS;
-                }
-                Position p = new Position(r, c);
-                this.worldLayout.put(p, new TileImpl(type));
+                if ( tileChar == '.' ) { type = GameConstants.OCEANS; }
+                if ( tileChar == 'o' ) { type = GameConstants.PLAINS; }
+                if ( tileChar == 'M' ) { type = GameConstants.MOUNTAINS; }
+                if ( tileChar == 'f' ) { type = GameConstants.FOREST; }
+                if ( tileChar == 'h' ) { type = GameConstants.HILLS; }
+                Position p = new Position(r,c);
+                theWorld.put( p, new TileImpl(type));
             }
         }
-        return this.worldLayout;
+        return theWorld;
     }
 
     @Override

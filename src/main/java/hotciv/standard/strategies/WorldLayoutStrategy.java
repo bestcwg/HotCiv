@@ -1,4 +1,4 @@
-package hotciv.standard;
+package hotciv.standard.strategies;
 
 import hotciv.framework.*;
 
@@ -8,9 +8,8 @@ public interface WorldLayoutStrategy {
     /**
      * A abstract method for setting up world layouts. implement a concrete strategy
      * @return a hashmap of positions as keys, tiles as values, contains the entire world map
-     * @param worldLayoutString
      */
-    HashMap<Position, Tile> setUpWorld(String[] worldLayoutString);
+    HashMap<Position, Tile> setUpWorld();
 
     /**
      * A abstract method for setting up the city layouts. implement a concrete strategy

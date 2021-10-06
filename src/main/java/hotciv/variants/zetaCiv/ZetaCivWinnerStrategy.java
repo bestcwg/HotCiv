@@ -3,7 +3,7 @@ package hotciv.variants.zetaCiv;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.standard.GameImpl;
-import hotciv.standard.WinnerStrategy;
+import hotciv.standard.strategies.WinnerStrategy;
 
 public class ZetaCivWinnerStrategy implements WinnerStrategy {
     WinnerStrategy betaCivWinnerStrategy, epsilonCivWinnerStrategy, currentState;

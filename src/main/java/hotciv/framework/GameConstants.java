@@ -32,6 +32,8 @@ import java.util.HashMap;
 
 */
 public class GameConstants {
+  // The age of the game
+  public static final int WORLD_AGE = -4000;
   // The size of the world is set permanently to a 16x16 grid 
   public static final int WORLDSIZE = 16;
   // Valid unit types

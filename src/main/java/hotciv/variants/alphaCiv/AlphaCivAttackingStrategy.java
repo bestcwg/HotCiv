@@ -1,8 +1,7 @@
 package hotciv.variants.alphaCiv;
 
 import hotciv.framework.*;
-import hotciv.standard.*;
-import java.util.HashMap;
+import hotciv.standard.strategies.AttackingStrategy;
 
 public class AlphaCivAttackingStrategy implements AttackingStrategy {
     @Override

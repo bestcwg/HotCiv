@@ -2,6 +2,8 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 import hotciv.standard.*;
+import hotciv.standard.factories.EpsilonCivFactory;
+import hotciv.standard.strategies.RollStrategy;
 import hotciv.utility.FixedRollStrategy;
 import hotciv.utility.RandomRollStrategy;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
@@ -25,7 +27,7 @@ public class TestEpsilonCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new EpsilonCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {}, new EpsilonCivAttackingStrategy(new FixedRollStrategy()));
+        game = new GameImpl(new EpsilonCivFactory(new FixedRollStrategy()));
         fixedRoll = new FixedRollStrategy();
         archerPos = new Position(2,0); // The archers' owner is red
         redCityPos = new Position(1,1);

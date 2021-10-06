@@ -1,6 +1,6 @@
 package hotciv.utility;
 
-import hotciv.standard.RollStrategy;
+import hotciv.standard.strategies.RollStrategy;
 
 import java.util.Random;
 
