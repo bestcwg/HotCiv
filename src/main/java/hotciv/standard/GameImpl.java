@@ -71,7 +71,7 @@ public class GameImpl implements Game {
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();
 
-    checkForWinner(this);
+
   }
 
   //region GetterMethods
