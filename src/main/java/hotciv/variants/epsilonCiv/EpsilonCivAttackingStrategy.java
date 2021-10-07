@@ -7,6 +7,7 @@ import hotciv.utility.Utility2;
 
 public class EpsilonCivAttackingStrategy implements AttackingStrategy {
     RollStrategy rollStrategy;
+
     public EpsilonCivAttackingStrategy(RollStrategy rollStrategy) {
         this.rollStrategy = rollStrategy;
     }
@@ -24,20 +25,22 @@ public class EpsilonCivAttackingStrategy implements AttackingStrategy {
 
     @Override
     public int getTotalAttackingStrength(Position position, Game game) {
-        Player owner = game.getUnitAt(position).getOwner();
-        int strength = game.getUnitAt(position).getAttackingStrength();
-        strength += Utility2.getFriendlySupport(game, position, owner);
-        strength *= Utility2.getTerrainFactor(game, position);
-        strength *= rollStrategy.roll();
+        int unitAttackStrength = game.getUnitAt(position).getAttackingStrength();
 
-        return strength;
+        return calculateTotalStrength(unitAttackStrength, game, position);
     }
 
     @Override
     public int getTotalDefensiveStrength(Position position, Game game) {
-        Player owner = game.getUnitAt(position).getOwner();
-        int strength = game.getUnitAt(position).getDefensiveStrength();
-        strength += Utility2.getFriendlySupport(game, position, owner);
+        int unitDefendStrength = game.getUnitAt(position).getDefensiveStrength();
+
+        return calculateTotalStrength(unitDefendStrength, game, position);
+    }
+
+    private int calculateTotalStrength(int strength, Game game, Position position) {
+        Player player = game.getUnitAt(position).getOwner();
+
+        strength += Utility2.getFriendlySupport(game, position, player);
         strength *= Utility2.getTerrainFactor(game, position);
         strength *= rollStrategy.roll();
 
