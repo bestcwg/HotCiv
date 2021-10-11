@@ -7,6 +7,7 @@ import hotciv.standard.strategies.WinnerStrategy;
 public class EpsilonCivWinnerStrategy implements WinnerStrategy {
     private int redPlayerBattlesWon;
     private int bluePlayerBattlesWon;
+
     @Override
     public Player calculateWinner(Game game) {
         if (redPlayerBattlesWon == 3) {
@@ -28,5 +29,16 @@ public class EpsilonCivWinnerStrategy implements WinnerStrategy {
                 bluePlayerBattlesWon++;
                 break;
         }
+    }
+
+    @Override
+    public int checkCountOfBattlesWon(Player player) {
+        switch (player) {
+            case RED:
+                return redPlayerBattlesWon;
+            case BLUE:
+                return bluePlayerBattlesWon;
+        }
+        return 0;
     }
 }

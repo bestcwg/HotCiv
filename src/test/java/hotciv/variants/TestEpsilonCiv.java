@@ -22,7 +22,9 @@ public class TestEpsilonCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new EpsilonCivFactory(new FixedRollStrategy()));
+        fixedRoll = new FixedRollStrategy();
+        fixedRoll.setRoll(1);
+        game = new GameImpl(new EpsilonCivFactory(fixedRoll));
         fixedRoll = new FixedRollStrategy();
         archerPos = new Position(2,0); // The archers' owner is red
         redCityPos = new Position(1,1);
@@ -69,7 +71,8 @@ public class TestEpsilonCiv {
         // When a unit is stationed in a city
         // Then its attack and defence should be multiplied by 3
         game.moveUnit(archerPos,redCityPos);
-        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(redCityPos, game),is(3 * 3));
+        fixedRoll.setRoll(1);
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(redCityPos, game),is(3 * 3 ));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(redCityPos, game),is(2 * 3));
     }
 
@@ -82,6 +85,7 @@ public class TestEpsilonCiv {
         Position forest = new Position(8,8);
         tiles.put(forest, new TileImpl(GameConstants.FOREST));
         gameImpl.getUnits().put(forest, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        fixedRoll.setRoll(1);
         // Then its attack and defence should be multiplied by 2
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(forest, game), is(3 * 2));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(forest, game), is(2 * 2));
@@ -96,6 +100,7 @@ public class TestEpsilonCiv {
         Position hill = new Position(8,8);
         tiles.put(hill, new TileImpl(GameConstants.HILLS));
         gameImpl.getUnits().put(hill, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        fixedRoll.setRoll(1);
         // Then its attack and defence should be multiplied by 2
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(hill, game), is(3 * 2));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(hill, game), is(2 * 2));
@@ -110,6 +115,7 @@ public class TestEpsilonCiv {
         Position plains = new Position(8,8);
         tiles.put(plains, new TileImpl(GameConstants.PLAINS));
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        fixedRoll.setRoll(1);
         // Then its attack and defence should be multiplied by 1
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
@@ -123,6 +129,7 @@ public class TestEpsilonCiv {
         Position plains = new Position(8,8);
         // Then its strengths should be increased by 1
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        fixedRoll.setRoll(1);
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
 
@@ -144,6 +151,7 @@ public class TestEpsilonCiv {
         GameImpl gameImpl = (GameImpl) game;
         Position plains = new Position(8,8);
         gameImpl.getUnits().put(plains, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        fixedRoll.setRoll(1);
         // Then it should not have increased strengths
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(plains, game), is(3 * 1));
         assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(plains, game), is(2 * 1));
@@ -263,7 +271,38 @@ public class TestEpsilonCiv {
     }
 
     @Test
-    public void shouldBeRandomInRealGame() {
+    public void shouldBeRelevantIfADieIsSetTo2() {
+        fixedRoll.setRoll(2);
+        // Given a game
+        // When a unit is stationed in a forest
+        GameImpl gameImpl = (GameImpl) game;
+        HashMap<Position, Tile> tiles = ((GameImpl) game).getWorldMap();
+        Position forest = new Position(8,8);
+        tiles.put(forest, new TileImpl(GameConstants.FOREST));
+        gameImpl.getUnits().put(forest, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        // Then its attack and defence should be multiplied by 2 from the die
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(forest, game), is(3 * 2 * 2));
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(forest, game), is(2 * 2 * 2));
+    }
+
+    @Test
+    public void shouldAlternateDieRollsForARealGame() {
+        fixedRoll.setRoll(2);
+        // Given a game
+        // When a unit is stationed in a forest
+        GameImpl gameImpl = (GameImpl) game;
+        HashMap<Position, Tile> tiles = ((GameImpl) game).getWorldMap();
+        Position forest = new Position(8,8);
+        tiles.put(forest, new TileImpl(GameConstants.FOREST));
+        gameImpl.getUnits().put(forest, new UnitImpl(Player.RED, GameConstants.ARCHER));
+        // Then its attack and defence should be multiplied by 2 from the die
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalDefensiveStrength(forest, game), is(3 * 2 * 2));
+        fixedRoll.setRoll(5);
+        assertThat(new EpsilonCivAttackingStrategy(fixedRoll).getTotalAttackingStrength(forest, game), is(2 * 2 * 5));
+    }
+
+    @Test
+    public void shouldBeInARangeof1To6InRealGame() {
         // Given a game
         // When random numbers are added to strengths
         // Then the numbers should be between 1-6

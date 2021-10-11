@@ -10,4 +10,9 @@ public class RandomRollStrategy implements RollStrategy {
         Random random = new Random();
         return random.nextInt(5)+1;
     }
+
+    @Override
+    public void setRoll(int dieNum) {
+
+    }
 }

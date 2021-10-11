@@ -10,27 +10,27 @@ import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 
 public class DeltaCivFactory implements CivFactory {
     @Override
-    public PerformUnitActionStrategy getUnitActionStrategy() {
+    public PerformUnitActionStrategy createUnitActionStrategy() {
         return new AlphaCivPerformUnitActionStrategy();
     }
 
     @Override
-    public AgeStrategy getAgeStrategy() {
+    public AgeStrategy createAgeStrategy() {
         return new AlphaCivAgeStrategy();
     }
 
     @Override
-    public AttackingStrategy getAttackStrategy() {
+    public AttackingStrategy createAttackStrategy() {
         return new AlphaCivAttackingStrategy();
     }
 
     @Override
-    public WinnerStrategy getWinnerStrategy() {
+    public WinnerStrategy createWinnerStrategy() {
         return new AlphaCivWinnerStrategy();
     }
 
     @Override
-    public WorldLayoutStrategy getWorldLayoutStrategy() {
+    public WorldLayoutStrategy createWorldLayoutStrategy() {
         return new DeltaCivWorldLayoutStrategy();
     }
 }

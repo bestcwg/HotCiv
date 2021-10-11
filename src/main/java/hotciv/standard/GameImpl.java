@@ -61,17 +61,17 @@ public class GameImpl implements Game {
     numberOfPlayers = 2;
     roundCounter = 1;
 
-    ageStrategy = civFactory.getAgeStrategy();
-    winnerStrategy = civFactory.getWinnerStrategy();
-    performUnitActionStrategy = civFactory.getUnitActionStrategy();
-    worldLayoutStrategy = civFactory.getWorldLayoutStrategy();
-    attackingStrategy = civFactory.getAttackStrategy();
+    ageStrategy = civFactory.createAgeStrategy();
+    winnerStrategy = civFactory.createWinnerStrategy();
+    performUnitActionStrategy = civFactory.createUnitActionStrategy();
+    worldLayoutStrategy = civFactory.createWorldLayoutStrategy();
+    attackingStrategy = civFactory.createAttackStrategy();
 
     worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();
 
-
+    checkForWinner(this);
   }
 
   //region GetterMethods

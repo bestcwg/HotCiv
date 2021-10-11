@@ -15,6 +15,10 @@ public class AlphaCivWinnerStrategy implements WinnerStrategy {
 
     @Override
     public void incrementBattlesWonBy(Player player) {
+    }
 
+    @Override
+    public int checkCountOfBattlesWon(Player player) {
+        return 0;
     }
 }

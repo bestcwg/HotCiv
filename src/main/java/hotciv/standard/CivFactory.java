@@ -8,29 +8,29 @@ public interface CivFactory {
      * A factory method for setting up unit action strategies
      * @return the unitAction strategy for the chosen factory
      */
-    PerformUnitActionStrategy getUnitActionStrategy();
+    PerformUnitActionStrategy createUnitActionStrategy();
 
     /**
      * A factory method for setting up age strategy
      * @return the age strategy for the chosen factory
      */
-    AgeStrategy getAgeStrategy();
+    AgeStrategy createAgeStrategy();
 
     /**
      * A factory method for setting up unit attack strategies
      * @return the attack strategy for the chosen factory
      */
-    AttackingStrategy getAttackStrategy();
+    AttackingStrategy createAttackStrategy();
 
     /**
      * A factory method for setting up winner strategies
      * @return the winner strategy for the chosen factory
      */
-    WinnerStrategy getWinnerStrategy();
+    WinnerStrategy createWinnerStrategy();
 
     /**
      * A factory method for setting up world layout strategies
      * @return the world layout strategy for the chosen factory
      */
-    WorldLayoutStrategy getWorldLayoutStrategy();
+    WorldLayoutStrategy createWorldLayoutStrategy();
 }

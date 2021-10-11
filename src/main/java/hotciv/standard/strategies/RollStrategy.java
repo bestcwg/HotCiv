@@ -6,4 +6,6 @@ public interface RollStrategy {
      * @return a random int
      */
     int roll();
+
+    void setRoll(int dieNum);
 }

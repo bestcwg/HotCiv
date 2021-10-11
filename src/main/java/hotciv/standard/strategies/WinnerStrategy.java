@@ -13,4 +13,5 @@ public interface WinnerStrategy {
      */
     Player calculateWinner(Game game);
     void incrementBattlesWonBy(Player player);
+    int checkCountOfBattlesWon(Player player);
 }

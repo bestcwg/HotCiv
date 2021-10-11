@@ -27,8 +27,11 @@ public class ZetaCivWinnerStrategy implements WinnerStrategy {
 
     @Override
     public void incrementBattlesWonBy(Player player) {
-        if (currentState == epsilonCivWinnerStrategy) {
-            epsilonCivWinnerStrategy.incrementBattlesWonBy(player);
-        }
+        currentState.incrementBattlesWonBy(player);
+    }
+
+    @Override
+    public int checkCountOfBattlesWon(Player player) {
+        return currentState.checkCountOfBattlesWon(player);
     }
 }

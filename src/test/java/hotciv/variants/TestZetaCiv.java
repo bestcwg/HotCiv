@@ -5,6 +5,7 @@ import hotciv.framework.*;
 import hotciv.standard.GameImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.standard.factories.ZetaCivFactory;
+import hotciv.standard.strategies.WinnerStrategy;
 import hotciv.variants.alphaCiv.*;
 import hotciv.variants.betaCiv.BetaCivWinnerStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
@@ -16,13 +17,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestZetaCiv {
     private Game game;
+    private EpsilonCivWinnerStrategy epsilonCivWinnerStrategy;
 
     /**
      * Fixture for zetaCiv testing.
      */
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(new ZetaCivFactory(new BetaCivWinnerStrategy(), new EpsilonCivWinnerStrategy()));
+        epsilonCivWinnerStrategy = new EpsilonCivWinnerStrategy();
+        game = new GameImpl(new ZetaCivFactory(new BetaCivWinnerStrategy(), epsilonCivWinnerStrategy));
     }
 
     @Test
@@ -102,6 +105,32 @@ public class TestZetaCiv {
         doXEndOfTurn(2);
         game.moveUnit(blueUnit2,blueUnit3);
         assertThat(game.getWinner(), is(Player.RED));
+    }
+
+
+    @Test
+    public void shouldNotCountWinningBattlesBeforeRound20() {
+        // Given a game
+        // When winning 3 battles before round 20
+        GameImpl gameImpl = (GameImpl) game;
+        Position redUnit = new Position(8,8);
+        Position blueUnit1 = new Position(8,9);
+        Position blueUnit2 = new Position(8,10);
+        Position blueUnit3 = new Position(8,11);
+
+        gameImpl.getUnits().put(redUnit, new UnitImpl(Player.RED, GameConstants.LEGION));
+        gameImpl.getUnits().put(blueUnit1, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(blueUnit2, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+        gameImpl.getUnits().put(blueUnit3, new UnitImpl(Player.BLUE, GameConstants.LEGION));
+
+        // Then that player should not win
+        game.moveUnit(redUnit,blueUnit1);
+        doXEndOfTurn(2);
+        assertThat(epsilonCivWinnerStrategy.checkCountOfBattlesWon(Player.RED), is(0));
+        doXEndOfTurn(42);
+        game.moveUnit(blueUnit1,blueUnit2);
+        doXEndOfTurn(2);
+        assertThat(epsilonCivWinnerStrategy.checkCountOfBattlesWon(Player.RED), is(1));
     }
 
     /**
