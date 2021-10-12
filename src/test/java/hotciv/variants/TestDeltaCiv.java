@@ -3,7 +3,9 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
+import hotciv.standard.factories.DeltaCivFactory;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
+import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
 import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
 import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
@@ -17,7 +19,7 @@ public class TestDeltaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), new String[] {});
+        game = new GameImpl(new DeltaCivFactory());
     }
 
     @Test
@@ -102,38 +104,5 @@ public class TestDeltaCiv {
         Position unitPos = new Position(4,4);
         assertThat(game.getUnitAt(unitPos).getOwner(), is(Player.BLUE));
         assertThat(game.getUnitAt(unitPos).getTypeString(), is(GameConstants.LEGION));
-    }
-
-    @Test
-    public void shouldBeEasyForADeveloperToChangeWorldMap() {
-        // Given a game with DeltaCivWorldLayoutStrategy
-        // When a developer wants to create their own world map layout
-        String[] layout =
-                new String[] {
-                        "oooooooooooooooo",
-                        "................",
-                        "ffffffffffffffff",
-                        "MMMMMMMMMMMMMMMM",
-                        "hhhhhhhhhhhhhhhh",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                        "oooooooooooooooo",
-                };
-        // Then it should be created
-        GameImpl game1 = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new AlphaCivPerformUnitActionStrategy(), new DeltaCivWorldLayoutStrategy(), layout);
-        assertThat(game1.getTileAt(new Position(0,0)).getTypeString(), is(GameConstants.PLAINS));
-        assertThat(game1.getTileAt(new Position(1,1)).getTypeString(), is(GameConstants.OCEANS));
-        assertThat(game1.getTileAt(new Position(2,2)).getTypeString(), is(GameConstants.FOREST));
-        assertThat(game1.getTileAt(new Position(3,3)).getTypeString(), is(GameConstants.MOUNTAINS));
-        assertThat(game1.getTileAt(new Position(4,4)).getTypeString(), is(GameConstants.HILLS));
-        assertThat(game1.getTileAt(new Position(5,5)).getTypeString(), is(GameConstants.PLAINS));
     }
 }

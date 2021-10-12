@@ -1,11 +1,8 @@
-package hotciv.standard;
+package hotciv.standard.strategies;
 
-import hotciv.framework.City;
+
 import hotciv.framework.Game;
 import hotciv.framework.Player;
-import hotciv.framework.Position;
-
-import java.util.HashMap;
 
 public interface WinnerStrategy {
     /**
@@ -15,4 +12,6 @@ public interface WinnerStrategy {
      * @return the Player Enum of the winning player, if no winner returns null
      */
     Player calculateWinner(Game game);
+    void incrementBattlesWonBy(Player player);
+    int checkCountOfBattlesWon(Player player);
 }

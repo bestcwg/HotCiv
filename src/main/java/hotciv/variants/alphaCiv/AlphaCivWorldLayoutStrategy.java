@@ -4,7 +4,7 @@ import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
-import hotciv.standard.WorldLayoutStrategy;
+import hotciv.standard.strategies.WorldLayoutStrategy;
 
 import java.util.HashMap;
 
@@ -13,7 +13,7 @@ public class AlphaCivWorldLayoutStrategy implements WorldLayoutStrategy {
     private HashMap<Position, City> citiesLayout;
     private HashMap<Position, Unit> unitsLayout;
     @Override
-    public HashMap<Position, Tile> setUpWorld(String[] worldLayoutString) {
+    public HashMap<Position, Tile> setUpWorld() {
         this.worldLayout = new HashMap<>();
         for (int i = 0; i <= GameConstants.WORLDSIZE-1; i++) {
             for (int j = 0; j <= GameConstants.WORLDSIZE-1; j++){

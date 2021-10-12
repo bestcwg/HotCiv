@@ -4,7 +4,7 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Tile;
 
 public class TileImpl implements Tile {
-    private String tileType;
+    private final String tileType;
     private int foodProduce;
     private int productionProduce;
 
@@ -49,4 +49,5 @@ public class TileImpl implements Tile {
     public int getProductionProduction() {
         return productionProduce;
     }
+
 }

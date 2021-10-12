@@ -3,7 +3,9 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
+import hotciv.standard.factories.GammaCivFactory;
 import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
+import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
 import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
 import hotciv.variants.gammaCiv.GammaCivPerformUnitActionStrategy;
@@ -19,7 +21,7 @@ public class TestGammaCiv {
 
     @BeforeEach
     void setUp() {
-        game = new GameImpl(new AlphaCivAgeStrategy(), new AlphaCivWinnerStrategy(), new GammaCivPerformUnitActionStrategy(), new AlphaCivWorldLayoutStrategy(), new String[] {});
+        game = new GameImpl(new GammaCivFactory());
         archer = new Position(2,0);
         settlerPos = new Position(4,3);
     }

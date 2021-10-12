@@ -136,9 +136,35 @@ Testcases needed for DeltaCiv:
     [OK] Blue has a legion at (4,4)
     [OK] Red has a archer at (3,8)
 
-Should be easy for other developers to change the starting setup
-    [OK]should be able to change the tile layout of the worldmap
-    should be able the change the starting cities
-    should be able to change the starting units
+Testcases needed for EpsilonCiv:
 
+[OK] tile type has battle multiplier
+
+[OK]AttackingIsResolvedByStrength
+    [OK] unit multiply attacking strength based on tile and if in city
+        [OK] city multiply attack strength by 3
+        [OK] hill multiply attack strength by 2
+        [OK] plains multiply attack strength by 1
+    [OK] unit multiply defending strength based on tile and if in city
+        [OK] city multiply defending strength by 3
+        [OK] hill multiply defending strength by 2
+        [OK] plains multiply defending strength by 1
+    [OK] each supporting unit add 1 to combined attack
+    [OK] each supporting unit add 1 to combined defence
+    [OK] attack is based on attacking units attack
+    [OK] defence is based on defensive units defence
+    [OK] there is randomness applied to the attack and defence
+
+[OK]The first player who wins 3 battles is the winner
+    [OK] Red player wins if have won 3 battles
+    [OK]Blue player wins if have won 3 battles
+    [OK]Should not increment amount of battles won if defending and wins
+    [OK]should not increment amount of battles won if attacking and loses.
 etc.
+
+Testcases for ZetaCiv
+
+[OK] A player should win if they capture all cities before round 20
+[OK] A player should not win if they capture all cities before round 20
+[OK] A player should win if they win 3 battles after round 20
+[OK] A player should not win if they win 3 battles before round 20

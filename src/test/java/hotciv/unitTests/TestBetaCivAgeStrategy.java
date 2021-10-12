@@ -1,7 +1,7 @@
-package hotciv.variants;
+package hotciv.unitTests;
 
 import hotciv.variants.betaCiv.BetaCivAgeStrategy;
-import hotciv.standard.AgeStrategy;
+import hotciv.standard.strategies.AgeStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;

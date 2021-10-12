@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.standard.strategies.*;
 import hotciv.utility.*;
 
 import java.util.*;
@@ -33,6 +34,7 @@ import java.util.*;
 */
 
 public class GameImpl implements Game {
+  private CivFactory civFactory;
   private HashMap<Position, City> cities;
   private HashMap<Position, Unit> units;
   private HashMap<Position, Tile> worldMap;
@@ -45,25 +47,34 @@ public class GameImpl implements Game {
   private WinnerStrategy winnerStrategy;
   private PerformUnitActionStrategy performUnitActionStrategy;
   private WorldLayoutStrategy worldLayoutStrategy;
+  private AttackingStrategy attackingStrategy;
+  private int roundCounter;
 
   /**
    * Constructor for the GameImplementation class
    * Instantiate starting player and age ,the world map, and create necessary hashmaps
    */
-  public GameImpl(AgeStrategy ageStrategy, WinnerStrategy winnerStrategy, PerformUnitActionStrategy performUnitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, String[] worldLayoutString) {
+  public GameImpl(CivFactory civFactory) {
+    this.civFactory = civFactory;
     playerInTurn = Player.RED;
-    age = -4000;
+    age = GameConstants.WORLD_AGE;
     numberOfPlayers = 2;
+    roundCounter = 1;
 
-    this.ageStrategy = ageStrategy;
-    this.winnerStrategy = winnerStrategy;
-    this.performUnitActionStrategy = performUnitActionStrategy;
-    this.worldLayoutStrategy = worldLayoutStrategy;
+    ageStrategy = civFactory.createAgeStrategy();
+    winnerStrategy = civFactory.createWinnerStrategy();
+    performUnitActionStrategy = civFactory.createUnitActionStrategy();
+    worldLayoutStrategy = civFactory.createWorldLayoutStrategy();
+    attackingStrategy = civFactory.createAttackStrategy();
 
-    worldMap = worldLayoutStrategy.setUpWorld(worldLayoutString);
+    worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();
+
+    checkForWinner(this);
   }
+
+  //region GetterMethods
 
   /**
    * A method for getting a tile object at a given position
@@ -115,6 +126,33 @@ public class GameImpl implements Game {
     return cities;
   }
 
+  /**
+   * A method for getting all unites
+   * @return a hashmap of all units
+   */
+  public HashMap<Position,Unit> getUnits() {
+    return units;
+  }
+
+  /**
+   * A method for getting the world map
+   * @return a hashmap of tiles
+   */
+  public HashMap<Position,Tile> getWorldMap() {
+    return worldMap;
+  }
+
+  /**
+   * A method for getting the amount of rounds played
+   * @return an int representing the amount of rounds played.
+   */
+  public int getRoundCounter() {
+    return roundCounter;
+  }
+
+  //endregion
+
+  //region Move Unit Methods + Helper
    /**
    * A method for moving a unit around the map
    * It validates that the player in turn is moving a unit of their colour
@@ -127,120 +165,19 @@ public class GameImpl implements Game {
     if (!isMoveValid(from, to)) {
       return false;
     }
-    attackIfEnemyTile(from, to);
-    makeActualMove(from,to);
-    return true;
-  }
-
-  /**
-   * A method for ending the turn of a player
-   * A switch case that alternates and assigns player in turn
-   * calls endOfRound() method after each player has a turn
-   */
-  public void endOfTurn() {
-    switch (playerInTurn) {
-      case RED:
-        playerInTurn = Player.BLUE;
-        break;
-      case BLUE:
-        playerInTurn = Player.RED;
-        break;
+    attackEnemyUnitIfAtToTile(from,to);
+    boolean attackUnitLost = !units.containsKey(from);
+    if (attackUnitLost) {
+      return false;
     }
-    playerTurnsTaken++;
-    if (playerTurnsTaken == numberOfPlayers) {
-      endOfRound();
+    boolean isEnemyCityAtToTile = cities.containsKey(to) && playerInTurn != getCityAt(to).getOwner();
+    if (isEnemyCityAtToTile) {
+      CityImpl city = (CityImpl) getCityAt(to);
+      city.changeOwner(playerInTurn);
     }
-  }
-
-  /**
-   * A method for changing the work force focus in the city
-   * @param cityPosition the position of the city whose focus
-   * should be changed.
-   * @param productionFocus a string defining the focus of the work
-   * force in a city. Valid values are at least
-   * GameConstants.productionFocus
-   */
-  public void changeWorkForceFocusInCityAt( Position cityPosition, String productionFocus ) {
-    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
-    if(playerOwnsCity) {
-      CityImpl city = (CityImpl) cities.get(cityPosition);
-      city.changeWorkForceFocus(productionFocus);
-    }
-  }
-
-  /**
-   * A Method for changing the production in a city
-   * @param cityPosition the position of the city
-   * @param unitType a string defining the type of unit that the city should produce
-   *                 valid units are GameConstants ARCHER,LEGION,SETTLER
-   */
-  public void changeProductionInCityAt( Position cityPosition, String unitType ) {
-    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
-    boolean isUnit = (unitType.equals(GameConstants.ARCHER) ||
-            unitType.equals(GameConstants.LEGION) ||
-            unitType.equals(GameConstants.SETTLER));
-
-    if(cities.containsKey(cityPosition)) {
-      if (playerOwnsCity && isUnit) {
-        CityImpl city = (CityImpl) getCityAt(cityPosition);
-        city.changeProduction(unitType);
-      }
-    }
-  }
-
-  public void performUnitActionAt( Position unitPosition ) {
-    performUnitActionStrategy.action(unitPosition, this);
-  }
-
-  /**
-   * A method that ends the round
-   * When a round ends, the move count of units are reset, the cities add and produce their production
-   * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
-   */
-  private void endOfRound() {
-    resetMoveCountForAllUnits();
-    produceProductionForAllCities();
-    age += ageStrategy.calculateAge(getAge());
-    playerTurnsTaken = 0;
+    makeActualMove(from, to);
     checkForWinner(this);
-  }
-
-  /**
-   * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
-   * @param cityPosition the position of the city
-   * @param city and the actual city object
-   */
-  private void createUnit(Position cityPosition, City city) {
-    // loop though the neighborhood of a city using the provided utility class
-    for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
-      String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
-      boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
-                                    !concreteTile.equals(GameConstants.OCEANS);
-
-      // if there is no unit at the city center place a unit here
-      if (getUnitAt(cityPosition) == null) {
-        units.put(cityPosition, new UnitImpl(city.getOwner(), city.getProduction()));
-        break;
-
-        // Otherwise, run through the neighborhood to find a legal spot to place the unit
-      } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
-        units.put(neighborhoodPosition, new UnitImpl(city.getOwner(), city.getProduction()));
-        break;
-      }
-    }
-  }
-
-  /**
-   * A helper method that moves a unit to a new position and
-   * removes the old pos from the hashmap of units
-   * @param from where the unit is
-   * @param to where the unit is going
-   */
-  private void makeActualMove(Position from, Position to) {
-    UnitImpl unit = (UnitImpl) getUnitAt(from);
-    units.put(to,unit);
-    units.remove(from);
-    unit.retractMoveCount();
+    return true;
   }
 
   /**
@@ -296,28 +233,68 @@ public class GameImpl implements Game {
     return true;
   }
 
+  private void attackEnemyUnitIfAtToTile(Position from, Position to) {
+    boolean isEnemyAtToTile = units.containsKey(to);
+    if (isEnemyAtToTile) {
+      boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
+      if (battleWon) {
+        units.remove(to);
+        winnerStrategy.incrementBattlesWonBy(playerInTurn);
+      } else {
+        units.remove(from);
+      }
+    }
+  }
+
   /**
-   * A helper method for moveUnit method, to check if the tile
-   * the unit is moving to is conquerable
-   * @param from Position the unit is moving from
-   * @param to Position the unit is moving to
+   * A helper method that moves a unit to a new position and
+   * removes the old pos from the hashmap of units
+   * @param from where the unit is
+   * @param to where the unit is going
    */
-  private void attackIfEnemyTile(Position from, Position to) {
-    // If attacking another unit, that unit is removed
-    boolean isAttackingUnit = units.containsKey(to);
-    if (isAttackingUnit) {
-      units.remove(to);
-    }
+  private void makeActualMove(Position from, Position to) {
+    UnitImpl unit = (UnitImpl) getUnitAt(from);
+    units.put(to,unit);
+    units.remove(from);
+    unit.retractMoveCount();
+  }
 
-    // If unit move into city, that is not the player in turns, the city is lost to the player in turn
-    boolean isCityAtToTile = cities.containsKey(to) && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
-    if (isCityAtToTile) {
-      CityImpl city = (CityImpl) getCityAt(to);
-      city.changeOwner(getUnitAt(from).getOwner());
+  //endregion
 
-      // Checks if the player in turn owns all the cities in the game
-      checkForWinner(this);
+  //region Methods for turn and round ending
+
+  /**
+   * A method for ending the turn of a player
+   * A switch case that alternates and assigns player in turn
+   * calls endOfRound() method after each player has a turn
+   */
+  public void endOfTurn() {
+    switch (playerInTurn) {
+      case RED:
+        playerInTurn = Player.BLUE;
+        break;
+      case BLUE:
+        playerInTurn = Player.RED;
+        break;
     }
+    playerTurnsTaken++;
+    if (playerTurnsTaken == numberOfPlayers) {
+      endOfRound();
+    }
+  }
+
+  /**
+   * A method that ends the round
+   * When a round ends, the move count of units are reset, the cities add and produce their production
+   * if there is enough treasure, and the age of the game processes. If the age reaches 3000 BC red player wins
+   */
+  private void endOfRound() {
+    resetMoveCountForAllUnits();
+    produceProductionForAllCities();
+    age += ageStrategy.calculateAge(getAge());
+    playerTurnsTaken = 0;
+    roundCounter++;
+    checkForWinner(this);
   }
 
   /**
@@ -363,13 +340,86 @@ public class GameImpl implements Game {
   }
 
   /**
+   * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
+   * @param cityPosition the position of the city
+   * @param city and the actual city object
+   */
+  private void createUnit(Position cityPosition, City city) {
+    // loop though the neighborhood of a city using the provided utility class
+    for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
+      String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
+      boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
+              !concreteTile.equals(GameConstants.OCEANS);
+
+      // if there is no unit at the city center place a unit here
+      if (getUnitAt(cityPosition) == null) {
+        units.put(cityPosition, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
+
+        // Otherwise, run through the neighborhood to find a legal spot to place the unit
+      } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
+        units.put(neighborhoodPosition, new UnitImpl(city.getOwner(), city.getProduction()));
+        break;
+      }
+    }
+  }
+
+  //endregion
+
+  //region City Production and Focus
+
+  /**
+   * A method for changing the work force focus in the city
+   * @param cityPosition the position of the city whose focus
+   * should be changed.
+   * @param productionFocus a string defining the focus of the work
+   * force in a city. Valid values are at least
+   * GameConstants.productionFocus
+   */
+  public void changeWorkForceFocusInCityAt( Position cityPosition, String productionFocus ) {
+    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
+    if(playerOwnsCity) {
+      CityImpl city = (CityImpl) cities.get(cityPosition);
+      city.changeWorkForceFocus(productionFocus);
+    }
+  }
+
+  /**
+   * A Method for changing the production in a city
+   * @param cityPosition the position of the city
+   * @param unitType a string defining the type of unit that the city should produce
+   *                 valid units are GameConstants ARCHER,LEGION,SETTLER
+   */
+  public void changeProductionInCityAt( Position cityPosition, String unitType ) {
+    boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
+    boolean isUnit = (unitType.equals(GameConstants.ARCHER) ||
+            unitType.equals(GameConstants.LEGION) ||
+            unitType.equals(GameConstants.SETTLER));
+
+    if(cities.containsKey(cityPosition)) {
+      if (playerOwnsCity && isUnit) {
+        CityImpl city = (CityImpl) getCityAt(cityPosition);
+        city.changeProduction(unitType);
+      }
+    }
+  }
+
+  //endregion
+
+  public void performUnitActionAt( Position unitPosition ) {
+    performUnitActionStrategy.action(unitPosition, this);
+  }
+
+  /**
    * A helper method to calculate winner depending on
    * which winnerStrategy is in use
    * @param game the actual game
    */
-  private void checkForWinner(Game game) {
+  public void checkForWinner(Game game) {
     winner = winnerStrategy.calculateWinner(game);
   }
+
+  //region MutatorMethods
 
   /**
    * A method for creating a city
@@ -387,4 +437,5 @@ public class GameImpl implements Game {
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
   }
+  //endregion
 }
