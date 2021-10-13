@@ -15,6 +15,19 @@ public class ThetaCivMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean isValidMove(Position from, Position to, Game game) {
-        return false;
+        String unit = game.getUnitAt(from).getTypeString();
+        switch (unit) {
+            case GameConstants.ARCHER:
+            case GameConstants.LEGION:
+            case GameConstants.SETTLER:
+                return alphaMove.isValidMove(from, to, game);
+            case GameConstants.SANDWORM:
+                boolean isDesert = game.getTileAt(to).getTypeString().equals(GameConstants.DESERT);
+                if (!isDesert) {
+                    return false;
+                }
+                return alphaMove.isValidMove(from, to, game);
+        }
+        return true;
     }
 }

@@ -4,6 +4,7 @@ import hotciv.framework.*;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
+import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.standard.factories.ThetaCivFactory;
 import hotciv.standard.factories.ZetaCivFactory;
@@ -139,7 +140,7 @@ public class TestThetaCiv {
         assertThat(game.getUnitAt(blueSandwormPos).getOwner(),is(Player.BLUE));
     }
 
-    /**
+
     @Test
     public void shouldBeInvalidMovementOnPlainTilesForSandworm() {
         // Given a game
@@ -147,9 +148,31 @@ public class TestThetaCiv {
         // Then the sandworm should not move
         game.endOfTurn();
         assertThat(game.moveUnit(blueSandwormPos, new Position(9,7)),is(false));
-    }*/
+    }
 
-    /**
+    @Test
+    public void shouldBeInvalidMovementOnHillTilesForSandworm() {
+        // Given a game
+        // When moving blue players sandworm on plain tile
+        // Then the sandworm should not move
+        GameImpl gameImpl = (GameImpl) game;
+        gameImpl.getWorldMap().put(new Position(9,7),new TileImpl( GameConstants.HILLS));
+        game.endOfTurn();
+        assertThat(game.moveUnit(blueSandwormPos, new Position(9,7)),is(false));
+    }
+
+    @Test
+    public void shouldBeInvalidMovementOnForestTilesForSandworm() {
+        // Given a game
+        // When moving blue players sandworm on plain tile
+        // Then the sandworm should not move
+        GameImpl gameImpl = (GameImpl) game;
+        gameImpl.getWorldMap().put(new Position(9,7),new TileImpl( GameConstants.FOREST));
+        game.endOfTurn();
+        assertThat(game.moveUnit(blueSandwormPos, new Position(9,7)),is(false));
+    }
+
+
     @Test
     public void shouldBeValidMovementOnDesertTilesForSandworm() {
         // Given a game
@@ -157,9 +180,9 @@ public class TestThetaCiv {
         // Then the sandworm should move
         game.endOfTurn();
         assertThat(game.moveUnit(blueSandwormPos, new Position(9,5)),is(true));
-    }*/
+    }
 
-    /**
+
     @Test
     public void shouldBeAbleToMoveOnlyTwoTimesEachTurnForSandworm() {
         // Given a game
@@ -169,8 +192,8 @@ public class TestThetaCiv {
         game.moveUnit(new Position(9,5), new Position(9,4));
         // Then the sandworm should not be able to move the third time
         assertThat(game.getUnitAt(new Position(9,4)).getTypeString(),is(GameConstants.SANDWORM));
-        assertThat(game.moveUnit(new Position(9,4), new Position(9,3)),is(false));
-    }*/
+        assertThat(game.moveUnit(new Position(9,4), new Position(9,3)), is(false));
+    }
 
 
     @Test

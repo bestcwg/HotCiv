@@ -4,6 +4,8 @@ import hotciv.framework.GameConstants;
 import hotciv.standard.strategies.LegalUnitsStrategy;
 
 public class ThetaCivLegalUnitStrategy implements LegalUnitsStrategy {
+    private LegalUnitsStrategy legalUnitsStrategy;
+
     @Override
     public boolean isLegalUnit(String unitType) {
         switch (unitType) {

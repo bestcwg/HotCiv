@@ -324,7 +324,7 @@ public class GameImpl implements Game {
     boolean playerOwnsCity = getPlayerInTurn() == cities.get(cityPosition).getOwner();
     boolean isUnit = (legalUnitsStrategy.isLegalUnit(unitType));
 
-    if(cities.containsKey(cityPosition)) {
+    if(cities.containsKey(cityPosition) && isUnit) {
       if (playerOwnsCity && isUnit) {
         CityImpl city = (CityImpl) getCityAt(cityPosition);
         city.changeProduction(unitType);
