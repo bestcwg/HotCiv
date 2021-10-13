@@ -329,6 +329,7 @@ public class GameImpl implements Game {
           case GameConstants.ARCHER:
           case GameConstants.LEGION:
           case GameConstants.SETTLER:
+          case GameConstants.SANDWORM:
             if (cityTreasury >= costOfUnit) {
               realCity.changeTreasury(-costOfUnit);
               createUnitStrategy.createUnit(cityEntry.getKey(), realCity, this);

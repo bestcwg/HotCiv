@@ -2,6 +2,7 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 
+import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.standard.factories.ThetaCivFactory;
@@ -19,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestThetaCiv {
     private Game game;
     private Position blueSandwormPos;
+    private Position redCityPos;
 
     /**
      * Fixture for zetaCiv testing.
@@ -27,6 +29,7 @@ public class TestThetaCiv {
     public void setUp() {
         game = new GameImpl(new ThetaCivFactory());
         blueSandwormPos = new Position(9,6);
+        redCityPos = new Position(8,12);
     }
 
 
@@ -159,8 +162,22 @@ public class TestThetaCiv {
         game.endOfTurn();
         game.moveUnit(blueSandwormPos, new Position(9,5));
         game.moveUnit(new Position(9,5), new Position(9,4));
+        // Then the sandworm should not be able to move the third time
         assertThat(game.getUnitAt(new Position(9,4)).getTypeString(),is(GameConstants.SANDWORM));
         assertThat(game.moveUnit(new Position(9,4), new Position(9,3)),is(false));
+    }
+
+    @Test
+    public void shouldBeAbleToOnlyProduceSandwormOnDesertTile() {
+        // Given a game
+        // When producing a sandworm in a city
+        game.changeWorkForceFocusInCityAt(redCityPos, GameConstants.SANDWORM);
+        assertThat(game.getCityAt(redCityPos).getWorkforceFocus(),is(GameConstants.SANDWORM));
+        doXEndOfTurn(12);
+        System.out.println(game.getCityAt(redCityPos).getTreasury());
+        assertThat(game.getUnitAt(redCityPos).getTypeString(),is(GameConstants.SANDWORM));
+        doXEndOfTurn(10);
+        assertThat(game.getUnitAt(new Position(7,12)),is(nullValue()));
     }
 
     /**

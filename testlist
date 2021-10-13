@@ -185,8 +185,8 @@ should implement sandworms correct
     can only move in desert tiles
         [OK]can move on desert
         [OK] cannot move on plain
-        cannot move on ocean
-        cannot move on mountain
+        [OK] cannot move on ocean
+        [OK] cannot move on mountain
         cannot move on forest
 
     [OK] can move "two times"

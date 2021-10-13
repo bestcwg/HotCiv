@@ -44,6 +44,6 @@ public class ThetaCivFactory implements CivFactory {
 
     @Override
     public CreateUnitStrategy createCreateUnitStrategy() {
-        return new ThetaCivCreateUnitStrategy();
+        return new ThetaCivCreateUnitStrategy(new AlphaCivCreateUnitStrategy());
     }
 }
