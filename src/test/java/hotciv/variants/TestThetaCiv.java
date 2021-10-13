@@ -112,6 +112,14 @@ public class TestThetaCiv {
         assertThat(game.getUnitAt(new Position(9,6)).getTypeString(), is(GameConstants.SANDWORM));
     }
 
+    @Test
+    public void shouldBeBluePlayersSandwormAt9_6() {
+        // Given a game
+        // When having a sandworm at (9,6)
+        // Then should be blue players sandworm
+        assertThat(game.getUnitAt(new Position(9,6)).getOwner(),is(Player.BLUE));
+    }
+
     /**
      * A helper method for passing turns to avoid code duplication,
      * and ease of use in test driven development
