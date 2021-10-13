@@ -8,9 +8,11 @@ import hotciv.standard.strategies.MoveStrategy;
 public class ThetaCivMoveStrategy implements MoveStrategy {
     @Override
     public boolean isValidMove(Position from, Position to, Game game) {
-        if (game.getTileAt(to).getTypeString().equals(GameConstants.DESERT)) {
-            return true;
+        boolean moveSandwormOnDessert = game.getUnitAt(from).getTypeString().equals(GameConstants.SANDWORM) &&
+                                        game.getTileAt(to).getTypeString().equals(GameConstants.DESERT);
+        if (!moveSandwormOnDessert) {
+            return false;
         }
-        return false;
+        return true;
     }
 }

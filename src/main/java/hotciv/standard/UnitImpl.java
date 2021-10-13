@@ -72,7 +72,8 @@ public class UnitImpl implements Unit {
     }
 
     /**
-     * A method for resetting the move count to 1
+     * A method for resetting the move count to the amount of moves
+     * the unit type has each turn
      */
     public void resetMoveCount() {
         moveCount = movesEachTurn;

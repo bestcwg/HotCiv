@@ -152,6 +152,17 @@ public class TestThetaCiv {
         assertThat(game.moveUnit(blueSandwormPos, new Position(9,5)),is(true));
     }
 
+    @Test
+    public void shouldBeAbleToMoveOnlyTwoTimesEachTurnForSandworm() {
+        // Given a game
+        // When moving a sandworm two times in the same turn
+        game.endOfTurn();
+        game.moveUnit(blueSandwormPos, new Position(9,5));
+        game.moveUnit(new Position(9,5), new Position(9,4));
+        assertThat(game.getUnitAt(new Position(9,4)).getTypeString(),is(GameConstants.SANDWORM));
+        assertThat(game.moveUnit(new Position(9,4), new Position(9,3)),is(false));
+    }
+
     /**
      * A helper method for passing turns to avoid code duplication,
      * and ease of use in test driven development
