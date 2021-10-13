@@ -43,6 +43,8 @@ public class GameConstants {
   public static final int[] LEGION_ATTACK_AND_DEFENCE = {4,2};
   public static final String SETTLER   = "settler";
   public static final int[] SETTLER_ATTACK_AND_DEFENCE = {0,3};
+  public static final String SANDWORM = "sandworm";
+  public static final int[] SANDWORM_ATTACK_AND_DEFENCE = {0,10};
   public static final int MOVECOUNT = 1;
   // Valid terrain types
   public static final String PLAINS    = "plains";
@@ -55,6 +57,8 @@ public class GameConstants {
   public static final int[] HILLS_FOOD_AND_PRODUCTION = {0,2};
   public static final String MOUNTAINS = "mountain";
   public static final int[] MOUNTAIN_FOOD_AND_PRODUCTION = {0,1};
+  public static final String DESERT = "desert";
+  public static final int[] DESERT_FOOD_AND_PRODUCTION = {0,1};
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
@@ -66,6 +70,7 @@ public class GameConstants {
     cost.put(ARCHER, 10);
     cost.put(LEGION, 15);
     cost.put(SETTLER, 30);
+    cost.put(SANDWORM, 30);
     unitCost = cost;
   }
 }
