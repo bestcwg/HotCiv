@@ -175,7 +175,7 @@ Should set up the world correct
     [OK] should be deserts
     [OK] deserts has 0 food and 0 production (unit test in tiles)
     [OK] should be a sandworm at 9,6
-    should be a blue sandworm
+    [OK] should be a blue sandworm
 
 should produce sandworms correct
     Should only be able to produce a sandworm on a sandtile

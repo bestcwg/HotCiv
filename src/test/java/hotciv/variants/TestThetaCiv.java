@@ -18,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestThetaCiv {
     private Game game;
+    private Position blueSandwormPos;
 
     /**
      * Fixture for zetaCiv testing.
@@ -25,6 +26,7 @@ public class TestThetaCiv {
     @BeforeEach
     public void setUp() {
         game = new GameImpl(new ThetaCivFactory());
+        blueSandwormPos = new Position(9,6);
     }
 
 
@@ -121,7 +123,7 @@ public class TestThetaCiv {
         // Given a game
         // When having a world
         // Then should be a sandworm at (9,6)
-        assertThat(game.getUnitAt(new Position(9,6)).getTypeString(), is(GameConstants.SANDWORM));
+        assertThat(game.getUnitAt(blueSandwormPos).getTypeString(), is(GameConstants.SANDWORM));
     }
 
     @Test
@@ -129,7 +131,25 @@ public class TestThetaCiv {
         // Given a game
         // When having a sandworm at (9,6)
         // Then should be blue players sandworm
-        assertThat(game.getUnitAt(new Position(9,6)).getOwner(),is(Player.BLUE));
+        assertThat(game.getUnitAt(blueSandwormPos).getOwner(),is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldBeInvalidMovementOnPlainTilesForSandworm() {
+        // Given a game
+        // When moving blue players sandworm on plain tile
+        // Then the sandworm should not move
+        game.endOfTurn();
+        assertThat(game.moveUnit(blueSandwormPos, new Position(9,7)),is(false));
+    }
+
+    @Test
+    public void shouldBeValidMovementOnDesertTilesForSandworm() {
+        // Given a game
+        // When moving blue players sandworm on desert tile
+        // Then the sandworm should move
+        game.endOfTurn();
+        assertThat(game.moveUnit(blueSandwormPos, new Position(9,5)),is(true));
     }
 
     /**
