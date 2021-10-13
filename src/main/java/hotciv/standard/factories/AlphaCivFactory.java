@@ -34,4 +34,14 @@ public class AlphaCivFactory implements CivFactory {
     public MoveStrategy createMoveStrategy() {
         return new AlphaCivMoveStrategy();
     }
+
+    @Override
+    public LegalUnitsStrategy createLegalUnitStrategy() {
+        return new AlphaCivLegalUnitStrategy();
+    }
+
+    @Override
+    public CreateUnitStrategy createCreateUnitStrategy() {
+        return new AlphaCivCreateUnitStrategy();
+    }
 }

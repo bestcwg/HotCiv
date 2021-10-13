@@ -39,4 +39,16 @@ public interface CivFactory {
      * @return the move strategy for the chosen factory
      */
     MoveStrategy createMoveStrategy();
+
+    /**
+     * A factory method for setting the legal units of a game
+     * @return the legal units' strategy for the chosen factory
+     */
+    LegalUnitsStrategy createLegalUnitStrategy();
+
+    /**
+     * A factory method for setting the create unit strategy of the game
+     * @return the create unit strategy for the chosen factory
+     */
+    CreateUnitStrategy createCreateUnitStrategy();
 }

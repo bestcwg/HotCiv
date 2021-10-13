@@ -2,10 +2,7 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
-import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
-import hotciv.variants.alphaCiv.AlphaCivMoveStrategy;
-import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.alphaCiv.*;
 import hotciv.variants.epsilonCiv.EpsilonCivAttackingStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
 
@@ -44,5 +41,15 @@ public class EpsilonCivFactory implements CivFactory {
     @Override
     public MoveStrategy createMoveStrategy() {
         return new AlphaCivMoveStrategy();
+    }
+
+    @Override
+    public LegalUnitsStrategy createLegalUnitStrategy() {
+        return new AlphaCivLegalUnitStrategy();
+    }
+
+    @Override
+    public CreateUnitStrategy createCreateUnitStrategy() {
+        return new AlphaCivCreateUnitStrategy();
     }
 }

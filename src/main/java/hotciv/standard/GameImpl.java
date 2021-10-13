@@ -49,6 +49,8 @@ public class GameImpl implements Game {
   private WorldLayoutStrategy worldLayoutStrategy;
   private AttackingStrategy attackingStrategy;
   private MoveStrategy moveStrategy;
+  private LegalUnitsStrategy legalUnitsStrategy;
+  private CreateUnitStrategy createUnitStrategy;
   private int roundCounter;
 
   /**
@@ -68,6 +70,9 @@ public class GameImpl implements Game {
     worldLayoutStrategy = civFactory.createWorldLayoutStrategy();
     attackingStrategy = civFactory.createAttackStrategy();
     moveStrategy = civFactory.createMoveStrategy();
+    legalUnitsStrategy = civFactory.createLegalUnitStrategy();
+    createUnitStrategy = civFactory.createCreateUnitStrategy();
+
 
     worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
@@ -182,7 +187,6 @@ public class GameImpl implements Game {
     return true;
   }
 
-
   private void attackEnemyUnitIfAtToTile(Position from, Position to) {
     boolean isEnemyAtToTile = units.containsKey(to);
     if (isEnemyAtToTile) {
@@ -271,7 +275,7 @@ public class GameImpl implements Game {
       int cityTreasury = realCity.getTreasury();
 
       // a measure to make sure tests without a production focus doesn't produce null pointer exceptions
-      if (realCity.getProduction() != null) {
+      if (realCity.getProduction() != null && legalUnitsStrategy.isLegalUnit(realCity.getProduction())) {
         String cityProduction = realCity.getProduction();
         int costOfUnit = GameConstants.unitCost.get(cityProduction);
 
@@ -281,35 +285,10 @@ public class GameImpl implements Game {
           case GameConstants.SETTLER:
             if (cityTreasury >= costOfUnit) {
               realCity.changeTreasury(-costOfUnit);
-              createUnit(cityEntry.getKey(), realCity);
+              createUnitStrategy.createUnit(cityEntry.getKey(), realCity, this);
             }
             break;
         }
-      }
-    }
-  }
-
-  /**
-   * A helper method for handling unit creation. A unit is created in or around the city based on if the tile is empty or not
-   * @param cityPosition the position of the city
-   * @param city and the actual city object
-   */
-  private void createUnit(Position cityPosition, City city) {
-    // loop though the neighborhood of a city using the provided utility class
-    for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
-      String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
-      boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
-              !concreteTile.equals(GameConstants.OCEANS);
-
-      // if there is no unit at the city center place a unit here
-      if (getUnitAt(cityPosition) == null) {
-        units.put(cityPosition, new UnitImpl(city.getOwner(), city.getProduction()));
-        break;
-
-        // Otherwise, run through the neighborhood to find a legal spot to place the unit
-      } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
-        units.put(neighborhoodPosition, new UnitImpl(city.getOwner(), city.getProduction()));
-        break;
       }
     }
   }

@@ -2,6 +2,8 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
+import hotciv.variants.alphaCiv.AlphaCivCreateUnitStrategy;
+import hotciv.variants.alphaCiv.AlphaCivLegalUnitStrategy;
 import hotciv.variants.alphaCiv.AlphaCivMoveStrategy;
 import hotciv.variants.betaCiv.BetaCivAgeStrategy;
 import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
@@ -44,5 +46,15 @@ public class SemiCivFactory implements CivFactory {
     @Override
     public MoveStrategy createMoveStrategy() {
         return new AlphaCivMoveStrategy();
+    }
+
+    @Override
+    public LegalUnitsStrategy createLegalUnitStrategy() {
+        return new AlphaCivLegalUnitStrategy();
+    }
+
+    @Override
+    public CreateUnitStrategy createCreateUnitStrategy() {
+        return new AlphaCivCreateUnitStrategy();
     }
 }
