@@ -174,7 +174,7 @@ Testcases for ThetaCiv
 Should set up the world correct
     should be deserts
     [OK] deserts has 0 food and 0 production (unit test in tiles)
-    should be a sandworm at 9,6
+    [OK] should be a sandworm at 9,6
     should be a blue sandworm
 
 should produce sandworms correct
