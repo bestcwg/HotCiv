@@ -9,6 +9,7 @@ public class UnitImpl implements Unit {
     private final String unitType;
     private int attackingStrength;
     private int defensiveStrength;
+    private int movesEachTurn;
     private int moveCount;
     private boolean moveAble;
 
@@ -22,24 +23,29 @@ public class UnitImpl implements Unit {
         moveAble = true;
         this.owner = owner;
         this.unitType = unitType;
-        moveCount = GameConstants.MOVECOUNT;
         switch (unitType) {
             case GameConstants.ARCHER:
                 attackingStrength = GameConstants.ARCHER_ATTACK_AND_DEFENCE[0];
                 defensiveStrength = GameConstants.ARCHER_ATTACK_AND_DEFENCE[1];
+                movesEachTurn = GameConstants.ARCHER_MOVECOUNT;
                 break;
             case GameConstants.LEGION:
                 attackingStrength = GameConstants.LEGION_ATTACK_AND_DEFENCE[0];
                 defensiveStrength = GameConstants.LEGION_ATTACK_AND_DEFENCE[1];
+                movesEachTurn = GameConstants.LEGION_MOVECOUNT;
                 break;
             case GameConstants.SETTLER:
                 attackingStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[0];
                 defensiveStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[1];
+                movesEachTurn = GameConstants.SETTLER_MOVECOUNT;
                 break;
             case GameConstants.SANDWORM:
                 attackingStrength = GameConstants.SANDWORM_ATTACK_AND_DEFENCE[0];
                 defensiveStrength = GameConstants.SANDWORM_ATTACK_AND_DEFENCE[1];
+                movesEachTurn = GameConstants.SANDWORM_MOVECOUNT;
+                break;
         }
+        moveCount = movesEachTurn;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class UnitImpl implements Unit {
      * A method for resetting the move count to 1
      */
     public void resetMoveCount() {
-        moveCount = GameConstants.MOVECOUNT;
+        moveCount = movesEachTurn;
     }
 
     /**
