@@ -17,7 +17,7 @@ public class AlphaCivCreateUnitStrategy implements CreateUnitStrategy {
         for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
             String concreteTile = game.getTileAt(neighborhoodPosition).getTypeString();
             boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
-                    !concreteTile.equals(GameConstants.OCEANS);
+                                          !concreteTile.equals(GameConstants.OCEANS);
 
             // if there is no unit at the city center place a unit here
             if (game.getUnitAt(cityPosition) == null) {

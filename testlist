@@ -178,8 +178,8 @@ Should set up the world correct
     [OK] should be a blue sandworm
 
 should produce sandworms correct
-    Should only be able to produce a sandworm on a sandtile
-    sandworm should cost 30 production
+    [OK]Should only be able to produce a sandworm on a sandtile
+     sandworm should cost 30 production
 
 should implement sandworms correct
     can only move in desert tiles
@@ -189,8 +189,8 @@ should implement sandworms correct
         [OK] cannot move on mountain
         cannot move on forest
 
-    [OK] can move "two times"
-    [OK] should have devour ability
+     can move "two times"
+     should have devour ability
     [OK] devour kills all soundrounding enemy units
     [OK] doesnt kill frindly units
     [OK] Has 0 attack and 10 defence

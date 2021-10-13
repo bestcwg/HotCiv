@@ -4,15 +4,17 @@ import hotciv.framework.Game;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
 import hotciv.standard.strategies.MoveStrategy;
+import hotciv.variants.alphaCiv.AlphaCivMoveStrategy;
 
 public class ThetaCivMoveStrategy implements MoveStrategy {
+    private final AlphaCivMoveStrategy alphaMove;
+
+    public ThetaCivMoveStrategy(AlphaCivMoveStrategy alphaCivMoveStrategy) {
+        this.alphaMove = alphaCivMoveStrategy;
+    }
+
     @Override
     public boolean isValidMove(Position from, Position to, Game game) {
-        boolean moveSandwormOnDessert = game.getUnitAt(from).getTypeString().equals(GameConstants.SANDWORM) &&
-                                        game.getTileAt(to).getTypeString().equals(GameConstants.DESERT);
-        if (!moveSandwormOnDessert) {
-            return false;
-        }
-        return true;
+        return false;
     }
 }
