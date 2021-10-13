@@ -168,3 +168,23 @@ Testcases for ZetaCiv
 [OK] A player should not win if they capture all cities before round 20
 [OK] A player should win if they win 3 battles after round 20
 [OK] A player should not win if they win 3 battles before round 20
+
+Testcases for ThetaCiv
+
+Should set up the world correct
+    should be deserts
+    [OK] deserts has 0 food and 0 production (unit test in tiles)
+    should be a sandworm at 9,6
+    should be a blue sandworm
+
+should produce sandworms correct
+    Should only be able to produce a sandworm on a sandtile
+    sandworm should cost 30 production
+
+should implement sandworms correct
+    can only move in desert tiles
+    can move "two times"
+    [OK]should have devour ability
+    [OK]devour kills all soundrounding enemy units
+    [OK]doesnt kill frindly units
+    Has 0 attack and 10 defence

@@ -9,7 +9,6 @@ import hotciv.standard.strategies.WorldLayoutStrategy;
 import java.util.HashMap;
 
 public class DeltaCivWorldLayoutStrategy implements WorldLayoutStrategy {
-    private HashMap<Position, Tile> worldLayout;
     private HashMap<Position, City> citiesLayout;
     private HashMap<Position, Unit> unitsLayout;
     @Override

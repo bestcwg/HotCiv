@@ -2,45 +2,48 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
+import hotciv.variants.alphaCiv.*;
+import hotciv.variants.gammaCiv.GammaCivPerformUnitActionStrategy;
+import hotciv.variants.thetaCiv.*;
 
 public class ThetaCivFactory implements CivFactory {
     @Override
     public PerformUnitActionStrategy createUnitActionStrategy() {
-        return null;
+        return new ThetaCivPerformUnitActionStrategy(new GammaCivPerformUnitActionStrategy());
     }
 
     @Override
     public AgeStrategy createAgeStrategy() {
-        return null;
+        return new AlphaCivAgeStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackStrategy() {
-        return null;
+        return new AlphaCivAttackingStrategy();
     }
 
     @Override
     public WinnerStrategy createWinnerStrategy() {
-        return null;
+        return new AlphaCivWinnerStrategy();
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return null;
+        return new ThetaCivWorldLayoutStrategy();
     }
 
     @Override
     public MoveStrategy createMoveStrategy() {
-        return null;
+        return new ThetaCivMoveStrategy();
     }
 
     @Override
     public LegalUnitsStrategy createLegalUnitStrategy() {
-        return null;
+        return new ThetaCivLegalUnitStrategy();
     }
 
     @Override
     public CreateUnitStrategy createCreateUnitStrategy() {
-        return null;
+        return new ThetaCivCreateUnitStrategy();
     }
 }

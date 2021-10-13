@@ -1,10 +1,19 @@
 package hotciv.variants.thetaCiv;
 
+import hotciv.framework.GameConstants;
 import hotciv.standard.strategies.LegalUnitsStrategy;
 
 public class ThetaCivLegalUnitStrategy implements LegalUnitsStrategy {
     @Override
     public boolean isLegalUnit(String unitType) {
-        return false;
+        switch (unitType) {
+            case GameConstants.ARCHER:
+            case GameConstants.LEGION:
+            case GameConstants.SETTLER:
+            case GameConstants.SANDWORM:
+                return true;
+            default:
+                return false;
+        }
     }
 }
