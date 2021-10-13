@@ -29,4 +29,9 @@ public class AlphaCivFactory implements CivFactory {
     public WorldLayoutStrategy createWorldLayoutStrategy() {
         return new AlphaCivWorldLayoutStrategy();
     }
+
+    @Override
+    public MoveStrategy createMoveStrategy() {
+        return new AlphaCivMoveStrategy();
+    }
 }

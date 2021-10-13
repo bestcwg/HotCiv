@@ -2,28 +2,28 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
-import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
 import hotciv.variants.alphaCiv.AlphaCivMoveStrategy;
-import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.betaCiv.BetaCivAgeStrategy;
+import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivAttackingStrategy;
 import hotciv.variants.epsilonCiv.EpsilonCivWinnerStrategy;
+import hotciv.variants.gammaCiv.GammaCivPerformUnitActionStrategy;
 
-public class EpsilonCivFactory implements CivFactory {
+public class SemiCivFactory implements CivFactory {
     private final RollStrategy rollStrategy;
 
-    public EpsilonCivFactory(RollStrategy rollStrategy) {
+    public SemiCivFactory(RollStrategy rollStrategy) {
         this.rollStrategy = rollStrategy;
     }
 
     @Override
     public PerformUnitActionStrategy createUnitActionStrategy() {
-        return new AlphaCivPerformUnitActionStrategy();
+        return new GammaCivPerformUnitActionStrategy();
     }
 
     @Override
     public AgeStrategy createAgeStrategy() {
-        return new AlphaCivAgeStrategy();
+        return new BetaCivAgeStrategy();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class EpsilonCivFactory implements CivFactory {
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return new AlphaCivWorldLayoutStrategy();
+        return new DeltaCivWorldLayoutStrategy();
     }
 
     @Override

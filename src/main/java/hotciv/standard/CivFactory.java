@@ -33,4 +33,10 @@ public interface CivFactory {
      * @return the world layout strategy for the chosen factory
      */
     WorldLayoutStrategy createWorldLayoutStrategy();
+
+    /**
+     * A factory method for setting the move stategy for the game
+     * @return the move strategy for the chosen factory
+     */
+    MoveStrategy createMoveStrategy();
 }

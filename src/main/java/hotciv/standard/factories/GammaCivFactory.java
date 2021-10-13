@@ -2,10 +2,7 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
-import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
-import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWinnerStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.alphaCiv.*;
 import hotciv.variants.gammaCiv.GammaCivPerformUnitActionStrategy;
 
 public class GammaCivFactory implements CivFactory {
@@ -32,5 +29,10 @@ public class GammaCivFactory implements CivFactory {
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
         return new AlphaCivWorldLayoutStrategy();
+    }
+
+    @Override
+    public MoveStrategy createMoveStrategy() {
+        return new AlphaCivMoveStrategy();
     }
 }

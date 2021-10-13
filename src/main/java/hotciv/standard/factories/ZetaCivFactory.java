@@ -2,10 +2,7 @@ package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
-import hotciv.variants.alphaCiv.AlphaCivAgeStrategy;
-import hotciv.variants.alphaCiv.AlphaCivAttackingStrategy;
-import hotciv.variants.alphaCiv.AlphaCivPerformUnitActionStrategy;
-import hotciv.variants.alphaCiv.AlphaCivWorldLayoutStrategy;
+import hotciv.variants.alphaCiv.*;
 import hotciv.variants.zetaCiv.ZetaCivWinnerStrategy;
 
 public class ZetaCivFactory implements CivFactory {
@@ -40,5 +37,10 @@ public class ZetaCivFactory implements CivFactory {
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
         return new AlphaCivWorldLayoutStrategy();
+    }
+
+    @Override
+    public MoveStrategy createMoveStrategy() {
+        return new AlphaCivMoveStrategy();
     }
 }

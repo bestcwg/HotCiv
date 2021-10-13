@@ -48,6 +48,7 @@ public class GameImpl implements Game {
   private PerformUnitActionStrategy performUnitActionStrategy;
   private WorldLayoutStrategy worldLayoutStrategy;
   private AttackingStrategy attackingStrategy;
+  private MoveStrategy moveStrategy;
   private int roundCounter;
 
   /**
@@ -66,6 +67,7 @@ public class GameImpl implements Game {
     performUnitActionStrategy = civFactory.createUnitActionStrategy();
     worldLayoutStrategy = civFactory.createWorldLayoutStrategy();
     attackingStrategy = civFactory.createAttackStrategy();
+    moveStrategy = civFactory.createMoveStrategy();
 
     worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
@@ -162,7 +164,7 @@ public class GameImpl implements Game {
    * @return a boolean value, false if the move failed and true if it succeeds
    */
   public boolean moveUnit( Position from, Position to ) {
-    if (!isMoveValid(from, to)) {
+    if (!moveStrategy.isValidMove(from, to, this)) {
       return false;
     }
     attackEnemyUnitIfAtToTile(from,to);
@@ -180,58 +182,6 @@ public class GameImpl implements Game {
     return true;
   }
 
-  /**
-   * A helper method for moveUnit to check for there exist a unit
-   * at the form position, if the unit is moveable, the distance
-   * that the unit is allowed to move, it is not stacking on another
-   * unit and if the tile it is moving to is passable
-   * @param from Position the unit is moving from
-   * @param to Position the unit is moving to
-   * @return A boolean depending on if the move was successful
-   */
-  private boolean isMoveValid(Position from, Position to) {
-    UnitImpl unitImpl = (UnitImpl) getUnitAt(from);
-
-    // Checks if there is a unit at the position moving from
-    boolean existUnitOnFromTile = units.containsKey(from);
-    if (!existUnitOnFromTile) {
-      return false;
-    }
-
-    // Check if is the player in turns unit
-    boolean isOwnUnit = getUnitAt(from).getOwner() == getPlayerInTurn();
-    if (!isOwnUnit) {
-      return false;
-    }
-
-    // Checks if unit is moveable by move count and if it is moveable in its current state
-    boolean unitIsMoveable = getUnitAt(from).getMoveCount() >= 1 && unitImpl.isMoveable();
-    if (!unitIsMoveable) {
-      return false;
-    }
-
-    // Makes sure that the unit cannot move more than one tile at a time
-    boolean moveDistanceIsLessOrEqualOne = Math.abs(from.getColumn() - to.getColumn()) <= 1 &&
-            Math.abs(from.getRow() - to.getRow()) <= 1;
-    if (!moveDistanceIsLessOrEqualOne) {
-      return false;
-    }
-
-    // Checks that the unit don't move on unpassable tiles
-    boolean isNotPassableTile = getTileAt(to).getTypeString().equals(GameConstants.MOUNTAINS) ||
-            getTileAt(to).getTypeString().equals(GameConstants.OCEANS);
-    if (isNotPassableTile) {
-      return false;
-    }
-
-    // Checks for unit at to position, with same owner as player in turn, so units cannot stack on each other
-    boolean isStackingUnit = getUnitAt(to) != null && getUnitAt(from).getOwner() == getUnitAt(to).getOwner();
-    if (isStackingUnit) {
-      return false;
-    }
-
-    return true;
-  }
 
   private void attackEnemyUnitIfAtToTile(Position from, Position to) {
     boolean isEnemyAtToTile = units.containsKey(to);
