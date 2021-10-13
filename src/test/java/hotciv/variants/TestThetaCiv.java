@@ -105,6 +105,18 @@ public class TestThetaCiv {
     }
 
     @Test
+    public void shouldBeDesertsAroundTheWorld() {
+        Position desert1 = new Position(8,12);
+        Position desert2 = new Position(15,8);
+        Position desert3 = new Position(9,9);
+        Position desert4 = new Position(9,12);
+        assertThat(game.getTileAt(desert1).getTypeString(), is(GameConstants.DESERT));
+        assertThat(game.getTileAt(desert2).getTypeString(), is(GameConstants.DESERT));
+        assertThat(game.getTileAt(desert3).getTypeString(), is(GameConstants.DESERT));
+        assertThat(game.getTileAt(desert4).getTypeString(), is(GameConstants.DESERT));
+    }
+
+    @Test
     public void shouldBeSandwormAt9_6() {
         // Given a game
         // When having a world
