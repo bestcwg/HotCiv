@@ -36,6 +36,9 @@ public class UnitImpl implements Unit {
                 attackingStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[0];
                 defensiveStrength = GameConstants.SETTLER_ATTACK_AND_DEFENCE[1];
                 break;
+            case GameConstants.SANDWORM:
+                attackingStrength = GameConstants.SANDWORM_ATTACK_AND_DEFENCE[0];
+                defensiveStrength = GameConstants.SANDWORM_ATTACK_AND_DEFENCE[1];
         }
     }
 

@@ -58,7 +58,7 @@ public class GameConstants {
   public static final String MOUNTAINS = "mountain";
   public static final int[] MOUNTAIN_FOOD_AND_PRODUCTION = {0,1};
   public static final String DESERT = "desert";
-  public static final int[] DESERT_FOOD_AND_PRODUCTION = {0,1};
+  public static final int[] DESERT_FOOD_AND_PRODUCTION = {0,0};
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
