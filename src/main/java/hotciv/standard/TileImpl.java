@@ -35,6 +35,9 @@ public class TileImpl implements Tile {
                 foodProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[0];
                 productionProduce = GameConstants.PLAINS_FOOD_AND_PRODUCTION[1];
                 break;
+            case GameConstants.DESERT:
+                foodProduce = GameConstants.DESERT_FOOD_AND_PRODUCTION[0];
+                productionProduce = GameConstants.DESERT_FOOD_AND_PRODUCTION[1];
         }
     }
 
