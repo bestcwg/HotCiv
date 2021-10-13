@@ -171,25 +171,25 @@ Testcases for ZetaCiv
 
 Testcases for ThetaCiv
 
-Should set up the world correct
+[OK]Should set up the world correct
     [OK] should be deserts
     [OK] deserts has 0 food and 0 production (unit test in tiles)
     [OK] should be a sandworm at 9,6
     [OK] should be a blue sandworm
 
-should produce sandworms correct
+[OK]should produce sandworms correct
     [OK] Should only be able to produce a sandworm on a sandtile
     [OK] Should only be able to produce on a city if city is desert city
     [OK] sandworm should cost 30 production
 
-should implement sandworms correct
-    can only move in desert tiles
-        [OK]can move on desert
+[OK]should implement sandworms correct
+    [OK] can only move in desert tiles
+        [OK] can move on desert
         [OK] cannot move on plain
-        cannot move on forest
-        cannot move on hill
+        [OK] cannot move on forest
+        [OK] cannot move on hill
 
-     can move "two times"
+    [OK] can move "two times"
     [OK] should have devour ability
     [OK] devour kills all soundrounding enemy units
     [OK] doesnt kill frindly units

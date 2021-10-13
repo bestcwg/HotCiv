@@ -38,7 +38,8 @@ public class TestThetaCiv {
 
     @Test
     public void shouldDevourAllEnemiesInNeighborhoodTiles() {
-
+        // Given a game of Theta Civ
+        // When a sandworm uses its ability
         GameImpl gameImpl = (GameImpl) game;
         Position redUnit = new Position(8, 8);
         Position blueUnit1 = new Position(8, 9);
@@ -54,7 +55,7 @@ public class TestThetaCiv {
         gameImpl.getUnits().put(blueUnit4, new UnitImpl(Player.BLUE, GameConstants.LEGION));
         gameImpl.getUnits().put(blueUnit5, new UnitImpl(Player.BLUE, GameConstants.LEGION));
 
-
+        // Then it should kill all surrounding enemies
         game.performUnitActionAt(redUnit);
         assertThat(game.getUnitAt(redUnit).getTypeString(), is(GameConstants.SANDWORM));
         assertThat(game.getUnitAt(blueUnit1), is(nullValue()));
@@ -66,7 +67,8 @@ public class TestThetaCiv {
 
     @Test
     public void shouldNotDevourFriendliesInNeighborhoodTiles() {
-
+        // Given a game of ThetaCiv
+        // When a sandworm uses it action
         GameImpl gameImpl = (GameImpl) game;
         Position redUnit = new Position(8, 8);
         Position blueUnit1 = new Position(8, 9);
@@ -82,7 +84,7 @@ public class TestThetaCiv {
         gameImpl.getUnits().put(redUnit2, new UnitImpl(Player.RED, GameConstants.LEGION));
         gameImpl.getUnits().put(redUnit3, new UnitImpl(Player.RED, GameConstants.LEGION));
 
-
+        // Then it should not kill surrounding friendly units
         game.performUnitActionAt(redUnit);
         assertThat(game.getUnitAt(redUnit).getTypeString(), is(GameConstants.SANDWORM));
         assertThat(game.getUnitAt(blueUnit1), is(nullValue()));
@@ -94,7 +96,7 @@ public class TestThetaCiv {
 
     @Test
     public void shouldBeAbleToFortifyAsArcher() {
-        // Given a game with GammaCivPerformUnitActionStrategy
+        // Given a game with ThetaCiv
         // When perform unit action on archer
         Position archer = new Position(3,8);
         assertThat(game.getUnitAt(archer).getTypeString(), is(GameConstants.ARCHER));
@@ -106,18 +108,24 @@ public class TestThetaCiv {
 
     @Test
     public void shouldBePlacedACityIfSettlerPerformUnitAction() {
+        // Given a game of ThetaCiv
+        // When a settler uses its action
         Position settlerPos = new Position(5,5);
         game.performUnitActionAt(settlerPos);
+        // Then a new city should be created
         assertThat(game.getCityAt(settlerPos),is(notNullValue()));
         assertThat(game.getUnitAt(settlerPos), is(nullValue()));
     }
 
     @Test
     public void shouldBeDesertsAroundTheWorld() {
+        // Given a game of ThetaCiv
+        // When the world is created
         Position desert1 = new Position(8,12);
         Position desert2 = new Position(15,8);
         Position desert3 = new Position(9,9);
         Position desert4 = new Position(9,12);
+        // Then there should be desert tiles
         assertThat(game.getTileAt(desert1).getTypeString(), is(GameConstants.DESERT));
         assertThat(game.getTileAt(desert2).getTypeString(), is(GameConstants.DESERT));
         assertThat(game.getTileAt(desert3).getTypeString(), is(GameConstants.DESERT));
@@ -153,7 +161,7 @@ public class TestThetaCiv {
     @Test
     public void shouldBeInvalidMovementOnHillTilesForSandworm() {
         // Given a game
-        // When moving blue players sandworm on plain tile
+        // When moving blue players sandworm on hill tile
         // Then the sandworm should not move
         GameImpl gameImpl = (GameImpl) game;
         gameImpl.getWorldMap().put(new Position(9,7),new TileImpl( GameConstants.HILLS));
@@ -164,7 +172,7 @@ public class TestThetaCiv {
     @Test
     public void shouldBeInvalidMovementOnForestTilesForSandworm() {
         // Given a game
-        // When moving blue players sandworm on plain tile
+        // When moving blue players sandworm on forest tile
         // Then the sandworm should not move
         GameImpl gameImpl = (GameImpl) game;
         gameImpl.getWorldMap().put(new Position(9,7),new TileImpl( GameConstants.FOREST));
@@ -201,6 +209,7 @@ public class TestThetaCiv {
         // Given a game
         // When producing a sandworm in a city
         game.changeProductionInCityAt(redCityPos, GameConstants.SANDWORM);
+        // Then it should spawn in a desert
         assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.SANDWORM));
         doXEndOfTurn(12);
         assertThat(game.getUnitAt(redCityPos).getTypeString(),is(GameConstants.SANDWORM));
@@ -214,6 +223,7 @@ public class TestThetaCiv {
         // Given a game
         // When producing a sandworm in a city
         doXEndOfTurn(1);
+        // Then it should not spawn on a non desert city
         game.changeProductionInCityAt(blueCityPos, GameConstants.SANDWORM);
         assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.SANDWORM));
         doXEndOfTurn(12);
@@ -225,6 +235,7 @@ public class TestThetaCiv {
         // Given a game
         // When producing a sandworm in a city
         game.changeProductionInCityAt(redCityPos, GameConstants.SANDWORM);
+        // Then it should cost 30 production
         assertThat(game.getCityAt(redCityPos).getTreasury(), is(0));
         assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.SANDWORM));
         doXEndOfTurn(8);
