@@ -3,11 +3,13 @@ package hotciv.standard.factories;
 import hotciv.standard.CivFactory;
 import hotciv.standard.strategies.*;
 import hotciv.variants.alphaCiv.*;
+import hotciv.variants.gammaCiv.GammaCivPerformUnitActionStrategy;
+import hotciv.variants.thetaCiv.*;
 
-public class AlphaCivFactory implements CivFactory {
+public class ThetaCivFactory implements CivFactory {
     @Override
     public PerformUnitActionStrategy createUnitActionStrategy() {
-        return new AlphaCivPerformUnitActionStrategy();
+        return new ThetaCivPerformUnitActionStrategy(new GammaCivPerformUnitActionStrategy());
     }
 
     @Override
@@ -27,21 +29,21 @@ public class AlphaCivFactory implements CivFactory {
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return new AlphaCivWorldLayoutStrategy();
+        return new ThetaCivWorldLayoutStrategy();
     }
 
     @Override
     public MoveStrategy createMoveStrategy() {
-        return new AlphaCivMoveStrategy();
+        return new ThetaCivMoveStrategy(new AlphaCivMoveStrategy());
     }
 
     @Override
     public LegalUnitsStrategy createLegalUnitStrategy() {
-        return new AlphaCivLegalUnitStrategy();
+        return new ThetaCivLegalUnitStrategy();
     }
 
     @Override
     public CreateUnitStrategy createCreateUnitStrategy() {
-        return new AlphaCivCreateUnitStrategy();
+        return new ThetaCivCreateUnitStrategy(new AlphaCivCreateUnitStrategy());
     }
 }

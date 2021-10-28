@@ -16,6 +16,7 @@ public class TestTileImpl {
     TileImpl hill;
     TileImpl forrest;
     TileImpl ocean;
+    TileImpl desert;
 
     @BeforeEach
     public void setUp() {
@@ -24,6 +25,7 @@ public class TestTileImpl {
         hill = new TileImpl(GameConstants.HILLS);
         forrest = new TileImpl(GameConstants.FOREST);
         ocean = new TileImpl(GameConstants.OCEANS);
+        desert = new TileImpl(GameConstants.DESERT);
     }
 
 
@@ -70,5 +72,14 @@ public class TestTileImpl {
         // Then it should have a food production of 3 and production of 0
         assertThat(plains.getProductionProduction(), is(0));
         assertThat(plains.getFoodProduction(), is(3));
+    }
+
+    @Test
+    public void shouldBe0ProductionAnd0FoodForDesertTile(){
+        // Given a desert object
+        // When its implemented
+        // Then it should have a food production of 0 and production of 0
+        assertThat(desert.getProductionProduction(), is(0));
+        assertThat(desert.getFoodProduction(), is(0));
     }
 }

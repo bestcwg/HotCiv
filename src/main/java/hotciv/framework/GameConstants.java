@@ -39,11 +39,16 @@ public class GameConstants {
   // Valid unit types
   public static final String ARCHER    = "archer";
   public static final int[] ARCHER_ATTACK_AND_DEFENCE = {2,3};
+  public static final int ARCHER_MOVECOUNT = 1;
   public static final String LEGION    = "legion";
   public static final int[] LEGION_ATTACK_AND_DEFENCE = {4,2};
+  public static final int LEGION_MOVECOUNT = 1;
   public static final String SETTLER   = "settler";
   public static final int[] SETTLER_ATTACK_AND_DEFENCE = {0,3};
-  public static final int MOVECOUNT = 1;
+  public static final int SETTLER_MOVECOUNT = 1;
+  public static final String SANDWORM = "sandworm";
+  public static final int[] SANDWORM_ATTACK_AND_DEFENCE = {0,10};
+  public static final int SANDWORM_MOVECOUNT = 2;
   // Valid terrain types
   public static final String PLAINS    = "plains";
   public static final int[] PLAINS_FOOD_AND_PRODUCTION = {3,0};
@@ -55,6 +60,8 @@ public class GameConstants {
   public static final int[] HILLS_FOOD_AND_PRODUCTION = {0,2};
   public static final String MOUNTAINS = "mountain";
   public static final int[] MOUNTAIN_FOOD_AND_PRODUCTION = {0,1};
+  public static final String DESERT = "desert";
+  public static final int[] DESERT_FOOD_AND_PRODUCTION = {0,0};
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
@@ -66,6 +73,7 @@ public class GameConstants {
     cost.put(ARCHER, 10);
     cost.put(LEGION, 15);
     cost.put(SETTLER, 30);
+    cost.put(SANDWORM, 30);
     unitCost = cost;
   }
 }
