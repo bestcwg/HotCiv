@@ -1,12 +1,10 @@
-package hotciv.standard;
+package hotciv.variants.deltaCiv;
 
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 import hotciv.standard.strategies.WorldLayoutStrategy;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 import thirdparty.ThirdPartyFractalGenerator;
 
 public class DeltaCivAdaptor implements WorldLayoutStrategy {

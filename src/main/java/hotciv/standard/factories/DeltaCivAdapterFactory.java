@@ -1,10 +1,8 @@
 package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
-import hotciv.standard.DeltaCivAdaptor;
+import hotciv.variants.deltaCiv.DeltaCivAdaptor;
 import hotciv.standard.strategies.*;
-import hotciv.variants.alphaCiv.*;
-import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 
 public class DeltaCivAdapterFactory implements CivFactory {
     private CivFactory deltaCiv = new DeltaCivFactory();
