@@ -1,7 +1,7 @@
 package hotciv.standard.factories;
 
 import hotciv.standard.CivFactory;
-import hotciv.variants.deltaCiv.DeltaCivAdaptor;
+import hotciv.variants.deltaCiv.DeltaCivAdapter;
 import hotciv.standard.strategies.*;
 
 public class DeltaCivAdapterFactory implements CivFactory {
@@ -29,7 +29,7 @@ public class DeltaCivAdapterFactory implements CivFactory {
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return new DeltaCivAdaptor();
+        return new DeltaCivAdapter();
     }
 
     @Override

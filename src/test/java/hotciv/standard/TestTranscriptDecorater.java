@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestTranscripDecorater {
+public class TestTranscriptDecorater {
     private Game game;
     TranscriptDecorator decorator;
 

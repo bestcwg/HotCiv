@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import thirdparty.ThirdPartyFractalGenerator;
 
-public class DeltaCivAdaptor implements WorldLayoutStrategy {
+public class DeltaCivAdapter implements WorldLayoutStrategy {
     private WorldLayoutStrategy deltaCiv = new DeltaCivWorldLayoutStrategy();
 
     @Override
