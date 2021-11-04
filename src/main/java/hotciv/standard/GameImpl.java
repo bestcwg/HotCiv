@@ -73,7 +73,6 @@ public class GameImpl implements Game {
     legalUnitsStrategy = civFactory.createLegalUnitStrategy();
     createUnitStrategy = civFactory.createCreateUnitStrategy();
 
-
     worldMap = worldLayoutStrategy.setUpWorld();
     cities = worldLayoutStrategy.setUpCities();
     units = worldLayoutStrategy.setUpUnits();

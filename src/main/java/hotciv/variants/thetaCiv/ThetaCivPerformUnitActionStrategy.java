@@ -25,6 +25,7 @@ public class ThetaCivPerformUnitActionStrategy implements PerformUnitActionStrat
             case GameConstants.ARCHER:
             case GameConstants.SETTLER:
                 gammaCiv.action(position, game);
+                break;
             case GameConstants.SANDWORM:
                 for (Position neighborhoodPosition : Utility.get8neighborhoodOf(position)) {
                     if (game.getUnitAt(neighborhoodPosition) != null){
@@ -34,6 +35,7 @@ public class ThetaCivPerformUnitActionStrategy implements PerformUnitActionStrat
                         }
                     }
                 }
+                break;
         }
     }
 }

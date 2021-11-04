@@ -3,7 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class TranscriptDecorator  implements Game {
-    private final Game realGame;
+    private Game realGame;
     private boolean currentState;
 
     public TranscriptDecorator(Game game) {
@@ -40,6 +40,7 @@ public class TranscriptDecorator  implements Game {
             }
             return realGame.getWinner();
         }
+        System.out.println("There is no winner yet");
         return realGame.getWinner();
     }
 
@@ -50,24 +51,24 @@ public class TranscriptDecorator  implements Game {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-
         Player playerInTurn = realGame.getPlayerInTurn();
         String unitFrom = realGame.getUnitAt(from).getTypeString();
-        String defender = null;
+        Unit defender = null;
+        String unitTo = null;
+        Player enemyOwner = null;
         if (realGame.getUnitAt(to) != null) {
-            defender = realGame.getUnitAt(to).getTypeString();
+            defender = realGame.getUnitAt(to);
+            unitTo = realGame.getUnitAt(to).getTypeString();
+            enemyOwner = realGame.getUnitAt(to).getOwner();
         }
         boolean wasValidMove = realGame.moveUnit(from, to);
         if (currentState) {
             if (!wasValidMove) {
                 System.out.println(playerInTurn + " tried to move their unit from " + from + " to " + to + " but it failed");
-            } else if (wasValidMove && defender.equals(null)) {
+            } else if (wasValidMove && defender == null) {
                 System.out.println(playerInTurn + " moved their " + unitFrom + " from " + from + " to " + to);
-            } else if (wasValidMove && !defender.equals(null)) {
-                Player enemyOwner = realGame.getUnitAt(to).getOwner();
-                String unitTo = realGame.getUnitAt(to).getTypeString();
+            } else if (wasValidMove && defender != null) {
                 boolean winner = realGame.getUnitAt(to).getOwner().equals(playerInTurn);
-
                 System.out.println(playerInTurn + " moved their "
                         + unitFrom + " from " + from + " to " + to + " and fought " +
                         enemyOwner + "'s " + unitTo + " and " + (winner ? "won" : "lost")
@@ -98,7 +99,7 @@ public class TranscriptDecorator  implements Game {
     public void changeProductionInCityAt(Position p, String unitType) {
         realGame.changeProductionInCityAt(p, unitType);
         if (currentState) {
-            System.out.println(realGame.getPlayerInTurn() + " has changed the production in the city at "
+            System.out.println(realGame.getPlayerInTurn() + " has changed the production in their city at "
                     + p + " to " + realGame.getCityAt(p).getProduction()
             );
         }
@@ -107,22 +108,21 @@ public class TranscriptDecorator  implements Game {
     @Override
     public void performUnitActionAt(Position p) {
         if (currentState) {
-            String unit = realGame.getUnitAt(p).getTypeString();
+            String unit = "";
+            if (realGame.getUnitAt(p) != null) {
+                unit = realGame.getUnitAt(p).getTypeString();
+            }
             System.out.println(realGame.getPlayerInTurn() + "'s unit at " + p + " just performed its action, its a "
                     + unit + " with the action" +
-                    unit == GameConstants.ARCHER ? " Fortify "
-                    : unit == GameConstants.SETTLER ? " Settle "
-                    : unit == GameConstants.SANDWORM ? " Devour " : " No Action"
+                    (unit.equals("archer") ? " Fortify "
+                    : unit.equals("settler") ? " Settle "
+                    : unit.equals("sandworm") ? " Devour " : " No Action")
             );
         }
         realGame.performUnitActionAt(p);
     }
 
-    public void toggleTranscripter() {
-        if (currentState) {
-            currentState = false;
-        } else {
-            currentState = true;
-        }
+    public void toggleTranscripter(boolean toggle) {
+        currentState = toggle;
     }
 }
