@@ -4,9 +4,11 @@ import hotciv.framework.*;
 
 public class TranscriptDecorator  implements Game {
     private final Game realGame;
+    private boolean currentState;
 
     public TranscriptDecorator(Game game) {
         this.realGame = game;
+        this.currentState = false;
     }
 
     @Override
@@ -33,7 +35,9 @@ public class TranscriptDecorator  implements Game {
     public Player getWinner() {
         boolean isWinner = realGame.getWinner() != null;
         if (isWinner) {
-            System.out.println(realGame.getWinner() + " has won the game");
+            if (currentState) {
+                System.out.println(realGame.getWinner() + " has won the game");
+            }
             return realGame.getWinner();
         }
         return realGame.getWinner();
@@ -54,53 +58,71 @@ public class TranscriptDecorator  implements Game {
             defender = realGame.getUnitAt(to).getTypeString();
         }
         boolean wasValidMove = realGame.moveUnit(from, to);
-        if (!wasValidMove) {
-            System.out.println(playerInTurn + " tried to move their unit from " + from + " to " + to + " but it failed");
-        } else if (wasValidMove && defender.equals(null)) {
-            System.out.println(playerInTurn + " moved their " + unitFrom + " from " + from + " to " + to);
-        } else if (wasValidMove && !defender.equals(null)) {
-            Player enemyOwner = realGame.getUnitAt(to).getOwner();
-            String unitTo = realGame.getUnitAt(to).getTypeString();
-            boolean winner = realGame.getUnitAt(to).getOwner().equals(playerInTurn);
+        if (currentState) {
+            if (!wasValidMove) {
+                System.out.println(playerInTurn + " tried to move their unit from " + from + " to " + to + " but it failed");
+            } else if (wasValidMove && defender.equals(null)) {
+                System.out.println(playerInTurn + " moved their " + unitFrom + " from " + from + " to " + to);
+            } else if (wasValidMove && !defender.equals(null)) {
+                Player enemyOwner = realGame.getUnitAt(to).getOwner();
+                String unitTo = realGame.getUnitAt(to).getTypeString();
+                boolean winner = realGame.getUnitAt(to).getOwner().equals(playerInTurn);
 
-            System.out.println(playerInTurn + " moved their "
-                    + unitFrom + " from " + from + " to " + to + " and fought " +
-                    enemyOwner + "'s " + unitTo + " and " + (winner ? "won" : "lost")
-            );
+                System.out.println(playerInTurn + " moved their "
+                        + unitFrom + " from " + from + " to " + to + " and fought " +
+                        enemyOwner + "'s " + unitTo + " and " + (winner ? "won" : "lost")
+                );
+            }
         }
         return wasValidMove;
     }
 
     @Override
     public void endOfTurn() {
-        System.out.println(realGame.getPlayerInTurn() + " has ended their turn");
+        if (currentState) {
+            System.out.println(realGame.getPlayerInTurn() + " has ended their turn");
+        }
         realGame.endOfTurn();
     }
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-        System.out.println(realGame.getPlayerInTurn() + " has changed the workforce focus in the city at "
-                + p + " to " + balance);
+        if (currentState) {
+            System.out.println(realGame.getPlayerInTurn() + " has changed the workforce focus in the city at "
+                    + p + " to " + balance);
+        }
         realGame.changeWorkForceFocusInCityAt(p,balance);
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
         realGame.changeProductionInCityAt(p, unitType);
-        System.out.println(realGame.getPlayerInTurn() + " has changed the production in the city at "
-        + p + " to " + realGame.getCityAt(p).getProduction()
-        );
+        if (currentState) {
+            System.out.println(realGame.getPlayerInTurn() + " has changed the production in the city at "
+                    + p + " to " + realGame.getCityAt(p).getProduction()
+            );
+        }
     }
 
     @Override
     public void performUnitActionAt(Position p) {
-        String unit = realGame.getUnitAt(p).getTypeString();
-        System.out.println(realGame.getPlayerInTurn() + "'s unit at " + p + " just performed its action, its a "
-                        + unit + " with the action" +
-                          unit == GameConstants.ARCHER ? " Fortify "
-                        : unit == GameConstants.SETTLER ? " Settle "
-                        : unit == GameConstants.SANDWORM ? " Devour " : " No Action"
-                );
+        if (currentState) {
+            String unit = realGame.getUnitAt(p).getTypeString();
+            System.out.println(realGame.getPlayerInTurn() + "'s unit at " + p + " just performed its action, its a "
+                    + unit + " with the action" +
+                    unit == GameConstants.ARCHER ? " Fortify "
+                    : unit == GameConstants.SETTLER ? " Settle "
+                    : unit == GameConstants.SANDWORM ? " Devour " : " No Action"
+            );
+        }
         realGame.performUnitActionAt(p);
+    }
+
+    public void toggleTranscripter() {
+        if (currentState) {
+            currentState = false;
+        } else {
+            currentState = true;
+        }
     }
 }
