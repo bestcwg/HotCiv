@@ -24,9 +24,7 @@ public class TestThetaCiv {
     private Position redCityPos;
     private Position blueCityPos;
 
-    /**
-     * Fixture for zetaCiv testing.
-     */
+
     @BeforeEach
     public void setUp() {
         game = new GameImpl(new ThetaCivFactory());
