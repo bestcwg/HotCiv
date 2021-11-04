@@ -6,9 +6,11 @@ import hotciv.standard.strategies.WorldLayoutStrategy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 import thirdparty.ThirdPartyFractalGenerator;
 
 public class DeltaCivAdaptor implements WorldLayoutStrategy {
+    private WorldLayoutStrategy deltaCiv = new DeltaCivWorldLayoutStrategy();
 
     @Override
     public HashMap<Position, Tile> setUpWorld() {
@@ -46,11 +48,11 @@ public class DeltaCivAdaptor implements WorldLayoutStrategy {
 
     @Override
     public HashMap<Position, City> setUpCities() {
-        return null;
+        return deltaCiv.setUpCities();
     }
 
     @Override
     public HashMap<Position, Unit> setUpUnits() {
-        return null;
+        return deltaCiv.setUpUnits();
     }
 }

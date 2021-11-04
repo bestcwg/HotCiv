@@ -7,24 +7,26 @@ import hotciv.variants.alphaCiv.*;
 import hotciv.variants.deltaCiv.DeltaCivWorldLayoutStrategy;
 
 public class DeltaCivAdapterFactory implements CivFactory {
+    private CivFactory deltaCiv = new DeltaCivFactory();
+
     @Override
     public PerformUnitActionStrategy createUnitActionStrategy() {
-        return new AlphaCivPerformUnitActionStrategy();
+        return deltaCiv.createUnitActionStrategy();
     }
 
     @Override
     public AgeStrategy createAgeStrategy() {
-        return new AlphaCivAgeStrategy();
+        return deltaCiv.createAgeStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackStrategy() {
-        return new AlphaCivAttackingStrategy();
+        return deltaCiv.createAttackStrategy();
     }
 
     @Override
     public WinnerStrategy createWinnerStrategy() {
-        return new AlphaCivWinnerStrategy();
+        return deltaCiv.createWinnerStrategy();
     }
 
     @Override
@@ -34,16 +36,16 @@ public class DeltaCivAdapterFactory implements CivFactory {
 
     @Override
     public MoveStrategy createMoveStrategy() {
-        return new AlphaCivMoveStrategy();
+        return deltaCiv.createMoveStrategy();
     }
 
     @Override
     public LegalUnitsStrategy createLegalUnitStrategy() {
-        return new AlphaCivLegalUnitStrategy();
+        return deltaCiv.createLegalUnitStrategy();
     }
 
     @Override
     public CreateUnitStrategy createCreateUnitStrategy() {
-        return new AlphaCivCreateUnitStrategy();
+        return deltaCiv.createCreateUnitStrategy();
     }
 }

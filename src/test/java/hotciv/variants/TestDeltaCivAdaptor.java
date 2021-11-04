@@ -17,10 +17,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestDeltaCivAdaptor {
     private Game game;
 
+    @BeforeEach
+    void setup() {
+        game = new GameImpl(new DeltaCivAdapterFactory());
+    }
+
     @Test
     public void shouldBeNoErrorTilesInWorldMap() {
-        game = new GameImpl(new DeltaCivAdapterFactory());
-
         for(int r = 0; r < 16; r++) {
             for(int c = 0; c < 16; c++) {
                 assertThat(game.getTileAt(new Position(r, c)).getTypeString(), not("error"));
@@ -37,5 +40,11 @@ public class TestDeltaCivAdaptor {
             tileSet.add(game.getTileAt(new Position(0,0)).getTypeString());
         }
         assertThat(tileSet.size(), not(1));
+    }
+
+    @Test
+    public void shouldBeAbleToChangeWorkForceFocusInRedCity() {
+        game.changeWorkForceFocusInCityAt(new Position(8,12),GameConstants.ARCHER);
+        assertThat(game.getCityAt(new Position(8,12)).getWorkforceFocus(),is(GameConstants.ARCHER));
     }
 }
