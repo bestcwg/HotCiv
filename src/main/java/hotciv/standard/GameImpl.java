@@ -330,6 +330,16 @@ public class GameImpl implements Game {
     performUnitActionStrategy.action(unitPosition, this);
   }
 
+  @Override
+  public void addObserver(GameObserver observer) {
+
+  }
+
+  @Override
+  public void setTileFocus(Position position) {
+
+  }
+
   /**
    * A helper method to calculate winner depending on
    * which winnerStrategy is in use

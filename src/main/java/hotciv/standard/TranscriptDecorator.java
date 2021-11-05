@@ -122,6 +122,16 @@ public class TranscriptDecorator  implements Game {
         realGame.performUnitActionAt(p);
     }
 
+    @Override
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    @Override
+    public void setTileFocus(Position position) {
+
+    }
+
     public void toggleTranscripter(boolean toggle) {
         currentState = toggle;
     }
