@@ -159,7 +159,6 @@ public class CivDrawing implements Drawing, GameObserver {
   protected ImageFigure turnShieldIcon;
   protected TextFigure ageText;
   protected CityFigure cityOwnerShieldIcon;
-  protected ImageFigure refreshButtonIcon;
   protected void synchronizeIconsWithGameState() {
     // Note - we have to guard creating figures and adding
     // them to the collection, so we do not create multiple
@@ -181,25 +180,20 @@ public class CivDrawing implements Drawing, GameObserver {
               new TextFigure("" + game.getAge(),
                       new Point(GfxConstants.AGE_TEXT_X,
                               GfxConstants.AGE_TEXT_Y));
-      figureCollection.add(ageText);
+      figureCollection.add((ageText));
     }
-    updateAgeText();
-
-    if (refreshButtonIcon == null) {
-      refreshButtonIcon =
-              new HotCivFigure("refresh",
-                      new Point(GfxConstants.REFRESH_BUTTON_X,
-                              GfxConstants.REFRESH_BUTTON_Y),
-                      GfxConstants.REFRESH_BUTTON);
-      figureCollection.add(refreshButtonIcon);
-    }
+    updateAgeText(game.getAge());
 
     /*if (cityOwnerShieldIcon == null) {
       cityOwnerShieldIcon =
-              new CityFigure(game.getCityAt(GfxConstants.getPositionFromXY()),
+              new CityFigure(,
                       new Point(GfxConstants.CITY_SHIELD_X,
                               GfxConstants.CITY_SHIELD_Y));
-      figureCollection.add(cityOwnerShieldIcon);
+    }*/
+
+    /*if (cityOwnerShieldIcon == null) {
+      cityOwnerShieldIcon =
+              new CityFigure()
     }*/
     // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
@@ -225,10 +219,10 @@ public class CivDrawing implements Drawing, GameObserver {
 
   public void turnEnds(Player nextPlayer, int age) {
     updateTurnShield(nextPlayer);
-    updateAgeText();
+    updateAgeText(age);
   }
 
-  private void updateAgeText() {
+  private void updateAgeText(int age) {
     String currentAge = "" + game.getAge();
     ageText.setText(currentAge);
   }
