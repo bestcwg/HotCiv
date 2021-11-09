@@ -2,7 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import hotciv.standard.factories.SemiCivFactory;
-import hotciv.stub.StubGameObserver;
 import hotciv.utility.FixedRollStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +12,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestObserver {
     private Game game;
     private GameObserver gameObserver;
-    private StubGameObserver stubGameObserver;
+    private GameObserverSpy stubGameObserver;
 
     @BeforeEach
     public void setUp() {
         game = new GameImpl(new SemiCivFactory(new FixedRollStrategy()));
-        gameObserver = new StubGameObserver();
+        gameObserver = new GameObserverSpy();
         game.addObserver(gameObserver);
-        stubGameObserver = (StubGameObserver) gameObserver;
+        stubGameObserver = (GameObserverSpy) gameObserver;
     }
 
     @Test

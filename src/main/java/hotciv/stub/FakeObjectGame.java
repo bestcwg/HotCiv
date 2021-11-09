@@ -37,6 +37,9 @@ import java.util.*;
 public class FakeObjectGame implements Game {
 
   private Map<Position, Unit> unitMap;
+  private Map<Position, City> cityMap;
+  private int age = -4000;
+
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
@@ -60,11 +63,17 @@ public class FakeObjectGame implements Game {
   private Player inTurn;
   public void endOfTurn() {
     System.out.println( "-- FakeObjectGame / endOfTurn called." );
+
     inTurn = (getPlayerInTurn() == Player.RED ?
               Player.BLUE : 
               Player.RED );
-    // no age increments implemented...
-    gameObserver.turnEnds(inTurn, -4000);
+
+    // Fake it for age increments
+    if (inTurn == Player.RED) {
+      age += 100;
+    }
+
+    gameObserver.turnEnds(inTurn, getAge());
   }
   public Player getPlayerInTurn() { return inTurn; }
 
@@ -85,6 +94,10 @@ public class FakeObjectGame implements Game {
     unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
     unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
     inTurn = Player.RED;
+
+    cityMap = new HashMap<>();
+    cityMap.put(new Position(8,8), new StubCity(Player.RED));
+    cityMap.put(new Position(11,11), new StubCity(Player.BLUE));
   }
 
   // A simple implementation to draw the map of DeltaCiv
@@ -113,9 +126,9 @@ public class FakeObjectGame implements Game {
   }
 
   // TODO: Add more fake object behaviour to test MiniDraw updating
-  public City getCityAt( Position p ) { return null; }
+  public City getCityAt( Position p ) { return cityMap.get(p); }
   public Player getWinner() { return null; }
-  public int getAge() { return -4000; }
+  public int getAge() { return age; }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}  
@@ -124,6 +137,7 @@ public class FakeObjectGame implements Game {
     // TODO: setTileFocus implementation pending.
     System.out.println("-- FakeObjectGame / setTileFocus called.");
     System.out.println(" *** IMPLEMENTATION PENDING ***");
+    gameObserver.tileFocusChangedAt(position);
   }
 }
 
@@ -139,4 +153,36 @@ class StubUnit implements  Unit {
   public int getMoveCount() { return 1; }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
+}
+
+class StubCity implements City {
+  private Player owner;
+  private String production = GameConstants.ARCHER;
+  private int treasury = 6;
+  private String workForce = GameConstants.productionFocus;
+
+  public StubCity(Player owner) {
+    this.owner = owner;
+  }
+
+  public Player getOwner() {
+    return owner;
+  }
+
+  public int getSize() {
+    return 1;
+  }
+
+  public int getTreasury() {
+    return treasury;
+  }
+
+  //TODO: Fake-it kode
+  public String getProduction() {
+    return production;
+  }
+
+  public String getWorkforceFocus() {
+    return workForce;
+  }
 }

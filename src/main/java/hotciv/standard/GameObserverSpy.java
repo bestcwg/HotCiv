@@ -1,10 +1,10 @@
-package hotciv.stub;
+package hotciv.standard;
 
 import hotciv.framework.GameObserver;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
 
-public class StubGameObserver implements GameObserver {
+public class GameObserverSpy implements GameObserver {
     private String lastMethodCalled;
 
     @Override
