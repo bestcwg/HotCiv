@@ -115,7 +115,7 @@ public class FakeObjectGame implements Game {
   // TODO: Add more fake object behaviour to test MiniDraw updating
   public City getCityAt( Position p ) { return null; }
   public Player getWinner() { return null; }
-  public int getAge() { return 0; }  
+  public int getAge() { return -4000; }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}  

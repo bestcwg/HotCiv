@@ -1,9 +1,12 @@
 package hotciv.view;
 
 import hotciv.framework.*;
+import hotciv.view.figure.CityFigure;
 import hotciv.view.figure.HotCivFigure;
+import hotciv.view.figure.TextFigure;
 import hotciv.view.figure.UnitFigure;
 import minidraw.framework.*;
+import minidraw.standard.AbstractFigure;
 import minidraw.standard.ImageFigure;
 import minidraw.standard.StandardFigureCollection;
 import minidraw.standard.handlers.ForwardingFigureChangeHandler;
@@ -154,6 +157,8 @@ public class CivDrawing implements Drawing, GameObserver {
 
   // Figures representing icons (showing status in status panel)
   protected ImageFigure turnShieldIcon;
+  protected TextFigure ageText;
+  protected CityFigure cityOwnerShieldIcon;
   protected void synchronizeIconsWithGameState() {
     // Note - we have to guard creating figures and adding
     // them to the collection, so we do not create multiple
@@ -170,6 +175,26 @@ public class CivDrawing implements Drawing, GameObserver {
     }
     updateTurnShield(game.getPlayerInTurn());
 
+    if (ageText == null) {
+      ageText =
+              new TextFigure("" + game.getAge(),
+                      new Point(GfxConstants.AGE_TEXT_X,
+                              GfxConstants.AGE_TEXT_Y));
+      figureCollection.add((ageText));
+    }
+    updateAgeText(game.getAge());
+
+    /*if (cityOwnerShieldIcon == null) {
+      cityOwnerShieldIcon =
+              new CityFigure(,
+                      new Point(GfxConstants.CITY_SHIELD_X,
+                              GfxConstants.CITY_SHIELD_Y));
+    }*/
+
+    /*if (cityOwnerShieldIcon == null) {
+      cityOwnerShieldIcon =
+              new CityFigure()
+    }*/
     // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
   }
@@ -193,11 +218,13 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   public void turnEnds(Player nextPlayer, int age) {
-    // TODO: Remove system.out debugging output
-    System.out.println( "CivDrawing: turnEnds for "+
-                        nextPlayer+" at "+age );
     updateTurnShield(nextPlayer);
-    // TODO: Age output pending
+    updateAgeText(age);
+  }
+
+  private void updateAgeText(int age) {
+    String currentAge = "" + game.getAge();
+    ageText.setText(currentAge);
   }
 
   private void updateTurnShield(Player nextPlayer) {
