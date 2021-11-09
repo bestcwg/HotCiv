@@ -63,6 +63,8 @@ public class CivDrawing implements Drawing, GameObserver {
   // allowing us to track where units move
   private Map<Position, UnitFigure> positionToUnitFigureMap;
 
+  private Map<Position, CityFigure> positionToCityFigureMap;
+
   /** the Game instance that this CivDrawing is going to render units,
    * cities, ages, player-in-turn, from */
   protected Game game;
@@ -77,6 +79,7 @@ public class CivDrawing implements Drawing, GameObserver {
     figureCollection = new StandardFigureCollection(figureChangeListener);
 
     positionToUnitFigureMap = new HashMap<>();
+    positionToCityFigureMap = new HashMap<>();
 
     // associate with game
     this.game = game;
@@ -87,6 +90,7 @@ public class CivDrawing implements Drawing, GameObserver {
     // ensure our drawing's figure collection of UnitFigures
     // reflects those present in the game
     synchronizeUnitFigureCollectionWithGameUnits();
+    synchronizeCityFigureCollectionWithGameUnits();
     // and the set of 'icons' in status panel represents game state
     synchronizeIconsWithGameState();
   }
@@ -155,6 +159,52 @@ public class CivDrawing implements Drawing, GameObserver {
     return unitFigure;
   }
 
+  /** Ensure our collection of unit figures match those of the
+   * game's units.
+   */
+  protected void synchronizeCityFigureCollectionWithGameUnits() {
+    // iterate all tile positions and ensure that our figure
+    // collection truthfully match that of game by adding/removing
+    // figures.
+    Position p;
+    for (int r = 0; r < GameConstants.WORLDSIZE; r++) {
+      for (int c = 0; c < GameConstants.WORLDSIZE; c++) {
+        p = new Position(r, c);
+        City city = game.getCityAt(p);
+        CityFigure cityFigure = positionToCityFigureMap.get(p);
+        // Synchronize each tile position with figure collection
+        if (city != null) {
+          // if a unit is present in game, then
+          if (cityFigure == null) {
+            // if the associated unit figure has not been created, make it
+            cityFigure = createCityFigureFor(p, city);
+            // We add the figure both to our internal data structure
+            positionToCityFigureMap.put(p, cityFigure);
+            // and of course to MiniDraw's figure collection for
+            // visual rendering
+            figureCollection.add(cityFigure);
+          }
+        } else {
+          // no unit at tile, maybe there is a unitFigure wrongly here
+          if (cityFigure != null) {
+            positionToCityFigureMap.remove(p);
+            figureCollection.remove(cityFigure);
+          }
+        }
+      }
+    }
+  }
+
+  /** Create a figure representing a unit at given position */
+  private CityFigure createCityFigureFor(Position p, City city) {
+    // convert the unit's Position to (x,y) coordinates
+    Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
+            GfxConstants.getYFromRow(p.getRow()) );
+    CityFigure cityFigure =
+            new CityFigure(city, point);
+    return cityFigure;
+  }
+
   // Figures representing icons (showing status in status panel)
   protected ImageFigure turnShieldIcon;
   protected TextFigure ageText;
@@ -182,7 +232,7 @@ public class CivDrawing implements Drawing, GameObserver {
                               GfxConstants.AGE_TEXT_Y));
       figureCollection.add((ageText));
     }
-    updateAgeText(game.getAge());
+    updateAgeText();
 
     /*if (cityOwnerShieldIcon == null) {
       cityOwnerShieldIcon =
@@ -219,10 +269,10 @@ public class CivDrawing implements Drawing, GameObserver {
 
   public void turnEnds(Player nextPlayer, int age) {
     updateTurnShield(nextPlayer);
-    updateAgeText(age);
+    updateAgeText();
   }
 
-  private void updateAgeText(int age) {
+  private void updateAgeText() {
     String currentAge = "" + game.getAge();
     ageText.setText(currentAge);
   }
@@ -246,7 +296,7 @@ public class CivDrawing implements Drawing, GameObserver {
     // synchronize with all game state
     synchronizeUnitFigureCollectionWithGameUnits();
     synchronizeIconsWithGameState();
-    // TODO: Cities pending
+    synchronizeCityFigureCollectionWithGameUnits();
   }
 
   @Override
