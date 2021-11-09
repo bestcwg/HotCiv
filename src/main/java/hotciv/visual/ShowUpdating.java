@@ -112,6 +112,12 @@ class UpdateTool extends NullTool {
     case 10: {
       editor.showStatus( "State change: Inspecting unit at (3,2)" );
       game.setTileFocus(new Position(3,2));
+      break;
+    }
+    case 11: {
+      editor.showStatus( "State change: Perform unit action at (4,2)" );
+      game.performUnitActionAt(new Position(4,2));
+      break;
     }
       // TODO: Add more state changes for other things to test
     default: {

@@ -300,6 +300,13 @@ public class CivDrawing implements Drawing, GameObserver {
       positionToUnitFigureMap.put(pos, uf);
       figureCollection.add(uf);
     }
+
+    City c = game.getCityAt(pos);
+    if (c != null) {
+      CityFigure cf = createCityFigureFor(pos, c);
+      positionToCityFigureMap.put(pos, cf);
+      figureCollection.add(cf);
+    }
     // TODO: Cities may change on position as well
   }
 

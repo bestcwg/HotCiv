@@ -2,6 +2,7 @@ package hotciv.stub;
 
 import hotciv.framework.*;
 import hotciv.standard.UnitImpl;
+import hotciv.standard.strategies.PerformUnitActionStrategy;
 
 import java.util.*;
 
@@ -144,7 +145,13 @@ public class FakeObjectGame implements Game {
   public int getAge() { return age; }
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
-  public void performUnitActionAt( Position p ) {}  
+  public void performUnitActionAt( Position p ) {
+    if (getUnitAt(p).getTypeString() == GameConstants.SETTLER) {
+      cityMap.put(p, new StubCity(getUnitAt(p).getOwner()));
+      unitMap.put(p,null);
+      gameObserver.worldChangedAt(p);
+    }
+  }
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
