@@ -1,6 +1,8 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.UnitImpl;
+
 import java.util.*;
 
 /** FakeObject implementation for Game. Base your
@@ -47,15 +49,20 @@ public class FakeObjectGame implements Game {
   public boolean moveUnit(Position from, Position to) {
     // Using print statements to aid in debugging and development
     System.out.println("-- FakeObjectGame / moveUnit called: " + from + "->" + to);
-    Unit unit = getUnitAt(from);
+    StubUnit unit = (StubUnit) getUnitAt(from);
     if (unit == null) return false;
-
+    if (unit.getMoveCount() == 0) return false;
     System.out.println("-- moveUnit found unit at: " + from);
     // Remember to inform game observer on any change on the tiles
+    if (getUnitAt(to) != null) {
+      unitMap.put(to,null);
+      gameObserver.worldChangedAt(to);
+    }
     unitMap.put(from, null);
     gameObserver.worldChangedAt(from);
     unitMap.put(to, unit);
     gameObserver.worldChangedAt(to);
+    unit.moved();
     return true;
   }
 
@@ -71,6 +78,12 @@ public class FakeObjectGame implements Game {
     // Fake it for age increments
     if (inTurn == Player.RED) {
       age += 100;
+      for (Map.Entry<Position, Unit> u : unitMap.entrySet()) {
+        if (u.getValue() != null) {
+          StubUnit unit = (StubUnit) u.getValue();
+          unit.resetMoveCount();
+        }
+      }
     }
 
     gameObserver.turnEnds(inTurn, getAge());
@@ -144,15 +157,23 @@ public class FakeObjectGame implements Game {
 class StubUnit implements  Unit {
   private String type;
   private Player owner;
+  private int moveCount;
   public StubUnit(String type, Player owner) {
     this.type = type;
     this.owner = owner;
+    moveCount = 2;
   }
   public String getTypeString() { return type; }
   public Player getOwner() { return owner; }
-  public int getMoveCount() { return 1; }
+  public int getMoveCount() { return moveCount; }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
+  public void moved() {
+    moveCount -= 1;
+  }
+  public void resetMoveCount() {
+    moveCount = 2;
+  }
 }
 
 class StubCity implements City {

@@ -323,7 +323,6 @@ public class CivDrawing implements Drawing, GameObserver {
 
   public void tileFocusChangedAt(Position position) {
     // TODO: Implementation pending
-    // TODO: Update map for tile not longer focused
 
     Unit unit = game.getUnitAt(position);
     if (unit != null) {
@@ -332,7 +331,7 @@ public class CivDrawing implements Drawing, GameObserver {
       unitOwnerShieldIcon.set(game.getUnitAt(position).getOwner().toString().toLowerCase() + "shield",
               new Point(GfxConstants.UNIT_SHIELD_X,
                       GfxConstants.UNIT_SHIELD_Y));
-    } else if (unit == null) {
+    } else {
       unitMoveCountIcon.setText("");
 
       unitOwnerShieldIcon.set("black",
@@ -353,7 +352,7 @@ public class CivDrawing implements Drawing, GameObserver {
       cityWorkForceFocusIcon.set(game.getCityAt(position).getWorkforceFocus(),
               new Point(GfxConstants.WORKFORCEFOCUS_X,
                       GfxConstants.WORKFORCEFOCUS_Y));
-    } else if (city == null) {
+    } else {
       cityOwnerShieldIcon.set("black",
               new Point(GfxConstants.CITY_SHIELD_X,
                       GfxConstants.CITY_SHIELD_Y));
