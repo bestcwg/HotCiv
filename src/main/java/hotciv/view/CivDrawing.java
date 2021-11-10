@@ -334,55 +334,32 @@ public class CivDrawing implements Drawing, GameObserver {
 
   public void tileFocusChangedAt(Position position) {
     // TODO: Implementation pending
+    Point unitShieldPoint = new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y);
+    Point cityShieldPoint = new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y);
+    Point cityProductionPoint = new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y);
+    Point cityWorkForcePoint = new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y);
 
     Unit unit = game.getUnitAt(position);
     if (unit != null) {
       unitMoveCountIcon.setText(unit.getMoveCount() + "");
-
-      unitOwnerShieldIcon.set(unit.getOwner().toString().toLowerCase() + "shield",
-              new Point(GfxConstants.UNIT_SHIELD_X,
-                      GfxConstants.UNIT_SHIELD_Y));
+      unitOwnerShieldIcon.set(unit.getOwner().toString().toLowerCase() + "shield", unitShieldPoint);
     } else {
       unitMoveCountIcon.setText("");
-
-      unitOwnerShieldIcon.set("black",
-              new Point(GfxConstants.UNIT_SHIELD_X,
-                      GfxConstants.UNIT_SHIELD_Y));
+      unitOwnerShieldIcon.set("black", unitShieldPoint);
     }
-
     City city = game.getCityAt(position);
     if (city != null) {
-      cityOwnerShieldIcon.set(city.getOwner().toString().toLowerCase() + "shield",
-              new Point(GfxConstants.CITY_SHIELD_X,
-                      GfxConstants.CITY_SHIELD_Y));
+      cityOwnerShieldIcon.set(city.getOwner().toString().toLowerCase() + "shield", cityShieldPoint);
 
       String cityProduction = city.getProduction();
-      if (cityProduction == null) {
-        cityProduction = "black";
-      }
-      cityProductionIcon.set(cityProduction,
-              new Point(GfxConstants.CITY_PRODUCTION_X,
-                      GfxConstants.CITY_PRODUCTION_Y));
+      cityProductionIcon.set(cityProduction != null ? cityProduction : "black", cityProductionPoint);
 
       String cityWorkForceFocus = city.getWorkforceFocus();
-      if (cityWorkForceFocus == null) {
-        cityWorkForceFocus = "black";
-      }
-      cityWorkForceFocusIcon.set(cityWorkForceFocus,
-              new Point(GfxConstants.WORKFORCEFOCUS_X,
-                      GfxConstants.WORKFORCEFOCUS_Y));
+      cityWorkForceFocusIcon.set(cityWorkForceFocus != null ? cityWorkForceFocus : "black", cityWorkForcePoint);
     } else {
-      cityOwnerShieldIcon.set("black",
-              new Point(GfxConstants.CITY_SHIELD_X,
-                      GfxConstants.CITY_SHIELD_Y));
-
-      cityProductionIcon.set("black",
-              new Point(GfxConstants.CITY_PRODUCTION_X,
-                      GfxConstants.CITY_PRODUCTION_Y));
-
-      cityWorkForceFocusIcon.set("black",
-              new Point(GfxConstants.WORKFORCEFOCUS_X,
-                      GfxConstants.WORKFORCEFOCUS_Y));
+      cityOwnerShieldIcon.set("black", cityShieldPoint);
+      cityProductionIcon.set("black", cityProductionPoint);
+      cityWorkForceFocusIcon.set("black", cityWorkForcePoint);
     }
   }
 
