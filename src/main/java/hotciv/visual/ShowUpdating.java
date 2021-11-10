@@ -160,6 +160,27 @@ class UpdateTool extends NullTool {
         game.moveUnit(new Position(10,10),new Position(11,11));
         break;
       }
+      case 19: {
+        editor.showStatus( "State change: End of turn two times" );
+        game.endOfTurn();
+        game.endOfTurn();
+        break;
+      }
+      case 20: {
+        editor.showStatus( "State change: Moving archer to (4,2)" );
+        game.moveUnit(new Position(3,2),new Position(4,2));
+        break;
+      }
+      case 21: {
+        editor.showStatus( "State change: Moving archer to (5,2)" );
+        game.moveUnit(new Position(4,2),new Position(5,2));
+        break;
+      }
+      case 22: {
+        editor.showStatus( "State change: Moving archer to (6,2)" );
+        game.moveUnit(new Position(5,2),new Position(6,2));
+        break;
+      }
       // TODO: Add more state changes for other things to test
     default: {
       editor.showStatus("No more changes in my list...");

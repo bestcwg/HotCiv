@@ -303,22 +303,15 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   private void updateAgeIcon(int age) {
-    String BCorAC = "";
-    if (age < 0) {
-      BCorAC = "BC";
-    } else {
-      BCorAC = "AC";
-    }
-    String currentAge = Math.abs(age) + BCorAC;
+    String BCorAD = age < 0 ? " BC" : " AD";
+    String currentAge = Math.abs(age) + BCorAD;
     ageIcon.setText(currentAge);
   }
 
   private void updateTurnShield(Player nextPlayer) {
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
-    turnShieldIcon.set( playername+"shield",
-                        new Point( GfxConstants.TURN_SHIELD_X,
-                                   GfxConstants.TURN_SHIELD_Y ) );
+    turnShieldIcon.set( playername+"shield", turnShieldPoint);
   }
 
   public void tileFocusChangedAt(Position position) {
