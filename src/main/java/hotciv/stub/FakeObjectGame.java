@@ -52,15 +52,19 @@ public class FakeObjectGame implements Game {
 
   public boolean moveUnit(Position from, Position to) {
     // Using print statements to aid in debugging and development
-    System.out.println("-- FakeObjectGame / moveUnit called: " + from + "->" + to);
     StubUnit unit = (StubUnit) getUnitAt(from);
     if (unit == null) return false;
     if (unit.getMoveCount() == 0) return false;
-    System.out.println("-- moveUnit found unit at: " + from);
     // Remember to inform game observer on any change on the tiles
     if (getUnitAt(to) != null) {
       unitMap.put(to,null);
       gameObserver.worldChangedAt(to);
+    }
+    if (getCityAt(to) != null) {
+      if (!getUnitAt(from).getOwner().equals(getCityAt(to).getOwner())) {
+        StubCity stubCity = (StubCity) getCityAt(to);
+        stubCity.changeOwner(getUnitAt(from).getOwner());
+      }
     }
     unitMap.put(from, null);
     gameObserver.worldChangedAt(from);
@@ -74,8 +78,6 @@ public class FakeObjectGame implements Game {
   // === Turn handling ===
   private Player inTurn;
   public void endOfTurn() {
-    System.out.println( "-- FakeObjectGame / endOfTurn called." );
-
     inTurn = (getPlayerInTurn() == Player.RED ?
               Player.BLUE : 
               Player.RED );
@@ -166,8 +168,6 @@ public class FakeObjectGame implements Game {
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
-    System.out.println("-- FakeObjectGame / setTileFocus called.");
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
     gameObserver.tileFocusChangedAt(position);
   }
 
@@ -183,16 +183,11 @@ public class FakeObjectGame implements Game {
       // a measure to make sure tests without a production focus doesn't produce null pointer exceptions
       if (stubCity.getProduction() != null) {
         String cityProduction = stubCity.getProduction();
-        System.out.println(stubCity.getProduction());
-        System.out.println(GameConstants.unitCost.get(cityProduction));
         int costOfUnit = GameConstants.unitCost.get(cityProduction);
 
         if (cityTreasury >= costOfUnit) {
           stubCity.changeTreasury(-costOfUnit);
           createUnit(cityEntry.getKey(), stubCity);
-          if (gameObserver != null) {
-            gameObserver.worldChangedAt(cityEntry.getKey());
-          }
         }
       }
     }
@@ -207,11 +202,17 @@ public class FakeObjectGame implements Game {
       // if there is no unit at the city center place a unit here
       if (getUnitAt(cityPosition) == null) {
         unitMap.put(cityPosition, new StubUnit(city.getProduction(), city.getOwner()));
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(cityPosition);
+        }
         break;
 
         // Otherwise, run through the neighborhood to find a legal spot to place the unit
       } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
         unitMap.put(neighborhoodPosition, new StubUnit(city.getProduction(),city.getOwner()));
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(neighborhoodPosition);
+        }
         break;
       }
     }
@@ -281,6 +282,10 @@ class StubCity implements City {
 
   public void changeTreasury(int change) {
     treasury += change;
+  }
+
+  public void changeOwner(Player owner) {
+    this.owner = owner;
   }
 
 }

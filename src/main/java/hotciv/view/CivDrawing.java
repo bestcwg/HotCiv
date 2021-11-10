@@ -288,6 +288,7 @@ public class CivDrawing implements Drawing, GameObserver {
   // === Observer Methods ===
   public void worldChangedAt(Position pos) {
     Unit u = game.getUnitAt(pos);
+    System.out.println(game.getUnitAt(pos));
     if (u == null) {
       // Unit has been removed
       UnitFigure uf = positionToUnitFigureMap.remove(pos);
@@ -304,6 +305,7 @@ public class CivDrawing implements Drawing, GameObserver {
       CityFigure cf = createCityFigureFor(pos, c);
       positionToCityFigureMap.put(pos, cf);
       figureCollection.add(cf);
+      figureCollection.zOrder(cf, ZOrder.TO_BOTTOM);
     }
     // TODO: Cities may change on position as well
   }

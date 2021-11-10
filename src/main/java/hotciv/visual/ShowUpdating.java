@@ -141,13 +141,23 @@ class UpdateTool extends NullTool {
         editor.showStatus( "State change: City at (8,8) produce archer" );
         game.endOfTurn();
         game.endOfTurn();
+        break;
+      }
+      case 16: {
+        editor.showStatus( "State change: Move archer at (8,8) to (10,10)" );
+        game.moveUnit(new Position(8,8),new Position(9,9));
+        game.moveUnit(new Position(9, 9), new Position(10,10));
+        break;
+      }
+      case 17: {
+        editor.showStatus( "State change: End of round" );
         game.endOfTurn();
         game.endOfTurn();
         break;
       }
-      case 16: {
-        editor.showStatus( "State change: Move archer at (8,8) to (8,9)" );
-        game.moveUnit(new Position(8,8),new Position(8,9));
+      case 18: {
+        editor.showStatus( "State change: Attack city at (11,11) from archer at (10,10)" );
+        game.moveUnit(new Position(10,10),new Position(11,11));
         break;
       }
       // TODO: Add more state changes for other things to test
