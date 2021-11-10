@@ -287,8 +287,6 @@ public class CivDrawing implements Drawing, GameObserver {
  
   // === Observer Methods ===
   public void worldChangedAt(Position pos) {
-    // TODO: Remove system.out debugging output, included here for learning purposes
-    System.out.println( "CivDrawing: world changes at "+pos);
     Unit u = game.getUnitAt(pos);
     if (u == null) {
       // Unit has been removed
@@ -316,7 +314,13 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   private void updateAgeIcon(int age) {
-    String currentAge = "" + age;
+    String BCorAC = "";
+    if (age < 0) {
+      BCorAC = "BC";
+    } else {
+      BCorAC = "AC";
+    }
+    String currentAge = Math.abs(age) + BCorAC;
     ageIcon.setText(currentAge);
   }
 

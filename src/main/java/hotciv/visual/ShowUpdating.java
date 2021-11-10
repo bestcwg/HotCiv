@@ -119,6 +119,12 @@ class UpdateTool extends NullTool {
       game.performUnitActionAt(new Position(4,2));
       break;
     }
+    case 12: {
+      editor.showStatus( "State change: End of turn two times" );
+      game.endOfTurn();
+      game.endOfTurn();
+      break;
+    }
       // TODO: Add more state changes for other things to test
     default: {
       editor.showStatus("No more changes in my list...");
