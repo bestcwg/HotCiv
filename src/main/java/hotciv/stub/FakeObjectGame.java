@@ -114,6 +114,7 @@ public class FakeObjectGame implements Game {
     unitMap.put(new Position(3,2), new StubUnit( GameConstants.LEGION, Player.BLUE ));
     unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
     unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
+    unitMap.put(new Position(1,13), new StubUnit( GameConstants.SETTLER, Player.BLUE ));
     inTurn = Player.RED;
 
     cityMap = new HashMap<>();
