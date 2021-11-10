@@ -175,6 +175,9 @@ public class GameImpl implements Game {
     attackEnemyUnitIfAtToTile(from,to);
     boolean attackUnitLost = !units.containsKey(from);
     if (attackUnitLost) {
+      if (gameObserver != null) {
+        gameObserver.worldChangedAt(from);
+      }
       return false;
     }
     boolean isEnemyCityAtToTile = cities.containsKey(to) && playerInTurn != getCityAt(to).getOwner();

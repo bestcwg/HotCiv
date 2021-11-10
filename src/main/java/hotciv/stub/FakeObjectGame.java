@@ -1,8 +1,11 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
+import hotciv.standard.GameImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.standard.strategies.PerformUnitActionStrategy;
+import hotciv.utility.Utility;
 
 import java.util.*;
 
@@ -64,6 +67,7 @@ public class FakeObjectGame implements Game {
     unitMap.put(to, unit);
     gameObserver.worldChangedAt(to);
     unit.moved();
+    gameObserver.tileFocusChangedAt(to);
     return true;
   }
 
@@ -78,6 +82,7 @@ public class FakeObjectGame implements Game {
 
     // Fake it for age increments
     if (inTurn == Player.RED) {
+      produceProductionForAllCities();
       age += 100;
       for (Map.Entry<Position, Unit> u : unitMap.entrySet()) {
         if (u.getValue() != null) {
@@ -143,8 +148,14 @@ public class FakeObjectGame implements Game {
   public City getCityAt( Position p ) { return cityMap.get(p); }
   public Player getWinner() { return null; }
   public int getAge() { return age; }
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {
+    StubCity stubCity = (StubCity) getCityAt(p);
+    stubCity.changeWorkForceFocus(balance);
+  }
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    StubCity stubCity = (StubCity) getCityAt(p);
+    stubCity.changeProduction(unitType);
+  }
   public void performUnitActionAt( Position p ) {
     if (getUnitAt(p).getTypeString() == GameConstants.SETTLER) {
       cityMap.put(p, new StubCity(getUnitAt(p).getOwner()));
@@ -158,6 +169,52 @@ public class FakeObjectGame implements Game {
     System.out.println("-- FakeObjectGame / setTileFocus called.");
     System.out.println(" *** IMPLEMENTATION PENDING ***");
     gameObserver.tileFocusChangedAt(position);
+  }
+
+  private void produceProductionForAllCities() {
+    int cityProductionValue = 6;
+    for (Map.Entry<Position, City> cityEntry : cityMap.entrySet()) {
+      // Typecast to access methods in the impl of city class
+      StubCity stubCity = (StubCity) cityEntry.getValue();
+
+      stubCity.changeTreasury(cityProductionValue);
+      int cityTreasury = stubCity.getTreasury();
+
+      // a measure to make sure tests without a production focus doesn't produce null pointer exceptions
+      if (stubCity.getProduction() != null) {
+        String cityProduction = stubCity.getProduction();
+        System.out.println(stubCity.getProduction());
+        System.out.println(GameConstants.unitCost.get(cityProduction));
+        int costOfUnit = GameConstants.unitCost.get(cityProduction);
+
+        if (cityTreasury >= costOfUnit) {
+          stubCity.changeTreasury(-costOfUnit);
+          createUnit(cityEntry.getKey(), stubCity);
+          if (gameObserver != null) {
+            gameObserver.worldChangedAt(cityEntry.getKey());
+          }
+        }
+      }
+    }
+  }
+
+  public void createUnit(Position cityPosition, City city) {
+    for (Position neighborhoodPosition : Utility.get8neighborhoodOf(cityPosition)) {
+      String concreteTile = getTileAt(neighborhoodPosition).getTypeString();
+      boolean isNotImpassableTile = !concreteTile.equals(GameConstants.MOUNTAINS) &&
+              !concreteTile.equals(GameConstants.OCEANS);
+
+      // if there is no unit at the city center place a unit here
+      if (getUnitAt(cityPosition) == null) {
+        unitMap.put(cityPosition, new StubUnit(city.getProduction(), city.getOwner()));
+        break;
+
+        // Otherwise, run through the neighborhood to find a legal spot to place the unit
+      } else if (getUnitAt(neighborhoodPosition) == null && isNotImpassableTile) {
+        unitMap.put(neighborhoodPosition, new StubUnit(city.getProduction(),city.getOwner()));
+        break;
+      }
+    }
   }
 }
 
@@ -185,9 +242,9 @@ class StubUnit implements  Unit {
 
 class StubCity implements City {
   private Player owner;
-  private String production = GameConstants.ARCHER;
+  private String production;
   private int treasury = 6;
-  private String workForce = GameConstants.productionFocus;
+  private String workForce;
 
   public StubCity(Player owner) {
     this.owner = owner;
@@ -205,7 +262,7 @@ class StubCity implements City {
     return treasury;
   }
 
-  //TODO: Fake-it kode
+  //TODO: Change Fake-it kode
   public String getProduction() {
     return production;
   }
@@ -213,4 +270,17 @@ class StubCity implements City {
   public String getWorkforceFocus() {
     return workForce;
   }
+
+  public void changeProduction(String unitType) {
+    this.production = unitType;
+  }
+
+  public void changeWorkForceFocus(String focus) {
+    this.workForce = focus;
+  }
+
+  public void changeTreasury(int change) {
+    treasury += change;
+  }
+
 }

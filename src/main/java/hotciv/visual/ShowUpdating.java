@@ -125,6 +125,31 @@ class UpdateTool extends NullTool {
       game.endOfTurn();
       break;
     }
+    case 13: {
+      editor.showStatus( "State change: Change production focus in city at (8,8) to archer" );
+      game.changeProductionInCityAt(new Position(8,8), GameConstants.ARCHER);
+      game.setTileFocus(new Position(8,8));
+      break;
+    }
+    case 14: {
+      editor.showStatus( "State change: Change work force focus in city at (8,8) to hammer" );
+      game.changeWorkForceFocusInCityAt(new Position(8,8), GameConstants.productionFocus);
+      game.setTileFocus(new Position(8,8));
+      break;
+    }
+      case 15: {
+        editor.showStatus( "State change: City at (8,8) produce archer" );
+        game.endOfTurn();
+        game.endOfTurn();
+        game.endOfTurn();
+        game.endOfTurn();
+        break;
+      }
+      case 16: {
+        editor.showStatus( "State change: Move archer at (8,8) to (8,9)" );
+        game.moveUnit(new Position(8,8),new Position(8,9));
+        break;
+      }
       // TODO: Add more state changes for other things to test
     default: {
       editor.showStatus("No more changes in my list...");

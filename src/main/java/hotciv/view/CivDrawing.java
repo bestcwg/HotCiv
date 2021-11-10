@@ -337,9 +337,9 @@ public class CivDrawing implements Drawing, GameObserver {
 
     Unit unit = game.getUnitAt(position);
     if (unit != null) {
-      unitMoveCountIcon.setText(game.getUnitAt(position).getMoveCount() + "");
+      unitMoveCountIcon.setText(unit.getMoveCount() + "");
 
-      unitOwnerShieldIcon.set(game.getUnitAt(position).getOwner().toString().toLowerCase() + "shield",
+      unitOwnerShieldIcon.set(unit.getOwner().toString().toLowerCase() + "shield",
               new Point(GfxConstants.UNIT_SHIELD_X,
                       GfxConstants.UNIT_SHIELD_Y));
     } else {
@@ -352,15 +352,23 @@ public class CivDrawing implements Drawing, GameObserver {
 
     City city = game.getCityAt(position);
     if (city != null) {
-      cityOwnerShieldIcon.set(game.getCityAt(position).getOwner().toString().toLowerCase() + "shield",
+      cityOwnerShieldIcon.set(city.getOwner().toString().toLowerCase() + "shield",
               new Point(GfxConstants.CITY_SHIELD_X,
                       GfxConstants.CITY_SHIELD_Y));
 
-      cityProductionIcon.set(game.getCityAt(position).getProduction(),
+      String cityProduction = city.getProduction();
+      if (cityProduction == null) {
+        cityProduction = "black";
+      }
+      cityProductionIcon.set(cityProduction,
               new Point(GfxConstants.CITY_PRODUCTION_X,
                       GfxConstants.CITY_PRODUCTION_Y));
 
-      cityWorkForceFocusIcon.set(game.getCityAt(position).getWorkforceFocus(),
+      String cityWorkForceFocus = city.getWorkforceFocus();
+      if (cityWorkForceFocus == null) {
+        cityWorkForceFocus = "black";
+      }
+      cityWorkForceFocusIcon.set(cityWorkForceFocus,
               new Point(GfxConstants.WORKFORCEFOCUS_X,
                       GfxConstants.WORKFORCEFOCUS_Y));
     } else {
