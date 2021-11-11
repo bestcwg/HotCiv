@@ -181,6 +181,17 @@ class UpdateTool extends NullTool {
         game.moveUnit(new Position(5,2),new Position(6,2));
         break;
       }
+      case 23: {
+        editor.showStatus( "State change: After turn end move blue settler to (1,14)" );
+        game.endOfTurn();
+        game.moveUnit(new Position(1,13), new Position(1,14));
+        break;
+      }
+      case 24: {
+        editor.showStatus( "State change: perform unit action at (1,14)" );
+        game.performUnitActionAt(new Position(1,14));
+        break;
+      }
       // TODO: Add more state changes for other things to test
     default: {
       editor.showStatus("No more changes in my list...");
