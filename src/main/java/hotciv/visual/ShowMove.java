@@ -1,5 +1,6 @@
 package hotciv.visual;
 
+import hotciv.view.tool.UnitMoveTool;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -34,6 +35,6 @@ public class ShowMove {
     editor.showStatus("Move units to see Game's moveUnit method being called.");
 
     // TODO: Replace the setting of the tool with your UnitMoveTool implementation.
-    editor.setTool(new SelectionTool(editor));
+    editor.setTool(new UnitMoveTool(editor, game));
   }
 }

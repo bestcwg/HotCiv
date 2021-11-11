@@ -46,25 +46,39 @@ public class CompositionTool extends NullTool {
     switch (figureBelowClickPoint.getTypeString()) {
       case GfxConstants.TURN_SHIELD_TYPE_STRING:
         state = new EndOfTurnTool(editor, game);
+        break;
       case GfxConstants.UNIT_TYPE_STRING:
         if (e.isShiftDown()) {
           state = new ActionTool(editor, game);
         } else {
-          state = new SetFocusTool(editor, game);
+          state = new UnitMoveTool(editor, game);
         }
+        break;
       case GfxConstants.CITY_TYPE_STRING:
         state = new SetFocusTool(editor, game);
+        break;
     }
     // Finally, delegate to the selected state
     state.mouseDown(e, x, y);
   }
-
   @Override
   public void mouseDrag(MouseEvent e, int x, int y) {
-    figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
-    if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING)) {
-      state = new UnitMoveTool(editor, game);
+    if (state instanceof UnitMoveTool) {
       state.mouseDrag(e, x, y);
+    }
+  }
+
+  @Override
+  public void mouseMove(MouseEvent e, int x, int y) {
+    if (state instanceof UnitMoveTool) {
+      state.mouseMove(e, x, y);
+    }
+  }
+
+  @Override
+  public void mouseUp(MouseEvent e, int x, int y) {
+    if (state instanceof UnitMoveTool) {
+      state.mouseUp(e, x, y);
     }
   }
 }
