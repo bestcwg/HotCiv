@@ -192,7 +192,7 @@ class UpdateTool extends NullTool {
         game.performUnitActionAt(new Position(1,14));
         break;
       }
-      // TODO: Add more state changes for other things to test
+
     default: {
       editor.showStatus("No more changes in my list...");
     }

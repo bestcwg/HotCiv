@@ -268,7 +268,6 @@ public class CivDrawing implements Drawing, GameObserver {
       figureCollection.add(cityProductionIcon);
     }
 
-    // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
   }
  
@@ -293,7 +292,6 @@ public class CivDrawing implements Drawing, GameObserver {
       figureCollection.add(cf);
       figureCollection.zOrder(cf, ZOrder.TO_BOTTOM);
     }
-    // TODO: Cities may change on position as well
   }
 
   public void turnEnds(Player nextPlayer, int age) {
@@ -314,7 +312,6 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   public void tileFocusChangedAt(Position position) {
-    // TODO: Implementation pending
     Unit unit = game.getUnitAt(position);
     if (unit != null) {
       unitMoveCountIcon.setText(unit.getMoveCount() + "");
@@ -346,8 +343,6 @@ public class CivDrawing implements Drawing, GameObserver {
     synchronizeUnitFigureCollectionWithGameUnits();
     synchronizeCityFigureCollectionWithGameCities();
     synchronizeIconsWithGameState();
-
-    // TODO: Cities pending
   }
 
   @Override

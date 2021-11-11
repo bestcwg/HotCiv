@@ -147,7 +147,6 @@ public class FakeObjectGame implements Game {
     world.put(new Position(7,5), new StubTile(ThetaConstants.DESERT));
   }
 
-  // TODO: Add more fake object behaviour to test MiniDraw updating
   public City getCityAt( Position p ) { return cityMap.get(p); }
   public Player getWinner() { return null; }
   public int getAge() { return age; }
@@ -168,7 +167,6 @@ public class FakeObjectGame implements Game {
   }
 
   public void setTileFocus(Position position) {
-    // TODO: setTileFocus implementation pending.
     gameObserver.tileFocusChangedAt(position);
   }
 
@@ -264,7 +262,6 @@ class StubCity implements City {
     return treasury;
   }
 
-  //TODO: Change Fake-it kode
   public String getProduction() {
     return production;
   }

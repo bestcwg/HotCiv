@@ -22,7 +22,6 @@ public class EndOfTurnTool extends NullTool {
   @Override
   public void mouseDown(MouseEvent e, int x, int y) {
     super.mouseDown(e, x, y);
-    // TODO: Remove print statement, and implement end-of-turn behaviour
     game.endOfTurn();
   }
 }
