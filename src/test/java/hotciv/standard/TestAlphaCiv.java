@@ -204,10 +204,11 @@ public class TestAlphaCiv {
     // Then the treasury of each city should increase by 6
     assertThat(game.getCityAt(redCityPos).getTreasury(), is(6));
     doXEndOfTurn(2);
-    assertThat(game.getCityAt(redCityPos).getTreasury(), is(12));
+    // City treasury is 2, as the city will by default produce archers
+    assertThat(game.getCityAt(redCityPos).getTreasury(), is(2));
 
     // Check for blue city as well
-    assertThat(game.getCityAt(blueCityPos).getTreasury(), is(12));
+    assertThat(game.getCityAt(blueCityPos).getTreasury(), is(2));
   }
 
   @Test
@@ -362,7 +363,7 @@ public class TestAlphaCiv {
     // When red players turn chooses blue city production
     // Then red player will not be able to change production
     game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
-    assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.ARCHER));
   }
 
   @Test
@@ -633,14 +634,14 @@ public class TestAlphaCiv {
   public void shouldNotBeAbleToChangeOtherPlayerCityProduction() {
     // Given a game
     // When red player tries to change production in red turn, in blue city
-    game.changeProductionInCityAt(blueCityPos, GameConstants.ARCHER);
+    game.changeProductionInCityAt(blueCityPos, GameConstants.LEGION);
     // Then production in blue city should not be changed
-    assertThat(game.getCityAt(blueCityPos).getProduction(), is(nullValue()));
+    assertThat(game.getCityAt(blueCityPos).getProduction(), is(GameConstants.ARCHER));
 
     // blue player as well
     doXEndOfTurn(1);
-    game.changeProductionInCityAt(redCityPos, GameConstants.ARCHER);
-    assertThat(game.getCityAt(redCityPos).getProduction(), is(nullValue()));
+    game.changeProductionInCityAt(redCityPos, GameConstants.LEGION);
+    assertThat(game.getCityAt(redCityPos).getProduction(), is(GameConstants.ARCHER));
   }
 
   @Test

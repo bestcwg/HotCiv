@@ -32,7 +32,7 @@ public class TestObserver {
     public void shouldBeWorldChanged() {
         Position unitPos = new Position(5,5);
         game.moveUnit(unitPos, new Position(5,6));
-        assertThat(stubGameObserver.getLastMethodCalled(), is("world changed"));
+        assertThat(stubGameObserver.getLastMethodCalled(), is("tile focus changed"));
     }
 
     @Test
