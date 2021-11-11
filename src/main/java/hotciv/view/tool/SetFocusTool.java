@@ -1,6 +1,7 @@
 package hotciv.view.tool;
 
 import hotciv.framework.Game;
+import hotciv.view.GfxConstants;
 import minidraw.framework.DrawingEditor;
 import minidraw.standard.NullTool;
 
@@ -21,10 +22,7 @@ public class SetFocusTool extends NullTool {
 
     @Override
     public void mouseDown(MouseEvent e, int x, int y) {
-        super.mouseDown(e, x, y);
-        // TODO: Remove print statement, and implement end-of-turn behaviour
-        System.out.println("TODO: EndOfTurn tool received 'mouse down' event");
-
+        game.setTileFocus(GfxConstants.getPositionFromXY(x, y));
     }
 
 }

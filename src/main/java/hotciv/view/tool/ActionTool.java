@@ -23,7 +23,6 @@ public class ActionTool extends NullTool {
 
     @Override
     public void mouseDown(MouseEvent e, int x, int y) {
-        System.out.println(GfxConstants.getPositionFromXY(x,y));
         game.performUnitActionAt(GfxConstants.getPositionFromXY(x,y));
     }
 }

@@ -46,7 +46,7 @@ public class CompositionTool extends NullTool {
     switch (figureBelowClickPoint.getTypeString()) {
       case GfxConstants.TURN_SHIELD_TYPE_STRING:
         state = new EndOfTurnTool(editor, game);
-      case GfxConstants.UNIT_TYPE_STRING :
+      case GfxConstants.UNIT_TYPE_STRING:
         if (e.isShiftDown()) {
           state = new ActionTool(editor, game);
         } else {
