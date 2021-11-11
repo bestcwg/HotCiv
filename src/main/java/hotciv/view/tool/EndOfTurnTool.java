@@ -23,7 +23,6 @@ public class EndOfTurnTool extends NullTool {
   public void mouseDown(MouseEvent e, int x, int y) {
     super.mouseDown(e, x, y);
     // TODO: Remove print statement, and implement end-of-turn behaviour
-    System.out.println("TODO: EndOfTurn tool received 'mouse down' event");
+    game.endOfTurn();
   }
-
 }
