@@ -191,7 +191,7 @@ public class GameImpl implements Game {
       gameObserver.worldChangedAt(to);
     }
     checkForWinner(this);
-
+    gameObserver.tileFocusChangedAt(to);
     return true;
   }
 
