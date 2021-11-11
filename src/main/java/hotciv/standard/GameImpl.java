@@ -189,9 +189,10 @@ public class GameImpl implements Game {
     if (gameObserver != null) {
       gameObserver.worldChangedAt(from);
       gameObserver.worldChangedAt(to);
+      gameObserver.tileFocusChangedAt(to);
     }
     checkForWinner(this);
-    gameObserver.tileFocusChangedAt(to);
+
     return true;
   }
 
@@ -201,9 +202,15 @@ public class GameImpl implements Game {
       boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
       if (battleWon) {
         units.remove(to);
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(to);
+        }
         winnerStrategy.incrementBattlesWonBy(playerInTurn);
       } else {
         units.remove(from);
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(from);
+        }
       }
     }
   }
@@ -293,9 +300,6 @@ public class GameImpl implements Game {
         if (cityTreasury >= costOfUnit) {
           realCity.changeTreasury(-costOfUnit);
           createUnitStrategy.createUnit(cityEntry.getKey(), realCity, this);
-          if (gameObserver != null) {
-            gameObserver.worldChangedAt(cityEntry.getKey());
-          }
         }
       }
     }
@@ -351,6 +355,7 @@ public class GameImpl implements Game {
     performUnitActionStrategy.action(unitPosition, this);
     if (gameObserver != null) {
       gameObserver.worldChangedAt(unitPosition);
+      setTileFocus(unitPosition);
     }
   }
 
@@ -398,5 +403,9 @@ public class GameImpl implements Game {
     }
   }
   //endregion
+
+  public GameObserver getGameObserver() {
+    return gameObserver;
+  }
 
 }

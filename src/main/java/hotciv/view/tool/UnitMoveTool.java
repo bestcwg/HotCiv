@@ -62,21 +62,20 @@ public class UnitMoveTool extends NullTool {
         fChild.mouseDrag(e, x, y);
     }
 
-    @Override
+    /*@Override
     public void mouseMove(MouseEvent e, int x, int y) {
         fChild.mouseMove(e, x, y);
-    }
+    }*/
 
     @Override
     public void mouseUp(MouseEvent e, int x, int y) {
         boolean validMove = game.moveUnit(unitPos, GfxConstants.getPositionFromXY(x,y));
-        if (validMove) {
-            fChild.mouseUp(e, x, y);
-            fChild = cachedNullTool;
-            draggedFigure = null;
-        } else {
+        if (!validMove) {
             draggedFigure.moveBy(startX -x, startY -y);
+            //fChild.mouseUp(e, x, y);
         }
+        fChild = cachedNullTool;
+        draggedFigure = null;
     }
 
     /**

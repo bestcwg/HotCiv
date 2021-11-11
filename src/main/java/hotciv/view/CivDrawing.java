@@ -275,7 +275,6 @@ public class CivDrawing implements Drawing, GameObserver {
   // === Observer Methods ===
   public void worldChangedAt(Position pos) {
     Unit u = game.getUnitAt(pos);
-    System.out.println(game.getUnitAt(pos));
     if (u == null) {
       // Unit has been removed
       UnitFigure uf = positionToUnitFigureMap.remove(pos);
