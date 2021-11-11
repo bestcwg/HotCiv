@@ -2,20 +2,15 @@ package hotciv.view.tool;
 
 import hotciv.framework.Game;
 import hotciv.framework.Position;
-import hotciv.framework.Unit;
-import hotciv.view.CivDrawing;
 import hotciv.view.GfxConstants;
-import hotciv.view.figure.UnitFigure;
 import minidraw.framework.Drawing;
 import minidraw.framework.DrawingEditor;
 import minidraw.framework.Figure;
 import minidraw.framework.Tool;
-import minidraw.standard.MiniDrawApplication;
 import minidraw.standard.NullTool;
 
 import java.awt.event.MouseEvent;
 
-import minidraw.framework.*;
 import minidraw.standard.handlers.*;
 
 /** Template for the EndOfTurn Tool exercise (FRS 36.42)...
@@ -30,6 +25,9 @@ public class UnitMoveTool extends NullTool {
     protected Tool fChild;
     protected Tool cachedNullTool;
     protected Figure draggedFigure;
+    protected Drawing model;
+    protected int startX;
+    protected int startY;
 
     public UnitMoveTool(DrawingEditor editor, Game game) {
         this.editor = editor;
@@ -41,11 +39,13 @@ public class UnitMoveTool extends NullTool {
 
     @Override
     public void mouseDown(MouseEvent e, int x, int y) {
+        startX = x;
+        startY = y;
         game.setTileFocus(GfxConstants.getPositionFromXY(x,y));
         if (game.getUnitAt(GfxConstants.getPositionFromXY(x,y)) != null) {
             unitPos = GfxConstants.getPositionFromXY(x,y);
 
-            Drawing model = editor.drawing();
+            model = editor.drawing();
 
             draggedFigure = model.findFigure(e.getX(), e.getY());
 
@@ -69,11 +69,14 @@ public class UnitMoveTool extends NullTool {
 
     @Override
     public void mouseUp(MouseEvent e, int x, int y) {
-        game.moveUnit(unitPos, GfxConstants.getPositionFromXY(x,y));
-
-        fChild.mouseUp(e, x, y);
-        fChild = cachedNullTool;
-        draggedFigure = null;
+        boolean validMove = game.moveUnit(unitPos, GfxConstants.getPositionFromXY(x,y));
+        if (validMove) {
+            fChild.mouseUp(e, x, y);
+            fChild = cachedNullTool;
+            draggedFigure = null;
+        } else {
+            draggedFigure.moveBy(startX -x, startY -y);
+        }
     }
 
     /**
