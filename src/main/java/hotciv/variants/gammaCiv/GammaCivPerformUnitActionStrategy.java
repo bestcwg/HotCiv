@@ -20,8 +20,8 @@ public class GammaCivPerformUnitActionStrategy implements PerformUnitActionStrat
                 unit.fortify();
                 break;
             case GameConstants.SETTLER:
-                actualGame.createCity(position, new CityImpl(unit.getOwner()));
                 actualGame.removeUnit(position);
+                actualGame.createCity(position, new CityImpl(unit.getOwner()));
                 break;
         }
     }

@@ -39,21 +39,48 @@ public class CompositionTool extends NullTool {
     // Find the figure (if any) just below the mouse click position
     figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
     // Next determine the state of tool to use
-    if (figureBelowClickPoint == null) {
-      // TODO: no figure below - set state correctly (set focus tool or null tool)
-      System.out.println("TODO: No figure below click point - PENDING IMPLEMENTATION");
-      state = new NullTool();
-    } else {
-      if (figureBelowClickPoint.getTypeString().equals(GfxConstants.TURN_SHIELD_TYPE_STRING)) {
-        state = new EndOfTurnTool(editor, game);
-      } else {
-        // TODO: handle all the cases - action tool, unit move tool, etc
-        System.out.println("TODO: PENDING IMPLEMENTATION based upon hitting a figure with type: "
-                + figureBelowClickPoint.getTypeString());
-        state = new NullTool();
+    boolean noFigureUnder = figureBelowClickPoint == null;
+    if (noFigureUnder) {
+      state = new SetFocusTool(editor, game);
+    }
+    if (!noFigureUnder) {
+      switch (figureBelowClickPoint.getTypeString()) {
+        case GfxConstants.TURN_SHIELD_TYPE_STRING:
+          state = new EndOfTurnTool(editor, game);
+          break;
+        case GfxConstants.UNIT_TYPE_STRING:
+          if (e.isShiftDown()) {
+            state = new ActionTool(editor, game);
+          } else {
+            state = new UnitMoveTool(editor, game);
+          }
+          break;
+        case GfxConstants.CITY_TYPE_STRING:
+          state = new SetFocusTool(editor, game);
+          break;
       }
     }
     // Finally, delegate to the selected state
     state.mouseDown(e, x, y);
+  }
+  @Override
+  public void mouseDrag(MouseEvent e, int x, int y) {
+    if (state instanceof UnitMoveTool) {
+      state.mouseDrag(e, x, y);
+    }
+  }
+
+  @Override
+  public void mouseMove(MouseEvent e, int x, int y) {
+    if (state instanceof UnitMoveTool) {
+      state.mouseMove(e, x, y);
+    }
+  }
+
+  @Override
+  public void mouseUp(MouseEvent e, int x, int y) {
+    if (state instanceof UnitMoveTool) {
+      state.mouseUp(e, x, y);
+    }
   }
 }

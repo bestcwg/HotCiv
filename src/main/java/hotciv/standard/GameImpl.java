@@ -51,6 +51,7 @@ public class GameImpl implements Game {
   private MoveStrategy moveStrategy;
   private LegalUnitsStrategy legalUnitsStrategy;
   private CreateUnitStrategy createUnitStrategy;
+  protected GameObserver gameObserver;
   private int roundCounter;
 
   /**
@@ -174,6 +175,9 @@ public class GameImpl implements Game {
     attackEnemyUnitIfAtToTile(from,to);
     boolean attackUnitLost = !units.containsKey(from);
     if (attackUnitLost) {
+      if (gameObserver != null) {
+        gameObserver.worldChangedAt(from);
+      }
       return false;
     }
     boolean isEnemyCityAtToTile = cities.containsKey(to) && playerInTurn != getCityAt(to).getOwner();
@@ -182,7 +186,13 @@ public class GameImpl implements Game {
       city.changeOwner(playerInTurn);
     }
     makeActualMove(from, to);
+    if (gameObserver != null) {
+      gameObserver.worldChangedAt(from);
+      gameObserver.worldChangedAt(to);
+      gameObserver.tileFocusChangedAt(to);
+    }
     checkForWinner(this);
+
     return true;
   }
 
@@ -192,9 +202,15 @@ public class GameImpl implements Game {
       boolean battleWon = attackingStrategy.calculateBattleWinner(from, to, this);
       if (battleWon) {
         units.remove(to);
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(to);
+        }
         winnerStrategy.incrementBattlesWonBy(playerInTurn);
       } else {
         units.remove(from);
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(from);
+        }
       }
     }
   }
@@ -233,6 +249,9 @@ public class GameImpl implements Game {
     playerTurnsTaken++;
     if (playerTurnsTaken == numberOfPlayers) {
       endOfRound();
+    }
+    if (gameObserver != null) {
+      gameObserver.turnEnds(playerInTurn, getAge());
     }
   }
 
@@ -303,6 +322,9 @@ public class GameImpl implements Game {
     if(playerOwnsCity) {
       CityImpl city = (CityImpl) cities.get(cityPosition);
       city.changeWorkForceFocus(productionFocus);
+      if (gameObserver != null) {
+        gameObserver.worldChangedAt(cityPosition);
+      }
     }
   }
 
@@ -320,6 +342,9 @@ public class GameImpl implements Game {
       if (playerOwnsCity && isUnit) {
         CityImpl city = (CityImpl) getCityAt(cityPosition);
         city.changeProduction(unitType);
+        if (gameObserver != null) {
+          gameObserver.worldChangedAt(cityPosition);
+        }
       }
     }
   }
@@ -328,16 +353,20 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt( Position unitPosition ) {
     performUnitActionStrategy.action(unitPosition, this);
+    if (gameObserver != null) {
+      gameObserver.worldChangedAt(unitPosition);
+      setTileFocus(unitPosition);
+    }
   }
 
   @Override
   public void addObserver(GameObserver observer) {
-
+    gameObserver = observer;
   }
 
   @Override
   public void setTileFocus(Position position) {
-
+    gameObserver.tileFocusChangedAt(position);
   }
 
   /**
@@ -358,6 +387,9 @@ public class GameImpl implements Game {
    */
   public void createCity(Position cityPosition, City city) {
     cities.put(cityPosition, city);
+    if (gameObserver != null) {
+      gameObserver.worldChangedAt(cityPosition);
+    }
   }
 
   /**
@@ -366,6 +398,14 @@ public class GameImpl implements Game {
    */
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
+    if (gameObserver != null) {
+      gameObserver.worldChangedAt(unitPosition);
+    }
   }
   //endregion
+
+  public GameObserver getGameObserver() {
+    return gameObserver;
+  }
+
 }
