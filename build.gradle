@@ -49,6 +49,10 @@ repositories {
 }
     
 dependencies {
+    // The FRDS.Broker lib
+    implementation group: 'com.baerbak.maven',
+            name: 'broker', version: '3.0.1'
+
     // Depend on the MiniDraw library
     implementation group: 'com.baerbak.maven',
       name: 'minidraw', version: '2.1-SNAPSHOT'
