@@ -174,3 +174,11 @@ task semi(type: JavaExec) {
   main = 'hotciv.visual.ShowSemi'
   classpath = sourceSets.main.runtimeClasspath
 }
+
+task hotcivServer(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run HotCiv server (Socket)'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = 'hotciv.broker.main.HotCivServer'
+}
