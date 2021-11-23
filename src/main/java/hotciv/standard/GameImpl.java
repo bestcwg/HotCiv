@@ -2,7 +2,6 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import hotciv.standard.strategies.*;
-import hotciv.utility.*;
 
 import java.util.*;
 
@@ -51,7 +50,7 @@ public class GameImpl implements Game {
   private MoveStrategy moveStrategy;
   private LegalUnitsStrategy legalUnitsStrategy;
   private CreateUnitStrategy createUnitStrategy;
-  protected GameObserver gameObserver;
+  protected ArrayList<GameObserver> gameObserver;
   private int roundCounter;
 
   /**
@@ -79,6 +78,8 @@ public class GameImpl implements Game {
     units = worldLayoutStrategy.setUpUnits();
 
     checkForWinner(this);
+
+    gameObserver = new ArrayList<>();
   }
 
   //region GetterMethods
@@ -176,7 +177,7 @@ public class GameImpl implements Game {
     boolean attackUnitLost = !units.containsKey(from);
     if (attackUnitLost) {
       if (gameObserver != null) {
-        gameObserver.worldChangedAt(from);
+        worldChangeAtForGameObservers(from);
       }
       return false;
     }
@@ -187,9 +188,9 @@ public class GameImpl implements Game {
     }
     makeActualMove(from, to);
     if (gameObserver != null) {
-      gameObserver.worldChangedAt(from);
-      gameObserver.worldChangedAt(to);
-      gameObserver.tileFocusChangedAt(to);
+      worldChangeAtForGameObservers(from);
+      worldChangeAtForGameObservers(to);
+      setTileFocus(to);
     }
     checkForWinner(this);
 
@@ -203,13 +204,13 @@ public class GameImpl implements Game {
       if (battleWon) {
         units.remove(to);
         if (gameObserver != null) {
-          gameObserver.worldChangedAt(to);
+          worldChangeAtForGameObservers(to);
         }
         winnerStrategy.incrementBattlesWonBy(playerInTurn);
       } else {
         units.remove(from);
         if (gameObserver != null) {
-          gameObserver.worldChangedAt(from);
+          worldChangeAtForGameObservers(from);
         }
       }
     }
@@ -251,7 +252,9 @@ public class GameImpl implements Game {
       endOfRound();
     }
     if (gameObserver != null) {
-      gameObserver.turnEnds(playerInTurn, getAge());
+      for(GameObserver observer : gameObserver) {
+        observer.turnEnds(playerInTurn, getAge());
+      }
     }
   }
 
@@ -323,7 +326,7 @@ public class GameImpl implements Game {
       CityImpl city = (CityImpl) cities.get(cityPosition);
       city.changeWorkForceFocus(productionFocus);
       if (gameObserver != null) {
-        gameObserver.worldChangedAt(cityPosition);
+        worldChangeAtForGameObservers(cityPosition);
       }
     }
   }
@@ -343,7 +346,7 @@ public class GameImpl implements Game {
         CityImpl city = (CityImpl) getCityAt(cityPosition);
         city.changeProduction(unitType);
         if (gameObserver != null) {
-          gameObserver.worldChangedAt(cityPosition);
+          worldChangeAtForGameObservers(cityPosition);
         }
       }
     }
@@ -354,19 +357,22 @@ public class GameImpl implements Game {
   public void performUnitActionAt( Position unitPosition ) {
     performUnitActionStrategy.action(unitPosition, this);
     if (gameObserver != null) {
-      gameObserver.worldChangedAt(unitPosition);
+      worldChangeAtForGameObservers(unitPosition);
       setTileFocus(unitPosition);
     }
   }
 
   @Override
   public void addObserver(GameObserver observer) {
-    gameObserver = observer;
+    gameObserver.add(observer);
+
   }
 
   @Override
   public void setTileFocus(Position position) {
-    gameObserver.tileFocusChangedAt(position);
+    for(GameObserver observer : gameObserver) {
+      observer.tileFocusChangedAt(position);
+    }
   }
 
   /**
@@ -388,7 +394,7 @@ public class GameImpl implements Game {
   public void createCity(Position cityPosition, City city) {
     cities.put(cityPosition, city);
     if (gameObserver != null) {
-      gameObserver.worldChangedAt(cityPosition);
+      worldChangeAtForGameObservers(cityPosition);
     }
   }
 
@@ -399,13 +405,19 @@ public class GameImpl implements Game {
   public void removeUnit(Position unitPosition) {
     units.remove(unitPosition);
     if (gameObserver != null) {
-      gameObserver.worldChangedAt(unitPosition);
+      worldChangeAtForGameObservers(unitPosition);
     }
   }
   //endregion
 
-  public GameObserver getGameObserver() {
+  public ArrayList<GameObserver> getGameObserver() {
     return gameObserver;
+  }
+
+  public void worldChangeAtForGameObservers(Position p) {
+    for(GameObserver observer : gameObserver) {
+      observer.worldChangedAt(p);
+    }
   }
 
 }
