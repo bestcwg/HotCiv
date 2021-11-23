@@ -14,21 +14,27 @@ public class GameProxy implements Game {
     @Override
     public Tile getTileAt(Position p) {
         return null;
+                /*requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_TILE, City.class,
+                p.getColumn(), p.getRow());*/
     }
 
     @Override
     public Unit getUnitAt(Position p) {
         return null;
+                /*requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, City.class,
+                p.getColumn(), p.getRow());*/
     }
 
     @Override
     public City getCityAt(Position p) {
         return null;
+                /*requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, City.class,
+                p.getColumn(), p.getRow());*/
     }
 
     @Override
     public Player getPlayerInTurn() {
-        return null;
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_PLAYER_IN_TURN, Player.class);
     }
 
     @Override
@@ -43,27 +49,31 @@ public class GameProxy implements Game {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return false;
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class,
+                from.getColumn(), from.getRow(), to.getColumn(), to.getRow());
     }
 
     @Override
     public void endOfTurn() {
-
+        requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_END_TURN, Void.class);
     }
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-
+        requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_WORKFORCE, Void.class,
+                p.getColumn(), p.getRow(), balance);
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
-
+        requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_PRODUCTION, Void.class,
+                p.getColumn(), p.getRow(), unitType);
     }
 
     @Override
     public void performUnitActionAt(Position p) {
-
+        requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_PERFORM_ACTION, Void.class,
+                p.getColumn(), p.getRow());
     }
 
     @Override
@@ -73,6 +83,7 @@ public class GameProxy implements Game {
 
     @Override
     public void setTileFocus(Position position) {
-
+        requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_SET_TILE_FOCUS, Void.class,
+                position.getColumn(), position.getRow());
     }
 }
