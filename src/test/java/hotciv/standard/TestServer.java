@@ -4,10 +4,9 @@ import frds.broker.ClientRequestHandler;
 import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.GameProxy;
+import hotciv.broker.client.GameProxy;
 import hotciv.broker.HotCivGameInvoker;
 import hotciv.broker.LocalMethodClientRequestHandler;
-import hotciv.framework.City;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
@@ -42,15 +41,19 @@ public class TestServer {
     }
 
     @Test
-    public void shouldHaveGreenCityAt1_1() {
-        City greenCity = game.getCityAt(new Position(1,1));
-        assertThat(greenCity, is(notNullValue()));
-        assertThat(greenCity.getOwner(), is(Player.GREEN));
-    }
-
-    @Test
     public void shouldBeAge42() {
         int age = game.getAge();
         assertThat(age, is(42));
+    }
+
+    @Test
+    public void shouldBeBluePlayersTurnAfterEndOfTurn() {
+        game.endOfTurn();
+        assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldNotBeAbleToMoveUnitFrom1_0To4_0() {
+        assertThat(game.moveUnit(new Position(1,0), new Position(4,0)), is(false));
     }
 }

@@ -1,6 +1,7 @@
-package hotciv.broker;
+package hotciv.broker.client;
 
 import frds.broker.Requestor;
+import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 
 public class GameProxy implements Game {
@@ -49,8 +50,7 @@ public class GameProxy implements Game {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class,
-                from.getColumn(), from.getRow(), to.getColumn(), to.getRow());
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class);
     }
 
     @Override
