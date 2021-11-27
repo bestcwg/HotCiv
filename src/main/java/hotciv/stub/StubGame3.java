@@ -11,7 +11,7 @@ public class StubGame3 implements Game, Servant {
 
     @Override
     public Unit getUnitAt(Position p) {
-        return null;
+        return new StubUnit3(GameConstants.ARCHER, Player.BLUE);
     }
 
     Position position_of_green_city = new Position(1,1);
@@ -120,5 +120,27 @@ class StubCity3 implements City {
 
     public void changeOwner(Player owner) {
         this.owner = owner;
+    }
+}
+
+class StubUnit3 implements  Unit {
+    private String type;
+    private Player owner;
+    private int moveCount;
+    public StubUnit3(String type, Player owner) {
+        this.type = type;
+        this.owner = owner;
+        moveCount = 2;
+    }
+    public String getTypeString() { return type; }
+    public Player getOwner() { return owner; }
+    public int getMoveCount() { return moveCount; }
+    public int getDefensiveStrength() { return 0; }
+    public int getAttackingStrength() { return 0; }
+    public void moved() {
+        moveCount -= 1;
+    }
+    public void resetMoveCount() {
+        moveCount = 2;
     }
 }

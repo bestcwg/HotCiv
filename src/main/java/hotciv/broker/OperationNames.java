@@ -13,4 +13,15 @@ public class OperationNames {
     public static final String GAME_SET_TILE_FOCUS = "game_set_tile_focus";
     public static final String GAME_GET_UNIT = "game_get_unit_at";
     public static final String GAME_GET_TILE = "game_get_tile_at";
+    public static final String UNIT_GET_TYPE = "unit_get_type";
+    public static final String UNIT_GET_OWNER = "unit_get_owner";
+    public static final String UNIT_GET_MOVE_COUNT = "unit_get_move_count";
+    public static final String UNIT_GET_DEFENCE = "unit_get_defence";
+    public static final String UNIT_GET_ATTACK = "unit_get_attack";
+    public static final String CITY_GET_OWNER = "city_get_owner";
+    public static final String CITY_GET_SIZE = "city_get_size";
+    public static final String CITY_GET_TREASURY = "city_get_treasury";
+    public static final String CITY_GET_PRODUCTION = "city_get_production";
+    public static final String CITY_GET_WORKFORCEFOCUS = "city_get_workforcefocus";
+    public static final String TILE_GET_TYPE_STRING = "tile_get_type_string";
 }

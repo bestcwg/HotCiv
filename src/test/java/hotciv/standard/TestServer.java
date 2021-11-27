@@ -56,4 +56,9 @@ public class TestServer {
     public void shouldNotBeAbleToMoveUnitFrom1_0To4_0() {
         assertThat(game.moveUnit(new Position(1,0), new Position(4,0)), is(false));
     }
+
+    @Test
+    public void shouldBeUnitAt2_2() {
+        assertThat(game.getUnitAt(new Position(2,2)), is(notNullValue()));
+    }
 }
