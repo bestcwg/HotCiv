@@ -21,15 +21,14 @@ public class GameProxy implements Game {
 
     @Override
     public Unit getUnitAt(Position p) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, Unit.class,
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, UnitProxy.class,
                 p.getColumn(), p.getRow());
     }
 
     @Override
     public City getCityAt(Position p) {
-        return null;
-                /*requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, City.class,
-                p.getColumn(), p.getRow());*/
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, CityProxy.class,
+                p.getColumn(), p.getRow());
     }
 
     @Override

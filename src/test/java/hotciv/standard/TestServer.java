@@ -61,4 +61,9 @@ public class TestServer {
     public void shouldBeUnitAt2_2() {
         assertThat(game.getUnitAt(new Position(2,2)), is(notNullValue()));
     }
+
+    @Test
+    public void shouldBeCityAt1_1() {
+        assertThat(game.getCityAt(new Position(1,1)), is(notNullValue()));
+    }
 }

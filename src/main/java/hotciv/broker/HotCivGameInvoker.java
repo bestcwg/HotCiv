@@ -5,10 +5,7 @@ import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotciv.framework.Game;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
-import hotciv.framework.Unit;
+import hotciv.framework.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
@@ -36,22 +33,28 @@ public class HotCivGameInvoker implements Invoker {
         JsonArray array = parser.parse(payload).getAsJsonArray();
 
         if (operationName.equals(OperationNames.GAME_GET_WINNER)) {
-            reply = new ReplyObject(200, game.getWinner().toString());
+            reply = new ReplyObject(HttpServletResponse.SC_OK, game.getWinner().toString());
         } else if (operationName.equals(OperationNames.GAME_GET_AGE)) {
-            reply = new ReplyObject(200, "" + game.getAge());
+            reply = new ReplyObject(HttpServletResponse.SC_OK, "" + game.getAge());
         } else if (operationName.equals(OperationNames.GAME_GET_PLAYER_IN_TURN)) {
-            reply = new ReplyObject(200, "" + game.getPlayerInTurn());
+            reply = new ReplyObject(HttpServletResponse.SC_OK, "" + game.getPlayerInTurn());
         } else if (operationName.equals(OperationNames.GAME_END_TURN)) {
             game.endOfTurn();
-            reply = new ReplyObject(200, "");
+            reply = new ReplyObject(HttpServletResponse.SC_OK, "");
         } else if (operationName.equals(OperationNames.GAME_MOVE_UNIT)) {
-            reply = new ReplyObject(200, "false");
+            reply = new ReplyObject(HttpServletResponse.SC_OK, "false");
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GET_UNIT)) {
             int position1 = gson.fromJson(array.get(0), Integer.class);
             int position2 = gson.fromJson(array.get(1), Integer.class);
             Unit unit = game.getUnitAt(new Position(position1, position2));
 
-            reply = new ReplyObject(200, gson.toJson(unit));
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(unit));
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_GET_CITY)) {
+            int position1 = gson.fromJson(array.get(0), Integer.class);
+            int position2 = gson.fromJson(array.get(1), Integer.class);
+            City city = game.getCityAt(new Position(position1, position2));
+
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(city));
         }
 
         return gson.toJson(reply);
