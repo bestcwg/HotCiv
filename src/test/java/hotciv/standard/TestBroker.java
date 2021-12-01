@@ -4,12 +4,9 @@ import frds.broker.ClientRequestHandler;
 import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.invoker.HotCivCityInvoker;
-import hotciv.broker.invoker.HotCivTileInvoker;
-import hotciv.broker.invoker.HotCivUnitInvoker;
+import hotciv.broker.invoker.*;
 import hotciv.broker.proxy.CityProxy;
 import hotciv.broker.proxy.GameProxy;
-import hotciv.broker.invoker.HotCivGameInvoker;
 import hotciv.broker.LocalMethodClientRequestHandler;
 import hotciv.broker.proxy.TileProxy;
 import hotciv.broker.proxy.UnitProxy;
@@ -31,25 +28,14 @@ public class TestBroker {
     public void setup() {
         servant = new StubGame3();
 
-        Invoker invoker = new HotCivGameInvoker(servant);
-        Invoker invoker2 = new HotCivTileInvoker(servant);
-        Invoker invoker3 = new HotCivCityInvoker(servant);
-        Invoker invoker4 = new HotCivUnitInvoker(servant);
-
+        Invoker invoker = new RootInvoker(servant);
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
-        ClientRequestHandler crh2 = new LocalMethodClientRequestHandler(invoker2);
-        ClientRequestHandler crh3 = new LocalMethodClientRequestHandler(invoker3);
-        ClientRequestHandler crh4 = new LocalMethodClientRequestHandler(invoker4);
-
         Requestor requestor = new StandardJSONRequestor(crh);
-        Requestor requestor2 = new StandardJSONRequestor(crh2);
-        Requestor requestor3 = new StandardJSONRequestor(crh3);
-        Requestor requestor4 = new StandardJSONRequestor(crh4);
 
         game = new GameProxy(requestor);
-        tile = new TileProxy("2",requestor2);
-        city = new CityProxy("3",requestor3);
-        unit = new UnitProxy("4",requestor4);
+        tile = new TileProxy("2",requestor);
+        city = new CityProxy("3",requestor);
+        unit = new UnitProxy("4",requestor);
 
     }
 
