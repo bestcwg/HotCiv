@@ -63,12 +63,17 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class, from, to);
+        boolean validMove = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class, from, to);
+        observer.worldChangedAt(from);
+        observer.worldChangedAt(to);
+
+        return validMove;
     }
 
     @Override
     public void endOfTurn() {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_END_TURN, Void.class);
+        observer.turnEnds(getPlayerInTurn(),getAge());
     }
 
     @Override
