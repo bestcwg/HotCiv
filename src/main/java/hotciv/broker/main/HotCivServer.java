@@ -6,14 +6,18 @@ import hotciv.broker.NameService;
 import hotciv.broker.invoker.HotCivGameInvoker;
 import hotciv.broker.invoker.RootInvoker;
 import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
+import hotciv.standard.factories.SemiCivFactory;
 import hotciv.stub.StubGame3;
+import hotciv.utility.RandomRollStrategy;
 
 public class HotCivServer {
 
     public HotCivServer(String type) throws Exception {
         int port = 37123;
         // Define the server side delegates
-        Game servant = new StubGame3();
+        //Game servant = new StubGame3();
+        Game servant = new GameImpl(new SemiCivFactory(new RandomRollStrategy()));
         NameService nameService = new NameService();
         //Invoker invoker = new HotCivGameInvoker(nameService, servant);
         Invoker invoker = new RootInvoker(servant);

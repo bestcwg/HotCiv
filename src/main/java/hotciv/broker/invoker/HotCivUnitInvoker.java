@@ -40,9 +40,11 @@ public class HotCivUnitInvoker implements Invoker {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
 
-        //Position p = gson.fromJson(array.get(0), Position.class);
-
         Unit unit = lookAtUnit(objectId);
+        if (unit == null) {
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(GameConstants.NOT_FOUND));
+            return gson.toJson(reply);
+        }
 
         if (operationName.equals(OperationNames.UNIT_GET_ATTACK)) {
             reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(unit.getAttackingStrength()));

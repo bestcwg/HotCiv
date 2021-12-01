@@ -6,25 +6,32 @@ import frds.broker.ipc.socket.SocketClientRequestHandler;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.broker.proxy.GameProxy;
 import hotciv.framework.Game;
+import hotciv.view.tool.CompositionTool;
+import hotciv.visual.HotCivFactory4;
+import minidraw.framework.DrawingEditor;
+import minidraw.standard.MiniDrawApplication;
 
 public class HotCivClient {
 
-    private Game game;
-
     public static void main(String[] args) throws Exception {
-        new HotCivStoryTest(args[0]);
+        new HotCivClient(args[0]);
     }
 
     public HotCivClient(String hostname) {
-        System.out.println("=== HotCiv MANUAL TEST CLIENT (Socket) (host:"
-                + hostname + ") ===");
+        ClientRequestHandler crh = new SocketClientRequestHandler();
 
-        ClientRequestHandler crh =
-                new SocketClientRequestHandler();
         crh.setServer(hostname, 37123);
 
         Requestor requestor = new StandardJSONRequestor(crh);
-        this.game = new GameProxy(requestor);
-        //testSimpleMethods(game);
+
+        Game game = new GameProxy(requestor);
+
+        DrawingEditor editor =
+                new MiniDrawApplication( "Click and/or drag any item to see all game actions",
+                        new HotCivFactory4(game) );
+        editor.open();
+        editor.showStatus("Click and drag any item to see Game's proper response.");
+
+        editor.setTool(new CompositionTool(editor, game));
     }
 }

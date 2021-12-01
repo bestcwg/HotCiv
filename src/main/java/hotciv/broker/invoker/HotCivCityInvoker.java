@@ -38,7 +38,11 @@ public class HotCivCityInvoker implements Invoker {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
 
-        City city = lookAtCity();
+        City city = lookAtCity(objectId);
+        if (city == null) {
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(GameConstants.NOT_FOUND));
+            return gson.toJson(reply);
+        }
 
         if (operationName.equals(OperationNames.CITY_GET_OWNER)) {
             reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getOwner()));
@@ -55,7 +59,7 @@ public class HotCivCityInvoker implements Invoker {
         return gson.toJson(reply);
     }
 
-    City lookAtCity() {
-        return new StubCity3(Player.GREEN, 4);
+    City lookAtCity(String id) {
+        return nameService.getCity(id);
     }
 }

@@ -57,25 +57,31 @@ public class HotCivGameInvoker implements Invoker {
             } else if (operationName.equals(OperationNames.GAME_MOVE_UNIT)) {
                 Position posFrom = gson.fromJson(array.get(0), Position.class);
                 Position posTo = gson.fromJson(array.get(1), Position.class);
-                game.moveUnit(posFrom, posTo);
+                boolean validMove = game.moveUnit(posFrom, posTo);
 
-                reply = new ReplyObject(HttpServletResponse.SC_OK, "false");
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(validMove));
             } else if (operationName.equals(OperationNames.GAME_GET_UNIT)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 Unit unit = game.getUnitAt(p);
 
-                String id = unit.getId();
-                nameService.putUnit(id, unit);
-
-                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+                if(unit != null) {
+                    String id = unit.getId();
+                    nameService.putUnit(id, unit);
+                    reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+                } else {
+                    reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(GameConstants.NOT_FOUND));
+                }
             } else if (operationName.equals(OperationNames.GAME_GET_CITY)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 City city = game.getCityAt(p);
 
-                String id = city.getId();
-                nameService.putCity(id, city);
-
-                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+                if(city != null) {
+                    String id = city.getId();
+                    nameService.putCity(id, city);
+                    reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+                } else {
+                    reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(GameConstants.NOT_FOUND));
+                }
             } else if (operationName.equals(OperationNames.GAME_PERFORM_ACTION)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 game.performUnitActionAt(p);
@@ -89,6 +95,11 @@ public class HotCivGameInvoker implements Invoker {
                 nameService.putTile(id, tile);
 
                 reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+            } else if (operationName.equals(OperationNames.GAME_SET_TILE_FOCUS)) {
+                Position p = gson.fromJson(array.get(0), Position.class);
+                game.setTileFocus(p);
+
+                reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(null));
             }
         } catch (XDSException e) {
             reply = new ReplyObject(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());

@@ -5,9 +5,12 @@ import frds.broker.Requestor;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 
+import java.util.Observer;
+
 public class GameProxy implements Game, ClientProxy {
     public static final String GAME_SINGLETON_ID = "game-singleton-id";
     private Requestor requestor;
+    private GameObserver observer;
 
     public GameProxy(Requestor requestor) {
         this.requestor = requestor;
@@ -25,6 +28,9 @@ public class GameProxy implements Game, ClientProxy {
     public Unit getUnitAt(Position p) {
         String id = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, String.class, p);
         Unit unitProxy = new UnitProxy(id, requestor);
+        if(id.equals(GameConstants.NOT_FOUND)) {
+            unitProxy = null;
+        }
 
         return unitProxy;
     }
@@ -33,6 +39,9 @@ public class GameProxy implements Game, ClientProxy {
     public City getCityAt(Position p) {
         String id = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, String.class, p);
         City cityProxy = new CityProxy(id, requestor);
+        if(id.equals(GameConstants.NOT_FOUND)) {
+            cityProxy = null;
+        }
 
         return cityProxy;
     }
@@ -82,12 +91,13 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void addObserver(GameObserver observer) {
-
+        this.observer = observer;
     }
 
     @Override
     public void setTileFocus(Position position) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_SET_TILE_FOCUS, Void.class,
                 position);
+        observer.tileFocusChangedAt(position);
     }
 }
