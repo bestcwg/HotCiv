@@ -17,4 +17,9 @@ public class TileProxy implements Tile {
     public String getTypeString() {
         return requestor.sendRequestAndAwaitReply(TILE_SINGLETON_ID, OperationNames.TILE_GET_TYPE_STRING, String.class);
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }

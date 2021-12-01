@@ -4,12 +4,15 @@ import hotciv.framework.City;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 
+import java.util.UUID;
+
 public class StubCity3 implements City {
     private int size;
     private Player owner;
     private String production;
     private int treasury = 6;
     private String workForce;
+    private final String id;
 
     public StubCity3(Player owner, int size) {
         this.owner = owner;
@@ -19,6 +22,7 @@ public class StubCity3 implements City {
         this.workForce = GameConstants.productionFocus;
 
         this.treasury = 6;
+        id = UUID.randomUUID().toString();;
     }
 
     public Player getOwner() {
@@ -39,6 +43,11 @@ public class StubCity3 implements City {
 
     public String getWorkforceFocus() {
         return workForce;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     public void changeProduction(String unitType) {

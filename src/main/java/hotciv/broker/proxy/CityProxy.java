@@ -37,4 +37,9 @@ public class CityProxy implements City {
     public String getWorkforceFocus() {
         return requestor.sendRequestAndAwaitReply(CITY_SINGLETON_ID, OperationNames.CITY_GET_WORKFORCEFOCUS, String.class);
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }

@@ -4,6 +4,8 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
+import java.util.UUID;
+
 public class UnitImpl implements Unit {
     private final Player owner;
     private final String unitType;
@@ -12,6 +14,7 @@ public class UnitImpl implements Unit {
     private int movesEachTurn;
     private int moveCount;
     private boolean moveAble;
+    private final String id;
 
     /**
      * Constructor for the unit implementation, set up the units attacking and defensive strength
@@ -23,6 +26,7 @@ public class UnitImpl implements Unit {
         moveAble = true;
         this.owner = owner;
         this.unitType = unitType;
+        this.id = UUID.randomUUID().toString();
         switch (unitType) {
             case GameConstants.ARCHER:
                 attackingStrength = GameConstants.ARCHER_ATTACK_AND_DEFENCE[0];
@@ -69,6 +73,11 @@ public class UnitImpl implements Unit {
     @Override
     public int getAttackingStrength() {
         return attackingStrength;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     /**

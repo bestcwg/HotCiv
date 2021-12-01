@@ -63,4 +63,6 @@ public interface Unit {
    * @return attack strength
    */
   int getAttackingStrength();
+
+  String getId();
 }

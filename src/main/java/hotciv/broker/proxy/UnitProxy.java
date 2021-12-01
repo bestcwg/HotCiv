@@ -37,4 +37,9 @@ public class UnitProxy implements Unit {
     public int getAttackingStrength() {
         return requestor.sendRequestAndAwaitReply(UNIT_SINGLETON_ID, OperationNames.UNIT_GET_ATTACK, Integer.class);
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }
