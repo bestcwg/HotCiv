@@ -47,9 +47,9 @@ public class TestBroker {
         Requestor requestor4 = new StandardJSONRequestor(crh4);
 
         game = new GameProxy(requestor);
-        tile = new TileProxy(requestor2);
-        city = new CityProxy(requestor3);
-        unit = new UnitProxy(requestor4);
+        tile = new TileProxy("2",requestor2);
+        city = new CityProxy("3",requestor3);
+        unit = new UnitProxy("4",requestor4);
 
     }
 

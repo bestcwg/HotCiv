@@ -8,9 +8,11 @@ import hotciv.framework.Player;
 public class CityProxy implements City {
     public static final String CITY_SINGLETON_ID = "unit-singleton-id";
     private Requestor requestor;
+    private final String id;
 
-    public CityProxy(Requestor requestor) {
+    public CityProxy(String id, Requestor requestor) {
         this.requestor = requestor;
+        this.id = id;
     }
 
     @Override
@@ -40,6 +42,6 @@ public class CityProxy implements City {
 
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 }

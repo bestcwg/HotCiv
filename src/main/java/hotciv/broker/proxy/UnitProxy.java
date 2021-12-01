@@ -7,10 +7,12 @@ import hotciv.framework.Unit;
 
 public class UnitProxy implements Unit {
     public static final String UNIT_SINGLETON_ID = "unit-singleton-id";
+    private final String id;
     private Requestor requestor;
 
-    public UnitProxy(Requestor requestor) {
+    public UnitProxy(String id, Requestor requestor) {
         this.requestor = requestor;
+        this.id = id;
     }
 
     @Override
@@ -40,6 +42,6 @@ public class UnitProxy implements Unit {
 
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 }

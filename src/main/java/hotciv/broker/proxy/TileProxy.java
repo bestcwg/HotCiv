@@ -8,9 +8,11 @@ import hotciv.framework.Tile;
 public class TileProxy implements Tile {
     public static final String TILE_SINGLETON_ID = "tile-singleton-id";
     private Requestor requestor;
+    private final String id;
 
-    public TileProxy(Requestor requestor) {
+    public TileProxy(String id, Requestor requestor) {
         this.requestor = requestor;
+        this.id = id;
     }
 
     @Override
@@ -20,6 +22,6 @@ public class TileProxy implements Tile {
 
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 }
