@@ -278,7 +278,7 @@ public class CivDrawing implements Drawing, GameObserver {
       // Unit has been removed
       UnitFigure uf = positionToUnitFigureMap.remove(pos);
       figureCollection.remove(uf);
-    } else {
+    } else if (u!= null && positionToUnitFigureMap.get(pos) == null) {
       // Unit has appeared
       UnitFigure uf = createUnitFigureFor(pos, u);
       positionToUnitFigureMap.put(pos, uf);

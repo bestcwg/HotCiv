@@ -196,3 +196,12 @@ task hotcivStoryTest(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     args host
 }
+
+task hotcivClient(type: JavaExec) {
+    group 'SWEA HotCiv Demonstration'
+    description 'Run HotCiv client (Socket)'
+
+    main = 'hotciv.broker.main.HotCivClient'
+    classpath = sourceSets.main.runtimeClasspath
+    args host
+}
