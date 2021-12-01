@@ -33,9 +33,9 @@ public class TestBroker {
         Requestor requestor = new StandardJSONRequestor(crh);
 
         game = new GameProxy(requestor);
-        tile = new TileProxy("2",requestor);
-        city = new CityProxy("3",requestor);
-        unit = new UnitProxy("4",requestor);
+        tile = game.getTileAt(new Position(0,0));
+        city = game.getCityAt(new Position(1,1));
+        unit = game.getUnitAt(new Position(2,2));
 
     }
 
@@ -46,7 +46,7 @@ public class TestBroker {
     }
 
     @Test
-    public void shouldBeAge4000BC() {
+    public void shouldBeAge42() {
         int age = game.getAge();
         assertThat(age, is(42));
     }
@@ -70,6 +70,11 @@ public class TestBroker {
     @Test
     public void shouldBeCityAt1_1() {
         assertThat(game.getCityAt(new Position(1,1)), is(notNullValue()));
+    }
+
+    @Test
+    public void shouldBeTileAt0_0(){
+        assertThat(game.getTileAt(new Position(0,0)), is(notNullValue()));
     }
 
     // Testing for Unit

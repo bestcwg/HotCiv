@@ -4,8 +4,12 @@ import frds.broker.Servant;
 import hotciv.framework.*;
 
 public class StubGame3 implements Game, Servant {
+    Position position_of_plain_tile = new Position(0,0);
     @Override
     public Tile getTileAt(Position p) {
+        if (p.equals(position_of_plain_tile)) {
+            return new StubTile3(GameConstants.PLAINS);
+        }
         return null;
     }
 

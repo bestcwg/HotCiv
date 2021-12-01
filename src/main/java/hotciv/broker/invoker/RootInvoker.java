@@ -3,6 +3,7 @@ package hotciv.broker.invoker;
 import com.google.gson.Gson;
 import frds.broker.Invoker;
 import frds.broker.RequestObject;
+import hotciv.broker.NameService;
 import hotciv.broker.OperationNames;
 import hotciv.framework.Game;
 
@@ -17,17 +18,18 @@ public class RootInvoker implements Invoker {
         this.servant = servant;
         gson = new Gson();
         invokerMap  = new HashMap<>();
+        NameService nameService = new NameService();
 
-        Invoker gameInvoker = new HotCivGameInvoker(servant);
+        Invoker gameInvoker = new HotCivGameInvoker(nameService, servant);
         invokerMap.put(OperationNames.GAME_PREFIX, gameInvoker);
 
-        Invoker cityInvoker = new HotCivCityInvoker(servant);
+        Invoker cityInvoker = new HotCivCityInvoker(nameService, servant);
         invokerMap.put(OperationNames.CITY_PREFIX, cityInvoker);
 
-        Invoker unitInvoker = new HotCivUnitInvoker(servant);
+        Invoker unitInvoker = new HotCivUnitInvoker(nameService, servant);
         invokerMap.put(OperationNames.UNIT_PREFIX, unitInvoker);
 
-        Invoker tileInvoker = new HotCivTileInvoker(servant);
+        Invoker tileInvoker = new HotCivTileInvoker(nameService, servant);
         invokerMap.put(OperationNames.TILE_PREFIX, tileInvoker);
     }
 

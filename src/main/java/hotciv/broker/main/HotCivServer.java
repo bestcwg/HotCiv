@@ -2,6 +2,7 @@ package hotciv.broker.main;
 
 import frds.broker.Invoker;
 import frds.broker.ipc.socket.SocketServerRequestHandler;
+import hotciv.broker.NameService;
 import hotciv.broker.invoker.HotCivGameInvoker;
 import hotciv.framework.Game;
 import hotciv.stub.StubGame3;
@@ -12,7 +13,8 @@ public class HotCivServer {
         int port = 37123;
         // Define the server side delegates
         Game servant = new StubGame3();
-        Invoker invoker = new HotCivGameInvoker(servant);
+        NameService nameService = new NameService();
+        Invoker invoker = new HotCivGameInvoker(nameService, servant);
 
         // Configure a socket based server request handler
         SocketServerRequestHandler ssrh =

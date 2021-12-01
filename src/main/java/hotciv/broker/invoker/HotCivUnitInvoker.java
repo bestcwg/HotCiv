@@ -5,6 +5,7 @@ import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotciv.broker.NameService;
 import hotciv.broker.OperationNames;
 import hotciv.broker.proxy.UnitProxy;
 import hotciv.framework.*;
@@ -18,10 +19,13 @@ public class HotCivUnitInvoker implements Invoker {
 
     private final Game game;
     private final Gson gson;
+    private NameService nameService;
 
-    public HotCivUnitInvoker(Game servant) {
+    public HotCivUnitInvoker(NameService nameService, Game servant) {
         this.game = servant;
         gson = new Gson();
+
+        this.nameService = nameService;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class HotCivUnitInvoker implements Invoker {
 
         //Position p = gson.fromJson(array.get(0), Position.class);
 
-        Unit unit = lookAtUnit();
+        Unit unit = lookAtUnit(objectId);
 
         if (operationName.equals(OperationNames.UNIT_GET_ATTACK)) {
             reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(unit.getAttackingStrength()));
@@ -55,7 +59,7 @@ public class HotCivUnitInvoker implements Invoker {
         return gson.toJson(reply);
     }
 
-    public Unit lookAtUnit(){
-        return new StubUnit3(GameConstants.ARCHER, Player.BLUE);
+    public Unit lookAtUnit(String objectId){
+        return nameService.getUnit(objectId);
     }
 }

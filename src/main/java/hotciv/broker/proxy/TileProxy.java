@@ -6,7 +6,6 @@ import hotciv.framework.Player;
 import hotciv.framework.Tile;
 
 public class TileProxy implements Tile {
-    public static final String TILE_SINGLETON_ID = "tile-singleton-id";
     private Requestor requestor;
     private final String id;
 
@@ -17,7 +16,7 @@ public class TileProxy implements Tile {
 
     @Override
     public String getTypeString() {
-        return requestor.sendRequestAndAwaitReply(TILE_SINGLETON_ID, OperationNames.TILE_GET_TYPE_STRING, String.class);
+        return requestor.sendRequestAndAwaitReply(id, OperationNames.TILE_GET_TYPE_STRING, String.class);
     }
 
     @Override

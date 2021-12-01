@@ -20,9 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestBroker2 {
 
     private Game game;
-    private Unit unit;
-    private City city;
-    private Tile tile;
     private Game servant;
     @BeforeEach
     public void setup() {

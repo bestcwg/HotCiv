@@ -15,21 +15,26 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Tile getTileAt(Position p) {
-        return null;
-                /*requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_TILE, City.class,
-                p.getColumn(), p.getRow());*/
+        String id = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_TILE, String.class, p);
+        Tile tileProxy = new TileProxy(id, requestor);
+
+        return tileProxy;
     }
 
     @Override
     public Unit getUnitAt(Position p) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, UnitProxy.class,
-                p);
+        String id = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, String.class, p);
+        Unit unitProxy = new UnitProxy(id, requestor);
+
+        return unitProxy;
     }
 
     @Override
     public City getCityAt(Position p) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, CityProxy.class,
-                p);
+        String id = requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, String.class, p);
+        City cityProxy = new CityProxy(id, requestor);
+
+        return cityProxy;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class);
+        return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_MOVE_UNIT, Boolean.class, from, to);
     }
 
     @Override

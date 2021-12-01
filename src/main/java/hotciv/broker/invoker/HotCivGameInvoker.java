@@ -5,6 +5,7 @@ import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotciv.broker.NameService;
 import hotciv.broker.OperationNames;
 import hotciv.broker.XDSException;
 import hotciv.framework.*;
@@ -17,10 +18,13 @@ public class HotCivGameInvoker implements Invoker {
 
     private final Game game;
     private final Gson gson;
+    private NameService nameService;
 
-    public HotCivGameInvoker(Game servant) {
+    public HotCivGameInvoker(NameService nameService, Game servant) {
         this.game = servant;
         gson = new Gson();
+
+        this.nameService = nameService;
     }
 
     @Override
@@ -36,33 +40,57 @@ public class HotCivGameInvoker implements Invoker {
         JsonArray array = parser.parse(payload).getAsJsonArray();
         try {
             if (operationName.equals(OperationNames.GAME_GET_WINNER)) {
-                reply = new ReplyObject(HttpServletResponse.SC_OK, game.getWinner().toString());
+                Player winner = game.getWinner();
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(winner));
             } else if (operationName.equals(OperationNames.GAME_GET_AGE)) {
-                reply = new ReplyObject(HttpServletResponse.SC_OK, "" + game.getAge());
+                int age = game.getAge();
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(age));
             } else if (operationName.equals(OperationNames.GAME_GET_PLAYER_IN_TURN)) {
-                reply = new ReplyObject(HttpServletResponse.SC_OK, "" + game.getPlayerInTurn());
+                Player playerInTurn = game.getPlayerInTurn();
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(playerInTurn));
             } else if (operationName.equals(OperationNames.GAME_END_TURN)) {
                 game.endOfTurn();
                 reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(null));
             } else if (operationName.equals(OperationNames.GAME_MOVE_UNIT)) {
+                Position posFrom = gson.fromJson(array.get(0), Position.class);
+                Position posTo = gson.fromJson(array.get(1), Position.class);
+                game.moveUnit(posFrom, posTo);
+
                 reply = new ReplyObject(HttpServletResponse.SC_OK, "false");
-            } else if (requestObject.getOperationName().equals(OperationNames.GAME_GET_UNIT)) {
+            } else if (operationName.equals(OperationNames.GAME_GET_UNIT)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 Unit unit = game.getUnitAt(p);
 
-                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(unit));
-            } else if (requestObject.getOperationName().equals(OperationNames.GAME_GET_CITY)) {
+                String id = unit.getId();
+                nameService.putUnit(id, unit);
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+            } else if (operationName.equals(OperationNames.GAME_GET_CITY)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 City city = game.getCityAt(p);
 
-                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(city));
-            } else if (requestObject.getOperationName().equals(OperationNames.GAME_PERFORM_ACTION)) {
+                String id = city.getId();
+                nameService.putCity(id, city);
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
+            } else if (operationName.equals(OperationNames.GAME_PERFORM_ACTION)) {
                 Position p = gson.fromJson(array.get(0), Position.class);
                 game.performUnitActionAt(p);
 
                 reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(null));
+            } else if (operationName.equals(OperationNames.GAME_GET_TILE)) {
+                Position p = gson.fromJson(array.get(0), Position.class);
+                Tile tile = game.getTileAt(p);
+
+                String id = tile.getId();
+                nameService.putTile(id, tile);
+
+                reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(id));
             }
-        }   catch (XDSException e) {
+        } catch (XDSException e) {
             reply = new ReplyObject(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
 

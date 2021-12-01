@@ -7,6 +7,7 @@ import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotciv.broker.NameService;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 import hotciv.standard.UnitImpl;
@@ -17,10 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 public class HotCivTileInvoker implements Invoker {
     private final Game game;
     private final Gson gson;
+    private NameService nameService;
 
-    public HotCivTileInvoker(Game servant) {
+    public HotCivTileInvoker(NameService nameService, Game servant) {
         this.game = servant;
         gson = new Gson();
+
+        this.nameService = nameService;
     }
     @Override
     public String handleRequest(String request) throws IPCException {

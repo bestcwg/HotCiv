@@ -5,6 +5,7 @@ import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotciv.broker.NameService;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 import hotciv.stub.StubCity3;
@@ -16,10 +17,13 @@ public class HotCivCityInvoker implements Invoker {
 
     private final Game game;
     private final Gson gson;
+    private NameService nameService;
 
-    public HotCivCityInvoker(Game servant) {
+    public HotCivCityInvoker(NameService nameService, Game servant) {
         this.game = servant;
         gson = new Gson();
+
+        this.nameService = nameService;
     }
 
     @Override
