@@ -1,10 +1,11 @@
-package hotciv.broker.client;
+package hotciv.broker.proxy;
 
+import frds.broker.ClientProxy;
 import frds.broker.Requestor;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 
-public class GameProxy implements Game {
+public class GameProxy implements Game, ClientProxy {
     public static final String GAME_SINGLETON_ID = "game-singleton-id";
     private Requestor requestor;
 
@@ -22,13 +23,13 @@ public class GameProxy implements Game {
     @Override
     public Unit getUnitAt(Position p) {
         return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_UNIT, UnitProxy.class,
-                p.getColumn(), p.getRow());
+                p);
     }
 
     @Override
     public City getCityAt(Position p) {
         return requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_GET_CITY, CityProxy.class,
-                p.getColumn(), p.getRow());
+                p);
     }
 
     @Override
@@ -59,19 +60,19 @@ public class GameProxy implements Game {
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_WORKFORCE, Void.class,
-                p.getColumn(), p.getRow(), balance);
+                p, balance);
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_PRODUCTION, Void.class,
-                p.getColumn(), p.getRow(), unitType);
+                p, unitType);
     }
 
     @Override
     public void performUnitActionAt(Position p) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_PERFORM_ACTION, Void.class,
-                p.getColumn(), p.getRow());
+                p);
     }
 
     @Override
@@ -82,6 +83,6 @@ public class GameProxy implements Game {
     @Override
     public void setTileFocus(Position position) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_SET_TILE_FOCUS, Void.class,
-                position.getColumn(), position.getRow());
+                position);
     }
 }

@@ -1,4 +1,4 @@
-package hotciv.broker.client;
+package hotciv.broker.proxy;
 
 import frds.broker.Requestor;
 import hotciv.broker.OperationNames;

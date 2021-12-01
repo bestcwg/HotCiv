@@ -1,14 +1,13 @@
-package hotciv.broker;
+package hotciv.broker.invoker;
 
 import com.google.gson.*;
 import frds.broker.IPCException;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotciv.framework.Game;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
-import hotciv.framework.Unit;
+import hotciv.broker.OperationNames;
+import hotciv.framework.*;
+import hotciv.stub.StubCity3;
 
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
@@ -35,18 +34,24 @@ public class HotCivCityInvoker implements Invoker {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
 
+        City city = lookAtCity();
+
         if (operationName.equals(OperationNames.CITY_GET_OWNER)) {
-            reply = new ReplyObject(200, "" + game.getCityAt(new Position(1, 2)).getOwner());
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getOwner()));
         } else if (operationName.equals(OperationNames.CITY_GET_PRODUCTION)) {
-            reply = new ReplyObject(200, "" + game.getCityAt(new Position(1, 2)).getProduction());
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getProduction()));
         } else if (operationName.equals(OperationNames.CITY_GET_SIZE)) {
-            reply = new ReplyObject(200, "" + game.getCityAt(new Position(1, 2)).getSize());
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getSize()));
         } else if (operationName.equals(OperationNames.CITY_GET_TREASURY)) {
-            reply = new ReplyObject(200, "" + game.getCityAt(new Position(1, 2)).getTreasury());
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getTreasury()));
         } else if (operationName.equals(OperationNames.CITY_GET_WORKFORCEFOCUS)) {
-            reply = new ReplyObject(200, "" + game.getCityAt(new Position(1, 2)).getWorkforceFocus());
+            reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(city.getWorkforceFocus()));
         }
 
         return gson.toJson(reply);
+    }
+
+    City lookAtCity() {
+        return new StubCity3(Player.GREEN, 4);
     }
 }

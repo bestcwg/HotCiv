@@ -9,9 +9,13 @@ public class StubGame3 implements Game, Servant {
         return null;
     }
 
+    Position position_of_blue_archer = new Position(2,2);
     @Override
     public Unit getUnitAt(Position p) {
-        return new StubUnit3(GameConstants.ARCHER, Player.BLUE);
+        if (p.equals(position_of_blue_archer)) {
+            return new StubUnit3(GameConstants.ARCHER, Player.BLUE);
+        }
+        return null;
     }
 
     Position position_of_green_city = new Position(1,1);
@@ -74,73 +78,3 @@ public class StubGame3 implements Game, Servant {
     }
 }
 
-class StubCity3 implements City {
-    private int size;
-    private Player owner;
-    private String production;
-    private int treasury = 6;
-    private String workForce;
-
-    public StubCity3(Player owner, int size) {
-        this.owner = owner;
-        this.size = size;
-    }
-
-    public Player getOwner() {
-        return owner;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getTreasury() {
-        return treasury;
-    }
-
-    public String getProduction() {
-        return production;
-    }
-
-    public String getWorkforceFocus() {
-        return workForce;
-    }
-
-    public void changeProduction(String unitType) {
-        this.production = unitType;
-    }
-
-    public void changeWorkForceFocus(String focus) {
-        this.workForce = focus;
-    }
-
-    public void changeTreasury(int change) {
-        treasury += change;
-    }
-
-    public void changeOwner(Player owner) {
-        this.owner = owner;
-    }
-}
-
-class StubUnit3 implements  Unit {
-    private String type;
-    private Player owner;
-    private int moveCount;
-    public StubUnit3(String type, Player owner) {
-        this.type = type;
-        this.owner = owner;
-        moveCount = 2;
-    }
-    public String getTypeString() { return type; }
-    public Player getOwner() { return owner; }
-    public int getMoveCount() { return moveCount; }
-    public int getDefensiveStrength() { return 0; }
-    public int getAttackingStrength() { return 0; }
-    public void moved() {
-        moveCount -= 1;
-    }
-    public void resetMoveCount() {
-        moveCount = 2;
-    }
-}
