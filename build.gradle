@@ -203,5 +203,5 @@ task hotcivClient(type: JavaExec) {
 
     main = 'hotciv.broker.main.HotCivClient'
     classpath = sourceSets.main.runtimeClasspath
-    args host
+    args host, port
 }

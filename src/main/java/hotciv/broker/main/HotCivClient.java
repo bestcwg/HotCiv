@@ -14,13 +14,13 @@ import minidraw.standard.MiniDrawApplication;
 public class HotCivClient {
 
     public static void main(String[] args) throws Exception {
-        new HotCivClient(args[0]);
+        new HotCivClient(args[0], Integer.parseInt(args[1]));
     }
 
-    public HotCivClient(String hostname) {
+    public HotCivClient(String hostname, int port) {
         ClientRequestHandler crh = new SocketClientRequestHandler();
 
-        crh.setServer(hostname, 37123);
+        crh.setServer(hostname, port);
 
         Requestor requestor = new StandardJSONRequestor(crh);
 

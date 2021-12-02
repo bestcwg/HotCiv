@@ -80,18 +80,21 @@ public class GameProxy implements Game, ClientProxy {
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_WORKFORCE, Void.class,
                 p, balance);
+        observer.worldChangedAt(p);
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_CHANGE_PRODUCTION, Void.class,
                 p, unitType);
+        observer.worldChangedAt(p);
     }
 
     @Override
     public void performUnitActionAt(Position p) {
         requestor.sendRequestAndAwaitReply(GAME_SINGLETON_ID, OperationNames.GAME_PERFORM_ACTION, Void.class,
                 p);
+        observer.worldChangedAt(p);
     }
 
     @Override
