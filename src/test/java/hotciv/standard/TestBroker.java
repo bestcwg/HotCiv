@@ -4,6 +4,7 @@ import frds.broker.ClientRequestHandler;
 import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
+import hotciv.broker.NullObserver;
 import hotciv.broker.invoker.*;
 import hotciv.broker.proxy.CityProxy;
 import hotciv.broker.proxy.GameProxy;
@@ -36,6 +37,7 @@ public class TestBroker {
         tile = game.getTileAt(new Position(0,0));
         city = game.getCityAt(new Position(1,1));
         unit = game.getUnitAt(new Position(2,2));
+        game.addObserver(new NullObserver());
 
     }
 

@@ -179,15 +179,6 @@ task semi(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
 }
 
-task semiBroker(type: JavaExec) {
-    group 'SWEA Mandatory'
-    description ' Play SemiCiv broker using the GUI'
-
-    main = 'hotciv.visual.ShowSemiBroker'
-    classpath = sourceSets.main.runtimeClasspath
-    args host
-}
-
 task hotcivServer(type: JavaExec) {
     group 'SWEA Distribution'
     description 'Run HotCiv server (Socket)'
