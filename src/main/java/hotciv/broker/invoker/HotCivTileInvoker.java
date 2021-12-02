@@ -16,12 +16,10 @@ import hotciv.stub.StubTile3;
 import javax.servlet.http.HttpServletResponse;
 
 public class HotCivTileInvoker implements Invoker {
-    private final Game game;
     private final Gson gson;
     private NameService nameService;
 
-    public HotCivTileInvoker(NameService nameService, Game servant) {
-        this.game = servant;
+    public HotCivTileInvoker(NameService nameService) {
         gson = new Gson();
 
         this.nameService = nameService;

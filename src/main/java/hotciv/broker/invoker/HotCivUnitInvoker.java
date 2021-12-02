@@ -16,13 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
 
 public class HotCivUnitInvoker implements Invoker {
-
-    private final Game game;
     private final Gson gson;
     private NameService nameService;
 
-    public HotCivUnitInvoker(NameService nameService, Game servant) {
-        this.game = servant;
+    public HotCivUnitInvoker(NameService nameService) {
         gson = new Gson();
 
         this.nameService = nameService;

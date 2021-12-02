@@ -23,13 +23,13 @@ public class RootInvoker implements Invoker {
         Invoker gameInvoker = new HotCivGameInvoker(nameService, servant);
         invokerMap.put(OperationNames.GAME_PREFIX, gameInvoker);
 
-        Invoker cityInvoker = new HotCivCityInvoker(nameService, servant);
+        Invoker cityInvoker = new HotCivCityInvoker(nameService);
         invokerMap.put(OperationNames.CITY_PREFIX, cityInvoker);
 
-        Invoker unitInvoker = new HotCivUnitInvoker(nameService, servant);
+        Invoker unitInvoker = new HotCivUnitInvoker(nameService);
         invokerMap.put(OperationNames.UNIT_PREFIX, unitInvoker);
 
-        Invoker tileInvoker = new HotCivTileInvoker(nameService, servant);
+        Invoker tileInvoker = new HotCivTileInvoker(nameService);
         invokerMap.put(OperationNames.TILE_PREFIX, tileInvoker);
     }
 
