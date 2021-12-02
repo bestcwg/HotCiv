@@ -40,7 +40,7 @@ public class HotCivTileInvoker implements Invoker {
 
         //Position p = gson.fromJson(array.get(0), Position.class);
 
-        Tile tile = lookAtTile();
+        Tile tile = lookAtTile(objectId);
 
         if(operationName.equals(OperationNames.TILE_GET_TYPE_STRING)) {
             reply = new ReplyObject(HttpServletResponse.SC_ACCEPTED, gson.toJson(tile.getTypeString()));
@@ -49,8 +49,8 @@ public class HotCivTileInvoker implements Invoker {
         return gson.toJson(reply);
     }
 
-    public Tile lookAtTile(){
-        return new StubTile3(GameConstants.PLAINS);
+    public Tile lookAtTile(String id){
+        return nameService.getTile(id);
     }
 }
 

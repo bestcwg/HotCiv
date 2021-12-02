@@ -5,8 +5,6 @@ import frds.broker.Requestor;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
 
-import java.util.Observer;
-
 public class GameProxy implements Game, ClientProxy {
     public static final String GAME_SINGLETON_ID = "game-singleton-id";
     private Requestor requestor;
