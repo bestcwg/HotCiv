@@ -15,7 +15,7 @@ public class UpdateTool extends NullTool {
     }
 
     @Override
-    public void mouseDown(MouseEvent e, int x, int y) {
+    public void mouseUp(MouseEvent e, int x, int y) {
         super.mouseDown(e, x, y);
         editor.drawing().requestUpdate();
     }
