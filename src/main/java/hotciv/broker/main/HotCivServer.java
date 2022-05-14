@@ -1,26 +1,25 @@
 package hotciv.broker.main;
 
-import java.io.*;
-
-import frds.broker.ClientRequestHandler;
 import frds.broker.Invoker;
-import frds.broker.Requestor;
-import frds.broker.ipc.socket.SocketClientRequestHandler;
 import frds.broker.ipc.socket.SocketServerRequestHandler;
-import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.HotCivGameInvoker;
-import hotciv.broker.LocalMethodClientRequestHandler;
-import hotciv.broker.client.GameProxy;
+import hotciv.broker.NameService;
+import hotciv.broker.invoker.HotCivGameInvoker;
+import hotciv.broker.invoker.RootInvoker;
 import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
+import hotciv.standard.factories.SemiCivFactory;
 import hotciv.stub.StubGame3;
+import hotciv.utility.RandomRollStrategy;
 
 public class HotCivServer {
 
     public HotCivServer(String type) throws Exception {
         int port = 37123;
         // Define the server side delegates
-        Game servant = new StubGame3();
-        Invoker invoker = new HotCivGameInvoker(servant);
+
+        Game servant = new GameImpl(new SemiCivFactory(new RandomRollStrategy()));
+
+        Invoker invoker = new RootInvoker(servant);
 
         // Configure a socket based server request handler
         SocketServerRequestHandler ssrh =

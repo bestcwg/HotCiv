@@ -4,13 +4,21 @@ import frds.broker.Servant;
 import hotciv.framework.*;
 
 public class StubGame3 implements Game, Servant {
+    Position position_of_plain_tile = new Position(0,0);
     @Override
     public Tile getTileAt(Position p) {
+        if (p.equals(position_of_plain_tile)) {
+            return new StubTile3(GameConstants.PLAINS);
+        }
         return null;
     }
 
+    Position position_of_blue_archer = new Position(2,2);
     @Override
     public Unit getUnitAt(Position p) {
+        if (p.equals(position_of_blue_archer)) {
+            return new StubUnit3(GameConstants.ARCHER, Player.BLUE);
+        }
         return null;
     }
 
@@ -74,51 +82,3 @@ public class StubGame3 implements Game, Servant {
     }
 }
 
-class StubCity3 implements City {
-    private int size;
-    private Player owner;
-    private String production;
-    private int treasury = 6;
-    private String workForce;
-
-    public StubCity3(Player owner, int size) {
-        this.owner = owner;
-        this.size = size;
-    }
-
-    public Player getOwner() {
-        return owner;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getTreasury() {
-        return treasury;
-    }
-
-    public String getProduction() {
-        return production;
-    }
-
-    public String getWorkforceFocus() {
-        return workForce;
-    }
-
-    public void changeProduction(String unitType) {
-        this.production = unitType;
-    }
-
-    public void changeWorkForceFocus(String focus) {
-        this.workForce = focus;
-    }
-
-    public void changeTreasury(int change) {
-        treasury += change;
-    }
-
-    public void changeOwner(Player owner) {
-        this.owner = owner;
-    }
-}

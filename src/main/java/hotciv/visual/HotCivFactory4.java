@@ -8,7 +8,7 @@ import hotciv.framework.*;
 import hotciv.view.*;
 
 /** Factory for visual testing of various SWEA template code */
-class HotCivFactory4 implements Factory {
+public class HotCivFactory4 implements Factory {
   private Game game;
   public HotCivFactory4(Game g) { game = g; }
 

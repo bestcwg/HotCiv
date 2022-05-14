@@ -3,10 +3,13 @@ package hotciv.standard;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Tile;
 
+import java.util.UUID;
+
 public class TileImpl implements Tile {
     private final String tileType;
     private int foodProduce;
     private int productionProduce;
+    private final String id;
 
     /**
      * Constructor for the tile implementation
@@ -14,6 +17,7 @@ public class TileImpl implements Tile {
      */
     public TileImpl(String tileType) {
         this.tileType = tileType;
+        this.id = UUID.randomUUID().toString();
         switch (tileType){
             case GameConstants.MOUNTAINS:
                 foodProduce = GameConstants.MOUNTAIN_FOOD_AND_PRODUCTION[0];
@@ -44,6 +48,11 @@ public class TileImpl implements Tile {
     @Override
     public String getTypeString() {
         return tileType;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     public int getFoodProduction() {

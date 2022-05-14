@@ -38,4 +38,6 @@ public interface Tile {
    * @return the type type as string
    */
   String getTypeString();
+
+  String getId();
 }

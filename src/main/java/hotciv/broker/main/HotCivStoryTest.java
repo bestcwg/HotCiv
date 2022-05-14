@@ -1,17 +1,12 @@
 package hotciv.broker.main;
 
 import frds.broker.ClientRequestHandler;
-import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.ipc.socket.SocketClientRequestHandler;
 import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.HotCivGameInvoker;
-import hotciv.broker.LocalMethodClientRequestHandler;
-import hotciv.broker.client.GameProxy;
+import hotciv.broker.proxy.GameProxy;
 import hotciv.framework.Game;
 import hotciv.framework.Position;
-import hotciv.stub.StubGame3;
-
 
 
 public class HotCivStoryTest {

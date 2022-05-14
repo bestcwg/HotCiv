@@ -67,8 +67,9 @@ public class GameConstants {
   public static final String foodFocus = "apple";
 
   public static final HashMap<String, Integer> unitCost;
+  public static final String NOT_FOUND = "not found";
 
-  static  {
+    static  {
     HashMap<String, Integer> cost = new HashMap<>();
     cost.put(ARCHER, 10);
     cost.put(LEGION, 15);

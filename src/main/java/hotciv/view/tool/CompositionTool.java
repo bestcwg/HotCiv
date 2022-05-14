@@ -58,6 +58,9 @@ public class CompositionTool extends NullTool {
         case GfxConstants.CITY_TYPE_STRING:
           state = new SetFocusTool(editor, game);
           break;
+        case GfxConstants.REFRESH_BUTTON:
+          state = new UpdateTool(editor);
+          break;
       }
     }
     // Finally, delegate to the selected state
